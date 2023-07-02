@@ -9,7 +9,8 @@ int s21_sprintf(const char *str, const char *format,...)
     
     int d;
     double f;
-    char c;
+    unsigned int u;
+    char c,*s;
     char asd[123];
     strcpy(asd,format);
     va_list(factor);
@@ -35,6 +36,14 @@ int s21_sprintf(const char *str, const char *format,...)
                 c=(char)va_arg(factor,int);
                 printf("%c",c);
                 break;
+            case 's':
+                s=va_arg(factor, char*);
+                printf("%s",s);
+                break;
+            case 'u':
+                u=va_arg(factor, unsigned int);
+                printf("%u",u);
+                break;
             default:
                 printf("%c",*ch);
                 break;
@@ -47,9 +56,14 @@ int s21_sprintf(const char *str, const char *format,...)
 
 int main(){
     char str[50];
+    char stt[50];
     char cj='+';
     int age=5;
+    unsigned int u=-13;
+    int a=123;
     double money=20.3;
-    s21_sprintf(str,"My age is %d is my mony %f ---- %c", age, money, cj);
+    s21_sprintf(str,"1My age is %d %d is my mony %f ---- %c %u\n", age, a, money, cj,u);
+    sprintf(stt,"My age is %d %d is my mony %f ---- %c %u\n", age, a, money, cj,u);
+    printf("%s\n",stt);
     return 0;
 }
