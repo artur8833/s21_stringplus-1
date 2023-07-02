@@ -1,5 +1,5 @@
 #include "s21_string.h"
-
+// Находит первое вхождение всей строки needle (не включая завершающий нулевой символ), которая появляется в строке haystack.
 char *s21_strstr(const char *haystack, const char *needle) {
   void *temp = 0;
   int flag = 0;

@@ -4,7 +4,7 @@
 typedef __S21_SIZE_TYPE__ s21_size_t;
 #ifndef S21_STRING_H
 #define S21_STRING_H
-static void str_tok_var;
+
 
 #include <stdio.h>
 #include <string.h>

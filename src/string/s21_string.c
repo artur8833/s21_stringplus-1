@@ -27,17 +27,28 @@ int main() {
 // }
 
 char *s21_strtok(char *str, const char *delim) {
-  if(str != NULL) str_tok_var = (void *)str;
-  for (int i = 0; i < (int)s21_strlen(str); i++) {
-    for (int j = 0; j < (int)s21_strlen(delim); j++) {
-      if (str[i] == delim[j]) {
-        return str_tok_var;
-        str[j] = '\0';
-        return str;
+
+  if(str != NULL) {
+  int k = 0;
+  int i = 0;
+  int j_tok = 0;
+    for (int j = 0; j < (int)s21_strlen(str);) {
+      while(k < (int)strlen(delim)){
+        if(str[j] != delim[k]){ 
+          k++;
+        } else {
+          str_tok_var[i][j] = '\0';
+          i++;
+          j_tok = 0;
+          k = 0;
+          break;
+        }
+        if(k == (int)strlen(delim) - 1){
+          str_tok_var[i][j_tok++] = str[j];
+        }
       }
     }
-  }
-  else
-
+  }  
   return NULL;
 }
+
