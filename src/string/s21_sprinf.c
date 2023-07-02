@@ -6,25 +6,15 @@
 
 int s21_sprintf(const char *str, const char *format,...)
 {
-    // int num_sucsess=0;
-    // int j=0;
-    // for (int i;i<strlen(format);i++)
-    // {
-    //     if ((format[i]=='%')||(format[i]==' '))
-    //     {
-    //     continue;
-    //     }
-    //     printf("%c\n",format[i]);
-    // }
     
     int d;
     double f;
     char c;
-    // char asd[120];
-    // strcpy(asd, format);
+    char asd[123];
+    strcpy(asd,format);
     va_list(factor);
     va_start(factor,format);
-    for(char *ch=format;*ch;ch++)
+    for(char *ch=asd;*ch;ch++)
     {
         if (*ch!='%'){
             printf("%c", *ch);
@@ -41,11 +31,10 @@ int s21_sprintf(const char *str, const char *format,...)
                 f=va_arg(factor,double);
                 printf("%.1lf",f);
                 break;
-            // case'c':
-            //     c=va_arg(factor,char);
-            //     printf("%c",c);
-            //     break;
-
+            case'c':
+                c=(char)va_arg(factor,int);
+                printf("%c",c);
+                break;
             default:
                 printf("%c",*ch);
                 break;
@@ -58,8 +47,9 @@ int s21_sprintf(const char *str, const char *format,...)
 
 int main(){
     char str[50];
+    char cj='+';
     int age=5;
     double money=20.3;
-    s21_sprintf(str,"My age is %d is my mony %f", age, money);
+    s21_sprintf(str,"My age is %d is my mony %f ---- %c", age, money, cj);
     return 0;
 }
