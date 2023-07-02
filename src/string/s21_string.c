@@ -27,28 +27,38 @@ int main() {
 // }
 
 char *s21_strtok(char *str, const char *delim) {
-
-  if(str != NULL) {
+  char *str_tok = str;
+  static char *ptr = NULL;
   int k = 0;
-  int i = 0;
-  int j_tok = 0;
-    for (int j = 0; j < (int)s21_strlen(str);) {
-      while(k < (int)strlen(delim)){
-        if(str[j] != delim[k]){ 
-          k++;
-        } else {
-          str_tok_var[i][j] = '\0';
-          i++;
-          j_tok = 0;
-          k = 0;
+  if (str != NULL) {
+    for (int i = 0; i < (int)s21_strlen(str_tok) && k == 0; i++) {
+      for (int j = 0; j < (int)s21_strlen(delim); j++) {
+        if (str_tok[i] == delim[j]) {
+          ptr = str_tok + i + 1;
+          str_tok[i] = '\0';
+          k = 1;
           break;
-        }
-        if(k == (int)strlen(delim) - 1){
-          str_tok_var[i][j_tok++] = str[j];
         }
       }
     }
-  }  
-  return NULL;
+  } else if (ptr != NULL) {
+    str_tok = ptr;
+    k = 0;
+    for (int i = 0; i < (int)s21_strlen(ptr) && k == 0; i++) {
+      for (int j = 0; j < (int)s21_strlen(delim); j++) {
+        if (ptr[i] == delim[j]) {
+          if (i == 0) {
+            ptr = ptr + 1;
+            str_tok = str_tok + 1;
+          } else {
+            ptr = ptr + i + 1;
+            str_tok[i] = '\0';
+            k = 1;
+            break;
+          }
+        }
+      }
+    }
+  }
+  return str_tok;
 }
-
