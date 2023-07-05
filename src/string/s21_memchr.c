@@ -1,12 +1,22 @@
 #include "s21_string.h"
 // выполняет поиск первого вхождения символа "с" (беззнаковый тип) в первых "n"
 // байтах строки, на которую указывает аргумент str.
+// Совпадение первого байта с c (представленным как беззнаковый символ)
+// останавливает выполнение операции.
+
 void *s21_memchr(const void *str, int c, s21_size_t n) {
+
   char *ch = (char *)str;
-  for (int i = 0; i < (int)n + 1; i++) {
-    if (*ch == c)
-      return ch;
-    ch = (char *)str++;
+  int i = (int)n + 1;
+  while (i > 0) {
+    if (*ch != c) {
+      ch = (char *)str++;
+    } else
+      break;
+    i--;
   }
-  return NULL;
+  if (i == 0) {
+    ch = NULL;
+  }
+  return ch;
 }
