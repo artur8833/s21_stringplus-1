@@ -19,14 +19,13 @@ int s21_sprintf(char *str, const char *format,...)
     {
         if(format[i]!='%')
         {
-            result=s21_putchar_to_str(format[i],str);
+            result=s21_putchar_to_str(format[i],str); 
         }
         else if(format[i]=='%' && format[i+1])
         {
             check_characteristics(format[++i],args,str);
         }
         
-    
     }
     va_end(args);
     return result;
@@ -45,12 +44,19 @@ int s21_putchar_to_str(const char c, char *str) {
 int check_characteristics(const char c, va_list args, char *str)
 {
     int d;
+    char ch;
     switch (c)
     {
         case 'd':
             d=va_arg(args,int);
             convertNumberToChars(d,str);
             break;
+
+        case'c':
+            ch=(char)va_arg(args,int);
+            s21_putchar_to_str(c,str);
+            break;
+
         default:
             break;
     }
@@ -68,7 +74,6 @@ void convertNumberToChars(int number,char *str) {
         while (number != 0) {
             int digit = number % 10;
             chars[index++] = digit + '0';
-
             number /= 10; 
         }
     }
@@ -81,7 +86,7 @@ void convertNumberToChars(int number,char *str) {
 int main(){
     char str[125];
     char stt[500];
-    int age=512312;
+    int age=5;
     unsigned int u=-5;
     int a=123;
     double money=20.3;
