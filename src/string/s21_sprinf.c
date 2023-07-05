@@ -69,18 +69,40 @@ void convertNumberToChars(int number,char *str) {
 
     if (number == 0) {
         chars[index++] = '0'; 
-    } else {
+    } 
+    else if(number==(int)number) 
+    {
 
         while (number != 0) {
-            int digit = number % 10;
+            int digit = (int)number % 10;
             chars[index++] = digit + '0';
             number /= 10; 
         }
+            
+        for (int i = index - 1; i >= 0; i--) {
+            s21_putchar_to_str(chars[i],str);
+        }
+    }
+    else if (number==(float)number){
+
     }
 
-    for (int i = index - 1; i >= 0; i--) {
-        s21_putchar_to_str(chars[i],str);
-    }
+
+}
+
+
+
+
+
+int main() {
+    float num = 3.14f;
+    char str[20];
+    
+    floatToString(num, str, 2);
+    
+    printf("%s\n", str);
+    
+    return 0;
 }
 
 int main(){
