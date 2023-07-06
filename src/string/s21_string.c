@@ -10,8 +10,12 @@ int main() {
   char *ptr1 = strtok(str1, str2);
   char *ptr2 = s21_strtok(str3, str4);
 
+  while(ptr1 != NULL){
   printf("    strtok:%s\n", ptr1);
   printf("s21_strtok:%s\n", ptr2);
 
+    ptr1 = strtok(NULL, str2);
+    ptr2 = s21_strtok(NULL, str4);
+  }
   return 0;
 }

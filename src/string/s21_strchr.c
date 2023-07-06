@@ -9,7 +9,7 @@ char *s21_strchr(const char *str, int c) {
       ptr = ptr + i;
       break;
     } else if (i == (int)s21_strlen(str) - 1) {
-      ptr = NULL;
+      ptr = S21_NULL;
     }
   }
   return ptr;
