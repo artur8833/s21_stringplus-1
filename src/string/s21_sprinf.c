@@ -6,7 +6,8 @@
 int s21_putchar_to_str(const char c, char *str);
 void convertNumberToChars(int number,char *str);
 double roundToDec(double num,int dec);
-void floatToString(double number,char *str,int precision);
+void convertStringToString(char *s,char *str);
+int convertfloatToString(double number,char *str,int precision);
 int check_characteristics(const char c, va_list args, char *str);
 
 int s21_sprintf(char *str, const char *format,...)
@@ -63,11 +64,11 @@ int check_characteristics(const char c, va_list args, char *str)
         
         case 'f':
             f=va_arg(args,double);
-            floatToString(f,str,0);
-        
+            convertfloatToString(f,str,0);
+            break;
         case 's':
             s=va_arg(args, char*);
-            printf("%s",s);
+            convertStringToString(s,str);
             break;
         default:
             break;
@@ -101,14 +102,11 @@ void convertNumberToChars(int number,char *str) {
 
 }
 
-void floatToString(double number,char *str,int precision)
+int convertfloatToString(double number,char *str,int precision)
 {
     char chars[20];
     int index=0;
     int int_number=(int)number;
-    
-
-    
     convertNumberToChars(int_number,str);
     s21_putchar_to_str('.',str);
     long double temp_float=number-int_number;
@@ -123,6 +121,8 @@ void floatToString(double number,char *str,int precision)
     for (int i=0;i<index;i++){
         s21_putchar_to_str(chars[i],str);
     }
+    
+    return 0;
 }
 
 double roundToDec(double num,int dec){
@@ -131,17 +131,27 @@ double roundToDec(double num,int dec){
     return rounded;
 }
 
+void convertStringToString(char *s,char *str)
+{
+    int len=strlen(s);
+    for(int i=0;i<len;i++)
+    {
+        s21_putchar_to_str(s[i],str);
+    }
+}
+
 
 int main(){
     char str[125];
     char stt[500];
+    char ss[50]="End strok";
     int age=5;
     unsigned int u=-5;
     int a=1233;
     float b=12.11334534443;
     double money=20.3;
-    s21_sprintf(str,"My age is %d is %f my mony\n", age,b);
-    sprintf(stt,"My age is %d is %f my mony\n", age,b);
+    s21_sprintf(str,"My age %f is  is %d  my mony %s\n", b, a ,ss );
+    sprintf(stt,"My age %f is  is %d  my mony %s\n", b, a ,ss );
     printf("origin = %s\n",stt);
     printf("my func= %s\n",str);
     return 0;
