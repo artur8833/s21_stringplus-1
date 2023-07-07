@@ -7,7 +7,7 @@ int s21_putchar_to_str(const char c, char *str);
 void convertNumberToChars(int number,char *str);
 double roundToDec(double num,int dec);
 void convertStringToString(char *s,char *str);
-int convertfloatToString(double number,char *str,int precision);
+void convertfloatToString(double number,char *str,int precision);
 int check_characteristics(const char c, va_list args, char *str);
 
 int s21_sprintf(char *str, const char *format,...)
@@ -47,6 +47,7 @@ int s21_putchar_to_str(const char c, char *str) {
 
 int check_characteristics(const char c, va_list args, char *str)
 {
+    unsigned int u;
     int d;
     float f;
     char ch,*s;
@@ -61,7 +62,7 @@ int check_characteristics(const char c, va_list args, char *str)
             ch=(char)va_arg(args,int);
             s21_putchar_to_str(c,str);
             break;
-        
+    
         case 'f':
             f=va_arg(args,double);
             convertfloatToString(f,str,0);
@@ -70,11 +71,16 @@ int check_characteristics(const char c, va_list args, char *str)
             s=va_arg(args, char*);
             convertStringToString(s,str);
             break;
+        case 'u':
+            u=va_arg(args, unsigned int);
+            convertNumberToChars(u,str);
+            break;
+        case '%':
+            s21_putchar_to_str('%',str);
         default:
             break;
     }
 }
-
 
 void convertNumberToChars(int number,char *str) {
     char chars[10];
@@ -102,7 +108,7 @@ void convertNumberToChars(int number,char *str) {
 
 }
 
-int convertfloatToString(double number,char *str,int precision)
+void convertfloatToString(double number,char *str,int precision)
 {
     char chars[20];
     int index=0;
@@ -122,7 +128,6 @@ int convertfloatToString(double number,char *str,int precision)
         s21_putchar_to_str(chars[i],str);
     }
     
-    return 0;
 }
 
 double roundToDec(double num,int dec){
@@ -146,12 +151,12 @@ int main(){
     char stt[500];
     char ss[50]="End strok";
     int age=5;
-    unsigned int u=-5;
+    unsigned int u=54546456;
     int a=1233;
     float b=12.11334534443;
     double money=20.3;
-    s21_sprintf(str,"My age %f is  is %d  my mony %s\n", b, a ,ss );
-    sprintf(stt,"My age %f is  is %d  my mony %s\n", b, a ,ss );
+    s21_sprintf(str,"My age %f is  is %d  my mony %s usigned=%u\n", b, a ,ss,u );
+    sprintf(stt,"My age %f is  is %d  my mony %s usigned=%u\n", b, a ,ss,u );
     printf("origin = %s\n",stt);
     printf("my func= %s\n",str);
     return 0;
