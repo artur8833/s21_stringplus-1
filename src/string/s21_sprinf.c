@@ -1,9 +1,12 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <math.h>
 
 int s21_putchar_to_str(const char c, char *str);
 void convertNumberToChars(int number,char *str);
+double roundToDec(double num,int dec);
+void floatToString(double number,char *str,int precision);
 int check_characteristics(const char c, va_list args, char *str);
 
 int s21_sprintf(char *str, const char *format,...)
@@ -44,7 +47,8 @@ int s21_putchar_to_str(const char c, char *str) {
 int check_characteristics(const char c, va_list args, char *str)
 {
     int d;
-    char ch;
+    float f;
+    char ch,*s;
     switch (c)
     {
         case 'd':
@@ -56,7 +60,15 @@ int check_characteristics(const char c, va_list args, char *str)
             ch=(char)va_arg(args,int);
             s21_putchar_to_str(c,str);
             break;
-
+        
+        case 'f':
+            f=va_arg(args,double);
+            floatToString(f,str,0);
+        
+        case 's':
+            s=va_arg(args, char*);
+            printf("%s",s);
+            break;
         default:
             break;
     }
@@ -66,54 +78,70 @@ int check_characteristics(const char c, va_list args, char *str)
 void convertNumberToChars(int number,char *str) {
     char chars[10];
     int index = 0; 
-
     if (number == 0) {
-        chars[index++] = '0'; 
+        s21_putchar_to_str('0',str);
     } 
-    else if(number==(int)number) 
+    else
     {
-
         while (number != 0) {
+            if (number<0){
+                number*=-1;
+                s21_putchar_to_str('-',str);
+            }
             int digit = (int)number % 10;
             chars[index++] = digit + '0';
             number /= 10; 
         }
-            
+
         for (int i = index - 1; i >= 0; i--) {
             s21_putchar_to_str(chars[i],str);
         }
-    }
-    else if (number==(float)number){
 
     }
 
-
 }
 
-
-
-
-
-int main() {
-    float num = 3.14f;
-    char str[20];
+void floatToString(double number,char *str,int precision)
+{
+    char chars[20];
+    int index=0;
+    int int_number=(int)number;
     
-    floatToString(num, str, 2);
+
     
-    printf("%s\n", str);
-    
-    return 0;
+    convertNumberToChars(int_number,str);
+    s21_putchar_to_str('.',str);
+    long double temp_float=number-int_number;
+    temp_float=roundToDec(temp_float,200);
+    for(int i=0;i<6;i++)
+    {
+        temp_float *= 10;
+        int PlusNum = (int)temp_float;
+        chars[index++]=PlusNum+'0';
+        temp_float-=PlusNum;
+    }
+    for (int i=0;i<index;i++){
+        s21_putchar_to_str(chars[i],str);
+    }
 }
+
+double roundToDec(double num,int dec){
+    double multi=pow(10,dec);
+    double rounded=(round(num*multi))/multi;
+    return rounded;
+}
+
 
 int main(){
     char str[125];
     char stt[500];
     int age=5;
     unsigned int u=-5;
-    int a=123;
+    int a=1233;
+    float b=12.11334534443;
     double money=20.3;
-    s21_sprintf(str,"My age is %d is my mony\n", age);
-    sprintf(stt,"My age is %d is my mony\n", age);
+    s21_sprintf(str,"My age is %d is %f my mony\n", age,b);
+    sprintf(stt,"My age is %d is %f my mony\n", age,b);
     printf("origin = %s\n",stt);
     printf("my func= %s\n",str);
     return 0;

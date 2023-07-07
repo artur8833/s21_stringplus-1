@@ -8,6 +8,7 @@ int main()
     int index = 0; 
     float number=20;
     int int_number;
+    int precision;
 
     int_number=(int)number;
     //printf("%d\n",int_number);
@@ -20,7 +21,7 @@ int main()
             int digit = int_number % 10;
             printf("d=%d\n", digit);
             chars[index++] = digit + '0';
-            int_number /= 10; 
+            int_number /= 10;
         }
             
         for (int i = index - 1; i >= 0; i--) {
@@ -29,10 +30,15 @@ int main()
         
         if (number==(float)number)
         {
+            memset(chars,0,10);
+            index=0;
             putchar('.',str);
             float temp_float=number-int_number;
-            for(int i=0;i<fractionalPart;i++){
+            for(int i=0;i<precision;i++){
                 temp_float*=10;
+                int (PlusNum)=(int)temp_float;
+                chars[index++]='0' + PlusNum;
+                temp_float-=PlusNum;
                 
             }
         }                                   
@@ -49,7 +55,7 @@ void floatToString(float num, char* str, int precision) {
     int len = strlen(str);  // Получаем длину строки
     
     if (precision > 0) {
-        str[len++] = '.';  // Добавляем точку в строку
+        str[len++] = '.';  // Добавляем точку в строку 
         float fractionalPart = num - integerPart;  // Получаем дробную часть числа
         // Умножаем дробную часть на 10^precision, чтобы получить нужное количество знаков после запятой
         for (int i = 0; i < precision; i++) {
