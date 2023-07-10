@@ -1,8 +1,8 @@
-#include "s21_string.h"
+#include "../s21_string.h"
 // Разбивает строку str на ряд токенов, разделенных delim.
 
 char *s21_strtok(char *str, const char *delim) {
-  static char *str_tok = NULL;
+  static char *str_tok = S21_NULL;
   if (str != S21_NULL) {
     str_tok = str;
     while (*str != '\0') {

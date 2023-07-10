@@ -1,4 +1,4 @@
-#include "s21_string.h"
+#include "../s21_string.h"
 // Функция вычисляет длину начального сегмента строки str1 состоящего только из
 // символов строки str2
 s21_size_t s21_strspn(const char *str1, const char *str2) {
