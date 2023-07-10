@@ -5,11 +5,13 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <math.h>
+#include <ctype.h>
 
 typedef struct flags 
 {
 
   int sign;
+  int number;
 
 } structs;
 

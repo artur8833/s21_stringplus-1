@@ -10,7 +10,6 @@ int s21_sprintf(char *str, const char *format,...)
     str[0]='\0';
     va_list args;
     va_start(args,format);
-    
     while (format[++i]!='\0')
     {
         if(format[i]!='%')
@@ -20,9 +19,9 @@ int s21_sprintf(char *str, const char *format,...)
         
         else if(format[i]=='%' && format[i+1])
         {   
+
             i=check_flags(format[i+1],str,&flags,i);
             check_characteristics(format[++i],args,str,&flags);
-
         }
         
     }
@@ -81,6 +80,13 @@ int check_characteristics(const char c, va_list args, char *str, structs *flags)
 
 int check_flags(const char c, char *str, structs *flags,int i)
 {
+    printf("c==%c\n",c);
+    if isdigit(c)
+    {
+        flags->number==1;
+        return ++i;
+    }
+    
     switch (c)
     {
     case '+':
@@ -181,10 +187,10 @@ int main(){
     int a=1233;
     float b=12.11334534443;
     double money=20.3;
-    s21_sprintf(str,"My age %f is  is %d  my %% mony %s usigned=%u\n", b, a ,ss,u );
-    sprintf(stt,"My age %f is  is %d  my %% mony %s usigned=%u\n", b, a ,ss,u );   
-    printf("origin = %s\n",stt);
-    printf("my func= %s\n",str);
+    s21_sprintf(str,"%50d\n",a );
+    sprintf(stt,"123 %-50d\n", a);   
+    printf("origin == %s\n",stt);
+    printf("my func == %s\n",str);
     return 0;
 }
 
