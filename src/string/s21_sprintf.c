@@ -81,7 +81,7 @@ int check_characteristics(const char c, va_list args, char *str, structs *flags)
 int check_flags(const char c, char *str, structs *flags,int i)
 {
     printf("c==%c\n",c);
-    if isdigit(c)
+    if isdigit(c) //проверяет строку на число
     {
         flags->number==1;
         return ++i;
