@@ -2,14 +2,15 @@
 
 START_TEST(memchrTest1) {
   char str1[] = "Hello, World! How are you?";
-  char str2 = 'l';
+  char str2 = 'o';
+  // unsigned int i[] = {1,2};
   char str3[] = "Hello, World! How are you?";
-  char str4 = 'l';
+  char str4 = 'o';
 
-  char *ptr1 = memchr(str1, str2, 4);
-  char *ptr2 = s21_memchr(str3, str4, 4); 
+  char *ptr1 = memchr(str1, str2, 15);
+  char *ptr2 = s21_memchr(str3, str4, 15); 
 
-  ck_assert_mem_eq(ptr1, ptr2, 5);
+  ck_assert_str_eq(ptr1, ptr2);
   // ck_assert_str_ne, ck_assert_str_eq_len
   // ck_assert_str_eq(X, Y);
   // ck_assert_str_eq(X, Y);
