@@ -11,7 +11,6 @@ typedef struct flags
 {
 
   int sign;
-  int number;
 
 } structs;
 
@@ -24,7 +23,6 @@ void convertStringToString(char *s,char *str);
 void convertfloatToString(double number,char *str,int precision,structs *flags);
 int check_characteristics(const char c, va_list args, char *str,structs *flags);
 int check_flags(const char c, char *str, structs *flags,int i);
-
 
 
 #endif

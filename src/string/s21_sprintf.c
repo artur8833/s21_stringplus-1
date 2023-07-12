@@ -80,13 +80,7 @@ int check_characteristics(const char c, va_list args, char *str, structs *flags)
 
 int check_flags(const char c, char *str, structs *flags,int i)
 {
-    printf("c==%c\n",c);
-    if isdigit(c) //проверяет строку на число
-    {
-        flags->number==1;
-        return ++i;
-    }
-    
+   
     switch (c)
     {
     case '+':
@@ -114,26 +108,31 @@ void convertNumberToChars(int number,char *str, structs *flags) {
         { 
             s21_putchar_to_str('+',str);
         }
+
         else if((flags->sign==1)&&(number<0))
         {
-            s21_putchar_to_str('-',str);    
+            number*=-1;    
+            s21_putchar_to_str('-',str);
+        }
+
+        if ((number<0)&&(flags->sign==0))
+        {
+            number*=-1;
+            s21_putchar_to_str('-',str);
         }
 
         while (number != 0) 
         {
-            if ((number<0)&&(flags->sign==0))
-            {
-                number*=-1;
-                s21_putchar_to_str('-',str);
-            }
-            
+
             int digit = (int)number % 10;
             chars[index++] = digit + '0';
             number /= 10; 
         }
 
         for (int i = index - 1; i >= 0; i--) {
+            printf("c===%c\n",chars[i]);
             s21_putchar_to_str(chars[i],str);
+
         }
 
     }
@@ -184,10 +183,10 @@ int main(){
     char ss[50]="End strok";
     int age=5;
     unsigned int u=54546456;
-    int a=1233;
+    int a=-1233;
     float b=12.11334534443;
     double money=20.3;
-    s21_sprintf(str,"%50d\n",a );
+    s21_sprintf(str,"вывыы %+d\n",a );
     sprintf(stt,"123 %-50d\n", a);   
     printf("origin == %s\n",stt);
     printf("my func == %s\n",str);
