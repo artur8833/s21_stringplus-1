@@ -2,7 +2,11 @@
 
 int main() {
   char str1[26] = "Hello, World! How are you?";
+<<<<<<< HEAD
   char str2[] = "Hello";
+=======
+  char str2[] = "jkhads";
+>>>>>>> c6a7ee1 (edit functions)
 
   // char str3[26] = "Hello, World! How are you?";
   // char str4[] = "Hella";
