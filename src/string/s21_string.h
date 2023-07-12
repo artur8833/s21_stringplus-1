@@ -2,7 +2,7 @@
 #define S21_STRING_H
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <string.h>   // отключить!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #define S21_NULL (void *)0
 typedef long unsigned int s21_size_t;
 

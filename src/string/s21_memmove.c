@@ -3,11 +3,11 @@
 void *s21_memmove(void *dest, const void *src, s21_size_t n) {
   char temp[n];
   char *s = s21_memcpy(temp, src, n);
-  for (int i = 0; i < (int)n; i++) {
+  for (s21_size_t i = 0; i < n; i++) {
     temp[i] = s[i];
   }
 
-  for (int i = 0; i < (int)n; i++) {
+  for (s21_size_t i = 0; i < n; i++) {
     ((char *)dest)[i] = temp[i];
   }
   return dest;
