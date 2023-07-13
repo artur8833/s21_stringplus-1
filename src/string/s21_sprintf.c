@@ -78,22 +78,14 @@ int check_characteristics(const char c, va_list args, char *str, structs *flags)
 
 int check_flags(const char c, char *str, structs *flags, int i, const char *format)
 {
-    printf("i1==%d\n", i);
-    int number = atoi(&format[i + 1]);
-    printf("number==%d\n", number);
-    if (number)
-    {
-        for (int j = i; j<=number; j++)
-        {
-            s21_putchar_to_str(' ', str);
-            j++;
-        }
-    }
+
 
     if isdigit (c) // проверяет строку на число
     {
         flags->number == 1;
-        return ++i;
+        file_wight(str,flags,i,format);
+        printf("format[i]==%c\n", format[i]);
+        ++i;
     }
 
     switch (c)
@@ -151,6 +143,25 @@ void convertNumberToChars(int number, char *str, structs *flags)
     }
 }
 
+
+int file_wight( char *str, structs *flags,int i,const char *format)
+{
+    printf("i1==%d\n", i);
+    int number = atoi(&format[i + 1]);
+    printf("number==%d\n", number);
+    if (number)
+    {
+        for (int j = i; j<number; j++)
+        {
+            s21_putchar_to_str(' ', str);
+            j++;
+        }
+    }   
+
+    return i;
+}
+
+
 void convertfloatToString(double number, char *str, int precision, structs *flags)
 {
     char chars[20];
@@ -197,11 +208,11 @@ int main()
     int age = 5;
     unsigned int u = 54546456;
     int a = 1233;
-    float b = 12.11334534443;
+    float b = -12.11334534443;
     double money = 20.3;
 
-    sprintf(stt, "'%12d'\n", a);
-    s21_sprintf(str, "'%10d'\n", a);
+    sprintf(stt, "'%5d'\n", a);
+    s21_sprintf(str, "'%5d'\n", a);
     
     printf("origin == %s\n", stt);
     printf("my func == %s\n", str);
