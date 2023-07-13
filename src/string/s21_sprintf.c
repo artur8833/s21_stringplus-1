@@ -18,7 +18,6 @@ int s21_sprintf(char *str, const char *format, ...)
 
         else if (format[i] == '%' && format[i + 1])
         {
-
             i = check_flags(format[i + 1], str, &flags, i, format);
             check_characteristics(format[++i], args, str, &flags);
         }
@@ -78,14 +77,13 @@ int check_characteristics(const char c, va_list args, char *str, structs *flags)
 
 int check_flags(const char c, char *str, structs *flags, int i, const char *format)
 {
-
-
+     
     if isdigit (c) // проверяет строку на число
     {
-        flags->number == 1;
-        file_wight(str,flags,i,format);
-        printf("format[i]==%c\n", format[i]);
-        ++i;
+        flags->wight=1;
+        i=file_wight(str,flags,i,format);
+        //printf("1i===%d\n", i);
+       
     }
 
     switch (c)
@@ -128,6 +126,7 @@ void convertNumberToChars(int number, char *str, structs *flags)
             s21_putchar_to_str('-', str);
         }
 
+ 
         while (number != 0)
         {
 
@@ -135,6 +134,14 @@ void convertNumberToChars(int number, char *str, structs *flags)
             chars[index++] = digit + '0';
             number /= 10;
         }
+
+       if(flags->wight)
+        {
+            for(int j=index;j<flags->num_wight;j++){
+                s21_putchar_to_str(' ', str);
+            }
+        }
+
 
         for (int i = index - 1; i >= 0; i--)
         {
@@ -144,20 +151,21 @@ void convertNumberToChars(int number, char *str, structs *flags)
 }
 
 
-int file_wight( char *str, structs *flags,int i,const char *format)
+int file_wight( char *str, structs *flags, int i, const char *format)
 {
-    printf("i1==%d\n", i);
-    int number = atoi(&format[i + 1]);
-    printf("number==%d\n", number);
-    if (number)
+   
+    flags->num_wight=atoi(&format[i+1]);
+    // printf("2i===%d\n", i);
+    // printf("format[i]===%c\n", format[i]);
+    // printf("numbers===%d\n", numbers);
+    int num2;
+    num2=flags->num_wight;
+    for(int j=0;num2>0;j++)
     {
-        for (int j = i; j<number; j++)
-        {
-            s21_putchar_to_str(' ', str);
-            j++;
-        }
-    }   
-
+        num2=num2/10;
+        i++;
+    }
+    // printf("3i===%d\n", i);
     return i;
 }
 
@@ -211,8 +219,8 @@ int main()
     float b = -12.11334534443;
     double money = 20.3;
 
-    sprintf(stt, "'%5d'\n", a);
-    s21_sprintf(str, "'%5d'\n", a);
+    sprintf(stt, "'%11d'\n", a);
+    s21_sprintf(str, "'%11d'\n", a);
     
     printf("origin == %s\n", stt);
     printf("my func == %s\n", str);
