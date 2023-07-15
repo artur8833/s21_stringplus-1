@@ -4,6 +4,6 @@
 
 char *s21_strchr(const char *str, int c) {
   char *ptr = (char *)str;
-  ptr = s21_memchr(str, c, ((int)s21_strlen(str)));
+  ptr = s21_memchr(str, c, s21_strlen(str));
   return ptr;
 }

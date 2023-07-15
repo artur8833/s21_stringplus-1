@@ -13,11 +13,12 @@ char *s21_strtok(char *str, const char *delim) {
         str_tok++;
       }
     }
-  } else str = str_tok;
+  } else
+    str = str_tok;
   int count = 0;
   str_tok++;
-  while(count < (int)s21_strlen(str)){
-    if((s21_strchr(delim, str[count])) == S21_NULL) {
+  while (count < (int)s21_strlen(str)) {
+    if ((s21_strchr(delim, str[count])) == S21_NULL) {
       count++;
       str_tok++;
     } else {
@@ -25,7 +26,6 @@ char *s21_strtok(char *str, const char *delim) {
       break;
     }
   }
-  
 
   return str;
 }
