@@ -13,6 +13,7 @@ int s21_sprintf(char *str, const char *format, ...)
     {
         if (format[i] != '%')
         {
+            printf("%c",format[i]);
             result += s21_putchar_to_str(format[i], str);
         }
 
@@ -43,7 +44,7 @@ int check_characteristics(const char c, va_list args, char *str, structs *flags)
     unsigned int u;
     int d;
     float f;
-    char ch, *s;
+    char ch;
     switch (c)
     {
     case 'd':
@@ -60,7 +61,8 @@ int check_characteristics(const char c, va_list args, char *str, structs *flags)
         convertfloatToString(f, str, 6, flags);
         break;
     case 's':
-        s = va_arg(args, char *);
+        printf("done");
+        char* s = va_arg(args, char *);
         convertStringToString(s, str);
         break;
     case 'u':
@@ -175,7 +177,6 @@ int file_wight( char *str, structs *flags, int i, const char *format)
 {
    
     flags->num_wight=atoi(&format[i+1]);
-    printf("num_wight==%d\n", flags->num_wight);
     int num2;
     num2=flags->num_wight;
     for(int j=0;num2>0;j++)
@@ -204,9 +205,10 @@ void convertfloatToString(double number, char *str, int precision, structs *flag
     else if ((flags->sign) && (number < 0))
     {
         number *= -1;
+        
         s21_putchar_to_str('-', str);
     }
-
+    
     else if ((number < 0) && (!flags->sign) && (!flags->wight))
     {
         number *= -1;
@@ -216,6 +218,10 @@ void convertfloatToString(double number, char *str, int precision, structs *flag
 
     if ((flags->wight))
     {
+        if (number<0)
+        {
+            count++;
+        }
         for(int j=count; j<flags->num_wight; j++)
         {
             s21_putchar_to_str(' ', str);
@@ -227,8 +233,6 @@ void convertfloatToString(double number, char *str, int precision, structs *flag
         number *= -1;
         s21_putchar_to_str('-', str);
     }
-
-
     // Округляем число до нужной точности
     double multiplier = pow(10, precision);
     number = round(number * multiplier) / multiplier;
@@ -286,7 +290,6 @@ int countDigits(float num, int precision) {
             integerPart /= 10;
         }
     }
-
     // Подсчитываем количество цифр в дробной части
     float fractionalPart = num - (int)num;
     long fractionalInteger = round(fractionalPart * pow(10, precision));
@@ -312,6 +315,7 @@ double roundToDec(double num, int dec)
 void convertStringToString(char *s, char *str)
 {
     int len = strlen(s);
+    //printf("len==%d\n", len);
     for (int i = 0; i < len; i++)
     {
         s21_putchar_to_str(s[i], str);
@@ -325,13 +329,13 @@ int main()
     char ss[50] = "End strok";
     int age = 5;
     unsigned int u = 54546456;
-    int a = -1233;
+    int a = 1233;
     float b = -12.11231;
     double money = 20.3;
 
-    sprintf(stt, "'%12f'\n", b);
-    s21_sprintf(str, "'%12f'\n", b);
-    printf("origin == %s\n", stt);
+    sprintf(stt, "'Test float=%11f, test int=%d, test str=%s'\n", b,a,ss);
+    s21_sprintf(str,"'%d,%s'\n", a,ss);
+    printf("origin0 == %s\n", stt);
     printf("my func == %s\n", str);
     return 0;
 }
