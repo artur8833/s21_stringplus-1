@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=-Wall -Werror -Wextra -std=c11
-MAIN_FILES= *.c 
+MAIN_FILES= string/*.c 
 TEST_FILES= unit_tests/*.c
 CHECK_LINK=$(shell pkg-config --libs --cflags check)
 GCOVFLAGS = -fprofile-arcs -ftest-coverage

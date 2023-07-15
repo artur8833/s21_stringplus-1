@@ -5,6 +5,8 @@
 //помощью директив.
 
 #include "s21_strerror.h"
+#include "s21_string.h"
+
 #include <string.h>
 #include <stdio.h>
 
