@@ -208,16 +208,24 @@ void convertfloatToString(double number, char *str, int precision, structs *flag
     }
 
     else if ((number < 0) && (!flags->sign) && (!flags->wight))
-        {
-            number *= -1;
-            s21_putchar_to_str('-', str);
-        }
+    {
+        number *= -1;
+        s21_putchar_to_str('-', str);
+    }
+    
 
     if ((flags->wight))
     {
-        for(int j=count; j<flags->num_wight; j++){
+        for(int j=count; j<flags->num_wight; j++)
+        {
             s21_putchar_to_str(' ', str);
         }
+    }
+    
+    if((number < 0) && (!flags->sign) && (flags->wight))
+    {
+        number *= -1;
+        s21_putchar_to_str('-', str);
     }
 
 
@@ -243,8 +251,10 @@ void convertfloatToString(double number, char *str, int precision, structs *flag
     if (precision > 0) {
         // Вычисляем дробную часть числа
         double fractionalPart = number - (int)number;
+        
         // Умножаем дробную часть на 10^precision, чтобы перевести ее в целое число
         long fractionalInteger = round(fractionalPart * pow(10, precision));
+        
         // Добавляем разделитель десятичной части и переводим его в строку
         s21_putchar_to_str('.', str);
 
@@ -259,16 +269,6 @@ void convertfloatToString(double number, char *str, int precision, structs *flag
         {
             s21_putchar_to_str(chars[i], str);
         }
-
-        if ((num_sign<0) && (!flags->sign) && (flags->wight))
-        {
-            s21_putchar_to_str('-', str);
-        }
-
-        // Переводим десятичную часть в строку
-        //snprintf(str + integerDigits, 20 - integerDigits, "%0*ld", precision, fractionalInteger);
-    }
-
 }
 
 int countDigits(float num, int precision) {
@@ -300,7 +300,6 @@ int countDigits(float num, int precision) {
     return count;
 }
 
-
 double roundToDec(double num, int dec)
 {
     double multi = pow(10, dec);
@@ -324,12 +323,12 @@ int main()
     char ss[50] = "End strok";
     int age = 5;
     unsigned int u = 54546456;
-    int a = 1233;
+    int a = -1233;
     float b = -12.11231;
     double money = 20.3;
 
-    sprintf(stt, "'%+f'\n", b);
-    s21_sprintf(str, "'%+f'\n", b);
+    sprintf(stt, "'%12f'\n", b);
+    s21_sprintf(str, "'%12f'\n", b);
     printf("origin == %s\n", stt);
     printf("my func == %s\n", str);
     return 0;
