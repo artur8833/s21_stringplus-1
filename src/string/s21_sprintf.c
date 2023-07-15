@@ -57,7 +57,7 @@ int check_characteristics(const char c, va_list args, char *str, structs *flags)
     case 'f':
         f = va_arg(args, double);
         flags->float_flag=1;
-        convertfloatToString(f, str, 0, flags);
+        convertfloatToString(f, str, 6, flags);
         break;
     case 's':
         s = va_arg(args, char *);
@@ -82,10 +82,9 @@ int check_flags(const char c, char *str, structs *flags, int i, const char *form
     if isdigit (c) // проверяет строку на число
     {
         flags->wight=1;
-        i=file_wight(str,flags,i,format);
-        //printf("1i===%d\n", i);
-       
+        i=file_wight(str,flags,i,format);       
     }
+
     switch (c)
     {
     case '+':
@@ -144,7 +143,7 @@ int convertNumberToChars(int number, char *str, structs *flags)
             number /= 10;
         }
 
-        if ((flags->wight)&&(!flags->float_flag))
+        if ((flags->wight))
         {
             //printf("num_wight==%d\n", flags->num_wight);
             if (num_sign<0)
@@ -176,9 +175,7 @@ int file_wight( char *str, structs *flags, int i, const char *format)
 {
    
     flags->num_wight=atoi(&format[i+1]);
-    // printf("2i===%d\n", i);
-    // printf("format[i]===%c\n", format[i]);
-    // printf("numbers===%d\n", numbers);
+    printf("num_wight==%d\n", flags->num_wight);
     int num2;
     num2=flags->num_wight;
     for(int j=0;num2>0;j++)
@@ -186,7 +183,6 @@ int file_wight( char *str, structs *flags, int i, const char *format)
         num2=num2/10;
         i++;
     }
-    // printf("3i===%d\n", i);
     return i;
 }
 
@@ -195,26 +191,114 @@ void convertfloatToString(double number, char *str, int precision, structs *flag
 {
     char chars[20];
     int index = 0;
-    int wight;
-    int int_number = (int)number;
-    wight=convertNumberToChars(int_number, str, flags);
-    s21_putchar_to_str('.', str);
-    long double temp_float = number - int_number;
-    temp_float = roundToDec(temp_float, 50);
-    for (int i = 0; i < 6; i++)
+    int index2=0;
+    int num_sign=number;
+
+    int count=countDigits(number,precision);
+    
+    if ((flags->sign) && (number > 0))
     {
-        temp_float *= 10;
-        int PlusNum = (int)temp_float;
-        chars[index++] = PlusNum + '0';
-        temp_float -= PlusNum;
+        s21_putchar_to_str('+', str);
     }
-    for (int i = 0; i < index; i++)
+    
+    else if ((flags->sign) && (number < 0))
+    {
+        number *= -1;
+        s21_putchar_to_str('-', str);
+    }
+
+    else if ((number < 0) && (!flags->sign) && (!flags->wight))
+        {
+            number *= -1;
+            s21_putchar_to_str('-', str);
+        }
+
+    if ((flags->wight))
+    {
+        for(int j=count; j<flags->num_wight; j++){
+            s21_putchar_to_str(' ', str);
+        }
+    }
+
+
+    // Округляем число до нужной точности
+    double multiplier = pow(10, precision);
+    number = round(number * multiplier) / multiplier;
+
+    int int_number=(int)number;
+    
+    while (int_number != 0)
+    {
+        int digit = int_number % 10;
+        chars[index++] = digit + '0';
+        int_number /= 10;
+    }
+
+    for (int i = index - 1; i >= 0; i--)
     {
         s21_putchar_to_str(chars[i], str);
+    }    
+    
+    // Если точность больше нуля, добавляем десятичную часть
+    if (precision > 0) {
+        // Вычисляем дробную часть числа
+        double fractionalPart = number - (int)number;
+        // Умножаем дробную часть на 10^precision, чтобы перевести ее в целое число
+        long fractionalInteger = round(fractionalPart * pow(10, precision));
+        // Добавляем разделитель десятичной части и переводим его в строку
+        s21_putchar_to_str('.', str);
+
+        while (fractionalInteger != 0)
+        {
+            int digit = fractionalInteger % 10;
+            chars[index2++] = digit + '0';
+            fractionalInteger /= 10;
+        }
+    
+        for (int i = index2 - 1; i >= 0; i--)
+        {
+            s21_putchar_to_str(chars[i], str);
+        }
+
+        if ((num_sign<0) && (!flags->sign) && (flags->wight))
+        {
+            s21_putchar_to_str('-', str);
+        }
+
+        // Переводим десятичную часть в строку
+        //snprintf(str + integerDigits, 20 - integerDigits, "%0*ld", precision, fractionalInteger);
     }
 
 }
 
+int countDigits(float num, int precision) {
+    int count = 0;
+    int integerPart = (int)num; // Получаем целую часть числа
+    // Подсчитываем количество цифр в целой части+
+    if (integerPart == 0) {
+        count = 1; // Если число равно нулю, то у него одна цифра
+    } 
+    else {
+        while (integerPart != 0) {
+            count++;
+            integerPart /= 10;
+        }
+    }
+
+    // Подсчитываем количество цифр в дробной части
+    float fractionalPart = num - (int)num;
+    long fractionalInteger = round(fractionalPart * pow(10, precision));
+    if(fractionalInteger){
+        count+=1;
+    }
+    while (fractionalInteger != 0) {
+        count++;
+        int digit = fractionalInteger % 10;
+        fractionalInteger /= 10;
+    }
+
+    return count;
+}
 
 
 double roundToDec(double num, int dec)
@@ -241,11 +325,11 @@ int main()
     int age = 5;
     unsigned int u = 54546456;
     int a = 1233;
-    float b = 12.11;
+    float b = -12.11231;
     double money = 20.3;
 
-    sprintf(stt, "'%12f'\n", b);
-    s21_sprintf(str, "'%12f'\n", b);
+    sprintf(stt, "'%+f'\n", b);
+    s21_sprintf(str, "'%+f'\n", b);
     printf("origin == %s\n", stt);
     printf("my func == %s\n", str);
     return 0;

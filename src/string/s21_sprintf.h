@@ -29,6 +29,7 @@ void convertfloatToString(double number,char *str,int precision,structs *flags);
 int check_characteristics(const char c, va_list args, char *str,structs *flags);
 int check_flags(const char c, char *str, structs *flags,int i,const char *format);
 int file_wight( char *str, structs *flags, int i, const char *format);
+int countDigits(float num, int precision);
 
 
 #endif
