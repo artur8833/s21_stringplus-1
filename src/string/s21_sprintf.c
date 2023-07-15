@@ -251,10 +251,8 @@ void convertfloatToString(double number, char *str, int precision, structs *flag
     if (precision > 0) {
         // Вычисляем дробную часть числа
         double fractionalPart = number - (int)number;
-        
         // Умножаем дробную часть на 10^precision, чтобы перевести ее в целое число
         long fractionalInteger = round(fractionalPart * pow(10, precision));
-        
         // Добавляем разделитель десятичной части и переводим его в строку
         s21_putchar_to_str('.', str);
 
@@ -269,6 +267,10 @@ void convertfloatToString(double number, char *str, int precision, structs *flag
         {
             s21_putchar_to_str(chars[i], str);
         }
+
+
+    }
+
 }
 
 int countDigits(float num, int precision) {
