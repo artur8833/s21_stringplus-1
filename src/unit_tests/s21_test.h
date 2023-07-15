@@ -1,8 +1,8 @@
 #ifndef SRC_S21_TEST_H
 #define SRC_S21_TEST_H
+#include "../s21_string.h"
 #include <check.h>
 #include <string.h>
-#include "../s21_string.h"
 
 Suite *memchrTest(void);
 Suite *memcmpTest(void);

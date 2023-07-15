@@ -8,7 +8,7 @@ START_TEST(memchrTest1) {
   char str4 = 'o';
 
   char *ptr1 = memchr(str1, str2, 15);
-  char *ptr2 = s21_memchr(str3, str4, 15); 
+  char *ptr2 = s21_memchr(str3, str4, 15);
 
   ck_assert_str_eq(ptr1, ptr2);
   // ck_assert_str_ne, ck_assert_str_eq_len

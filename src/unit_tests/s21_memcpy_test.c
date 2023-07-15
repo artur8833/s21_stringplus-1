@@ -4,7 +4,7 @@ START_TEST(memcpyTest1) {
   char str1[] = "Hello, World! How are you?";
   char str2[] = "Hello, Wor123ld! How are you?ohiah";
 
-  char str3[] = "Hello, World! How are you?";                 
+  char str3[] = "Hello, World! How are you?";
   char str4[] = "Hello, Wor123ld! How are you?ohiah";
 
   char *ptr1 = memcpy(str1, str2, 15);
