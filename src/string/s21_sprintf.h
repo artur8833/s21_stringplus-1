@@ -15,12 +15,14 @@ typedef struct flags
   int number;
   int wight;
   int num_wight;
+  int float_flag;
+  int alignment;
 
 } structs;
 
 
 int s21_putchar_to_str(const char c, char *str);
-void convertNumberToChars(int number,char *str,structs *flags);
+int convertNumberToChars(int number,char *str,structs *flags);
 double roundToDec(double num,int dec);
 void convertStringToString(char *s,char *str);
 void convertfloatToString(double number,char *str,int precision,structs *flags);
