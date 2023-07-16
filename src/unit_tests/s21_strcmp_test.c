@@ -1,6 +1,6 @@
 #include "s21_test.h"
 
-START_TEST(memchrTest1) {
+START_TEST(strcmpTest1) {
   char* testStrValue1 = "";
   int testIntValue1 = 3;
   size_t testCountValue1 = 10;
@@ -10,13 +10,13 @@ START_TEST(memchrTest1) {
   char* testStrValue3 = "";
   int testIntValue3 = 3;
   size_t testCountValue3 = 10;
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
+  ck_assert_char_eq(s21_strcmp(testStrValue1, testIntValue1), strcmp(testStrValue1, testIntValue1));
+  ck_assert_char_eq(s21_strcmp(testStrValue1, testIntValue1), strcmp(testStrValue1, testIntValue1));
+  ck_assert_char_eq(s21_strcmp(testStrValue1, testIntValue1), strcmp(testStrValue1, testIntValue1));
 }
 END_TEST;
 
-START_TEST(memchrTest2) {
+START_TEST(strcmpTest2) {
   char* testStrValue1 = "asd";
   int testIntValue1 = 3;
   size_t testCountValue1 = 10;
@@ -26,13 +26,13 @@ START_TEST(memchrTest2) {
   char* testStrValue3 = "asd";
   int testIntValue3 = 3;
   size_t testCountValue3 = 10;
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
+  ck_assert_char_eq(s21_strcmp(testStrValue1, testIntValue1), strcmp(testStrValue1, testIntValue1));
+  ck_assert_char_eq(s21_strcmp(testStrValue1, testIntValue1), strcmp(testStrValue1, testIntValue1));
+  ck_assert_char_eq(s21_strcmp(testStrValue1, testIntValue1), strcmp(testStrValue1, testIntValue1));
 }
 END_TEST;
 
-START_TEST(memchrTest2) {
+START_TEST(strcmpTest2) {
   char* testStrValue1 = "memkek";
   int testIntValue1 = NULL;
   size_t testCountValue1 = NULL;
@@ -42,18 +42,18 @@ START_TEST(memchrTest2) {
   char* testStrValue3 = "memkek";
   int testIntValue3 = NULL;
   size_t testCountValue3 = NULL;
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
+  ck_assert_char_eq(s21_strcmp(testStrValue1, testIntValue1), strcmp(testStrValue1, testIntValue1));
+  ck_assert_char_eq(s21_strcmp(testStrValue1, testIntValue1), strcmp(testStrValue1, testIntValue1));
+  ck_assert_char_eq(s21_strcmp(testStrValue1, testIntValue1), strcmp(testStrValue1, testIntValue1));
 }
 END_TEST;
 
-Suite *memchrTest(void) {
-  Suite *s = suite_create("\033[45mMemchr test\033[0m");
-  TCase *tc = tcase_create("Memchr test");
+Suite *strcmpTest(void) {
+  Suite *s = suite_create("\033[45mStrcmp test\033[0m");
+  TCase *tc = tcase_create("Strcmp test");
 
-  tcase_add_test(tc, memchrTest1);
-  tcase_add_test(tc, memchrTest2);
+  tcase_add_test(tc, strcmpTest1);
+  tcase_add_test(tc, strcmpTest2);
   suite_add_tcase(s, tc);
   return s;
 }

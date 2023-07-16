@@ -1,59 +1,71 @@
 #include "s21_test.h"
 
-START_TEST(memchrTest1) {
-  char* testStrValue1 = "";
-  int testIntValue1 = 3;
-  size_t testCountValue1 = 10;
-  char* testStrValue2 = "";
-  int testIntValue2 = 3;
-  size_t testCountValue2 = 10;
-  char* testStrValue3 = "";
-  int testIntValue3 = 3;
-  size_t testCountValue3 = 10;
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
+START_TEST(memset_1) {
+  char s1[] = "kek mem";
+  char s2[] = "kek mem";
+  int ch = ' ';
+  s21_size_t n = strlen(s1);
+  ck_assert_str_eq(memset(s1, ch, n), s21_memset(s2, ch, n));
 }
-END_TEST;
+END_TEST
 
-START_TEST(memchrTest2) {
-  char* testStrValue1 = "asd";
-  int testIntValue1 = 3;
-  size_t testCountValue1 = 10;
-  char* testStrValue2 = "asd";
-  int testIntValue2 = 3;
-  size_t testCountValue2 = 10;
-  char* testStrValue3 = "asd";
-  int testIntValue3 = 3;
-  size_t testCountValue3 = 10;
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
+START_TEST(memset_2) {
+  char s1[] = "kek mem";
+  char s2[] = "kek mem";
+  int ch = ' ';
+  s21_size_t n = 5;
+  ck_assert_str_eq(memset(s1, ch, n), s21_memset(s2, ch, n));
 }
-END_TEST;
+END_TEST
 
-START_TEST(memchrTest2) {
-  char* testStrValue1 = "memkek";
-  int testIntValue1 = NULL;
-  size_t testCountValue1 = NULL;
-  char* testStrValue2 = "memkek";
-  int testIntValue2 = NULL;
-  size_t testCountValue2 = NULL;
-  char* testStrValue3 = "memkek";
-  int testIntValue3 = NULL;
-  size_t testCountValue3 = NULL;
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
+START_TEST(memset_3) {
+  char s1[] = "kek mem";
+  char s2[] = "kek mem";
+  int ch = ' ';
+  s21_size_t n = 0;
+  ck_assert_str_eq(memset(s1, ch, n), s21_memset(s2, ch, n));
 }
-END_TEST;
+END_TEST
 
-Suite *memchrTest(void) {
-  Suite *s = suite_create("\033[45mMemchr test\033[0m");
-  TCase *tc = tcase_create("Memchr test");
+START_TEST(memset_4) {
+  char s1[] = "";
+  char s2[] = "";
+  int ch = '\0';
+  s21_size_t n = 0;
+  ck_assert_str_eq(memset(s1, ch, n), s21_memset(s2, ch, n));
+}
+END_TEST
 
-  tcase_add_test(tc, memchrTest1);
-  tcase_add_test(tc, memchrTest2);
+START_TEST(memset_5) {
+  char s1[] = "<mem>";
+  char s2[] = "<mem>";
+  int ch = '\0';
+  s21_size_t n = 4;
+  ck_assert_str_eq(memset(s1, ch, n), s21_memset(s2, ch, n));
+}
+END_TEST
+
+START_TEST(memset_6) {
+  char s1[] = "kek mem";
+  char s2[] = "kek mem";
+  int ch = 80;
+  s21_size_t n = 7;
+  ck_assert_str_eq(memset(s1, ch, n), s21_memset(s2, ch, n));
+}
+END_TEST
+
+Suite *test_memset(void) {
+  Suite *s = suite_create("\033[45mMemset test\033[0m");
+  TCase *tc = tcase_create("Memset test");
+
+  suite_add_tcase(s, tc);
+  tcase_add_test(tc, memset_1);
+  tcase_add_test(tc, memset_2);
+  tcase_add_test(tc, memset_3);
+  tcase_add_test(tc, memset_4);
+  tcase_add_test(tc, memset_5);
+  tcase_add_test(tc, memset_6);
+
   suite_add_tcase(s, tc);
   return s;
 }
