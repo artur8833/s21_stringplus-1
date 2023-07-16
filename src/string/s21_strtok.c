@@ -2,30 +2,25 @@
 // Разбивает строку str на ряд токенов, разделенных delim.
 
 char *s21_strtok(char *str, const char *delim) {
-  static char *str_tok = S21_NULL;
+  static char *str_tok;
+  char *tok = S21_NULL;
   if (str != S21_NULL) {
     str_tok = str;
-    while (*str != '\0') {
-      if ((s21_strchr(delim, *str)) == S21_NULL) {
-        break;
-      } else {
-        str++;
-        str_tok++;
-      }
-    }
-  } else
-    str = str_tok;
-  int count = 0;
-  str_tok++;
-  while (count < (int)s21_strlen(str)) {
-    if ((s21_strchr(delim, str[count])) == S21_NULL) {
-      count++;
+    while (s21_strchr(delim, *str_tok)) {
+      *str_tok = '\0';
       str_tok++;
-    } else {
-      str[count] = '\0';
-      break;
     }
   }
-
-  return str;
+  if(str_tok != S21_NULL){
+    str = str_tok;
+    while(!s21_strchr(delim, *str_tok)){
+      str_tok++;
+    }
+    while(s21_strchr(delim, *str_tok)){
+      *str_tok = '\0';
+      str_tok++;
+    }
+  tok = str;
+  }
+  return tok;
 }

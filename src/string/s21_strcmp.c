@@ -3,8 +3,9 @@
 // больше нуля или равно ему, если str1 соответственно меньше, больше или равно
 // str2
 int s21_strcmp(const char *str1, const char *str2) {
+  s21_size_t str1_len = s21_strlen(str1) + 1;
   int res = 0;
-  for (int i = 0; i < (int)s21_strlen(str1) + 1; i++) {
+  for (s21_size_t i = 0; i < str1_len; i++) {
     res = str1[i] - str2[i];
     if (res != 0) {
       break;

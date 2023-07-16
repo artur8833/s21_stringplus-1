@@ -11,21 +11,22 @@ char *s21_strstr(const char *haystack, const char *needle) {
   } else {
     s21_size_t i = 0;
 
-    while (i < haystack_len - needle_len + 1){
+    while (i < haystack_len - needle_len + 1) {
       s21_size_t j = 1;
-      char * ha = (void*)haystack + i;
-      char * ne = (void*)needle;
-      if(*ha == *ne){
-        while(j < needle_len){
-          if(*ha++ != *ne++) {
+      char *ha = (void *)haystack + i;
+      char *ne = (void *)needle;
+      if (*ha == *ne) {
+        while (j < needle_len) {
+          if (*ha++ != *ne++) {
             i++;
             break;
           }
           j++;
-        } 
-      } else i++;
-      if(j == needle_len) {
-        temp = (void*)haystack + i;
+        }
+      } else
+        i++;
+      if (j == needle_len) {
+        temp = (void *)haystack + i;
         break;
       }
     }

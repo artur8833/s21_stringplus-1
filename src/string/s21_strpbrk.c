@@ -3,10 +3,14 @@
 // указанному в str2.
 char *s21_strpbrk(const char *str1, const char *str2) {
   void *ptr = S21_NULL;
-  int j = 0;
-  while (j < (int)s21_strlen(str2)) {
+  s21_size_t str2_len = s21_strlen(str2);
+  s21_size_t j = 0;
+  while (j < str2_len) {
     ptr = s21_strchr(str1, str2[j]);
-    j++;
+    if (ptr) {
+      break;
+      j++;
+    }
   }
   return ptr;
 }
