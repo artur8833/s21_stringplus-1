@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 
 int main() {
   char chars[10];
@@ -38,6 +39,7 @@ int main() {
       }
     }
   }
+  return 0;
 }
 
 void floatToString(float num, char *str, int precision) {

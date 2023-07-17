@@ -15,7 +15,7 @@ void *s21_memchr(const void *str, int c, s21_size_t n) {
       break;
     i--;
   }
-  if (i == 0) {
+  if (i == 0 && *ch != (char)c) {
     ch = S21_NULL;
   }
   return ch;
