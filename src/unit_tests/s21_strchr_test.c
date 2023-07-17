@@ -1,38 +1,59 @@
 #include "s21_test.h"
 
 START_TEST(strchrTest1) {
-  char str1[] = "Hello, World! How are you?";
-  char str2 = ' ';
-
-  char str3[] = "Hello, World! How are you?";
-  char str4 = ' ';
-
-  char *ptr1 = strchr(str1, str2);
-  char *ptr2 = s21_strchr(str3, str4);
-
-  ck_assert_mem_eq(ptr1, ptr2, 5);
-  // ck_assert_str_ne, ck_assert_str_eq_len
-  // ck_assert_str_eq(X, Y);
-  // ck_assert_str_eq(X, Y);
+  char* testStrValue1 = "";
+  int testIntValue1 = 3;
+  size_t testCountValue1 = 10;
+  char* testStrValue2 = "";
+  int testIntValue2 = 3;
+  size_t testCountValue2 = 10;
+  char* testStrValue3 = "";
+  int testIntValue3 = 3;
+  size_t testCountValue3 = 10;
+  ck_assert_char_eq(s21_strchr(testStrValue1, testIntValue1), strchr(testStrValue1, testIntValue1));
+  ck_assert_char_eq(s21_strchr(testStrValue1, testIntValue1), strchr(testStrValue1, testIntValue1));
+  ck_assert_char_eq(s21_strchr(testStrValue1, testIntValue1), strchr(testStrValue1, testIntValue1));
 }
 END_TEST;
 
-// START_TEST(absTest2) {
-//   int testValue1 = -3.45;
-//   int testValue2 = 10;
-//   int testValue3 = 0;
-//   ck_assert_double_eq(s21_abs(testValue1), abs(testValue1));
-//   ck_assert_int_eq(s21_abs(testValue2), abs(testValue2));
-//   ck_assert_int_eq(s21_abs(testValue3), abs(testValue3));
-// }
-// END_TEST
+START_TEST(strchrTest2) {
+  char* testStrValue1 = "asd";
+  int testIntValue1 = 3;
+  size_t testCountValue1 = 10;
+  char* testStrValue2 = "asd";
+  int testIntValue2 = 3;
+  size_t testCountValue2 = 10;
+  char* testStrValue3 = "asd";
+  int testIntValue3 = 3;
+  size_t testCountValue3 = 10;
+  ck_assert_char_eq(s21_strchr(testStrValue1, testIntValue1), strchr(testStrValue1, testIntValue1));
+  ck_assert_char_eq(s21_strchr(testStrValue1, testIntValue1), strchr(testStrValue1, testIntValue1));
+  ck_assert_char_eq(s21_strchr(testStrValue1, testIntValue1), strchr(testStrValue1, testIntValue1));
+}
+END_TEST;
+
+START_TEST(strchrTest2) {
+  char* testStrValue1 = "memkek";
+  int testIntValue1 = NULL;
+  size_t testCountValue1 = NULL;
+  char* testStrValue2 = "memkek";
+  int testIntValue2 = NULL;
+  size_t testCountValue2 = NULL;
+  char* testStrValue3 = "memkek";
+  int testIntValue3 = NULL;
+  size_t testCountValue3 = NULL;
+  ck_assert_char_eq(s21_strchr(testStrValue1, testIntValue1), strchr(testStrValue1, testIntValue1));
+  ck_assert_char_eq(s21_strchr(testStrValue1, testIntValue1), strchr(testStrValue1, testIntValue1));
+  ck_assert_char_eq(s21_strchr(testStrValue1, testIntValue1), strchr(testStrValue1, testIntValue1));
+}
+END_TEST;
 
 Suite *strchrTest(void) {
-  Suite *s = suite_create("\033[45mstrchr test\033[0m");
-  TCase *tc = tcase_create("strchr test");
+  Suite *s = suite_create("\033[45mStrchr test\033[0m");
+  TCase *tc = tcase_create("Strchr test");
 
   tcase_add_test(tc, strchrTest1);
-  // tcase_add_test(tc, absTest2);
+  tcase_add_test(tc, strchrTest2);
   suite_add_tcase(s, tc);
   return s;
 }

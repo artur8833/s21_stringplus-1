@@ -1,38 +1,71 @@
 #include "s21_test.h"
 
-START_TEST(memsetTest1) {
-  char str1[] = "Hello, World! How are you?";
-  char str2 = 'a';
-
-  char str3[] = "Hello, World! How are you?";
-  char str4 = 'a';
-
-  char *ptr1 = memset(str1, str2, 4);
-  char *ptr2 = s21_memset(str3, str4, 4);
-
-  ck_assert_mem_eq(ptr1, ptr2, 5);
-  // ck_assert_str_ne, ck_assert_str_eq_len
-  // ck_assert_str_eq(X, Y);
-  // ck_assert_str_eq(X, Y);
+START_TEST(memset_1) {
+  char s1[] = "kek mem";
+  char s2[] = "kek mem";
+  int ch = ' ';
+  s21_size_t n = strlen(s1);
+  ck_assert_str_eq(memset(s1, ch, n), s21_memset(s2, ch, n));
 }
-END_TEST;
+END_TEST
 
-// START_TEST(absTest2) {
-//   int testValue1 = -3.45;
-//   int testValue2 = 10;
-//   int testValue3 = 0;
-//   ck_assert_double_eq(s21_abs(testValue1), abs(testValue1));
-//   ck_assert_int_eq(s21_abs(testValue2), abs(testValue2));
-//   ck_assert_int_eq(s21_abs(testValue3), abs(testValue3));
-// }
-// END_TEST
+START_TEST(memset_2) {
+  char s1[] = "kek mem";
+  char s2[] = "kek mem";
+  int ch = ' ';
+  s21_size_t n = 5;
+  ck_assert_str_eq(memset(s1, ch, n), s21_memset(s2, ch, n));
+}
+END_TEST
 
-Suite *memsetTest(void) {
-  Suite *s = suite_create("\033[45mmemset test\033[0m");
-  TCase *tc = tcase_create("memset test");
+START_TEST(memset_3) {
+  char s1[] = "kek mem";
+  char s2[] = "kek mem";
+  int ch = ' ';
+  s21_size_t n = 0;
+  ck_assert_str_eq(memset(s1, ch, n), s21_memset(s2, ch, n));
+}
+END_TEST
 
-  tcase_add_test(tc, memsetTest1);
-  // tcase_add_test(tc, absTest2);
+START_TEST(memset_4) {
+  char s1[] = "";
+  char s2[] = "";
+  int ch = '\0';
+  s21_size_t n = 0;
+  ck_assert_str_eq(memset(s1, ch, n), s21_memset(s2, ch, n));
+}
+END_TEST
+
+START_TEST(memset_5) {
+  char s1[] = "<mem>";
+  char s2[] = "<mem>";
+  int ch = '\0';
+  s21_size_t n = 4;
+  ck_assert_str_eq(memset(s1, ch, n), s21_memset(s2, ch, n));
+}
+END_TEST
+
+START_TEST(memset_6) {
+  char s1[] = "kek mem";
+  char s2[] = "kek mem";
+  int ch = 80;
+  s21_size_t n = 7;
+  ck_assert_str_eq(memset(s1, ch, n), s21_memset(s2, ch, n));
+}
+END_TEST
+
+Suite *test_memset(void) {
+  Suite *s = suite_create("\033[45mMemset test\033[0m");
+  TCase *tc = tcase_create("Memset test");
+
+  suite_add_tcase(s, tc);
+  tcase_add_test(tc, memset_1);
+  tcase_add_test(tc, memset_2);
+  tcase_add_test(tc, memset_3);
+  tcase_add_test(tc, memset_4);
+  tcase_add_test(tc, memset_5);
+  tcase_add_test(tc, memset_6);
+
   suite_add_tcase(s, tc);
   return s;
 }

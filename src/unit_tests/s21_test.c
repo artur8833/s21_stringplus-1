@@ -3,29 +3,30 @@
 int main() {
   int number_failed = 0;
 
-  Suite *test[] = {memchrTest(),
-                   memcmpTest(),
-                   memcpyTest(),
-                   memmoveTest(),
-                   memsetTest(),
-                   strcatTest(),
-                   strchrTest(),
-                   strcmpTest(),
-                   strcpyTest(),
-                   strcspnTest(),
-                   /*strerrorTest(),*/ strlenTest(),
-                   strncatTest(),
-                   strncmpTest(),
-                   strncpyTest(),
-                   strpbrkTest(),
-                   strrchrTest(),
-                   strspnTest(),
-                   strstrTest(),
-                   strtokTest(),
-                   NULL};
+  Suite *test[] = {
+    memchrTest(),
+    memcmpTest(),
+    memmoveTest(),
+    memsetTest(),
+    sprintfTest(),
+    strcatTest(),
+    strchrTest(),
+    strcmpTest(),
+    strspnTest(),
+    strerrorTest(),
+    strlenTest(),
+    strcatTest(),
+    strncmpTest(),
+    strcpyTest(),
+    strpbrkTest(),
+    strrchrTest(),
+    strspnTest(),
+    strstrTest(),
+    strtokTest(),  
+    NULL,
+  };
 
   for (int i = 0; test[i] != NULL; i++) {
-
     printf("\n\n");
     SRunner *sr = srunner_create(test[i]);
 

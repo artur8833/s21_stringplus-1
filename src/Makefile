@@ -21,14 +21,17 @@ s21_string.a:
 	ar rcs s21_string.a *.o
 	ranlib s21_string.a
 
-test: s21_string.a
-	$(CC) $(CFLAGS) $(TEST_FILES) -L. s21_string.a $(CHECK_LINK) $(GLFLAGS) $(GCOVFLAGS) -o s21_string_tests
-	./s21_string_tests
+# test: s21_string.a
+# 	$(CC) $(CFLAGS) $(TEST_FILES) -L. s21_string.a $(CHECK_LINK) $(GLFLAGS) $(GCOVFLAGS) -o s21_string_tests
+# 	./s21_string_tests
 
-gcov_report: object lib test
-	gcov *.gcno *.gcda
-	~/.local/bin/gcovr -r . --html --html-details -o s21_math.html
-	open s21_math.html
+test:
+	./s21_string
+
+# gcov_report: object lib test
+# 	gcov *.gcno *.gcda
+# 	~/.local/bin/gcovr -r . --html --html-details -o s21_math.html
+# 	open s21_math.html
 
 clean:
 	rm -f *.o

@@ -1,5 +1,8 @@
 #ifndef S21_STRING_H
 #define S21_STRING_H
+
+#include "s21_strerror.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>   // отключить!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -16,7 +19,7 @@ char *s21_strchr(const char *str, int c);
 int s21_strcmp(const char *str1, const char *str2);
 char *s21_strcpy(char *dest, const char *src);
 s21_size_t s21_strcspn(const char *str1, const char *str2);
-// char *s21_strerror (int errnum);
+char *s21_strerror (int errnum);
 s21_size_t s21_strlen(const char *);
 char *s21_strncat(char *dest, const char *src, s21_size_t n);
 int s21_strncmp(const char *str1, const char *str2, s21_size_t n);
