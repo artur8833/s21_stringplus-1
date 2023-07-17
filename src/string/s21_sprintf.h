@@ -14,8 +14,9 @@ typedef struct flags
   int sign; //flag +
   int number;
   int wight; // если есть ширина то =1
-  int num_wight; // значение ширины
+  int num_wight; // значение ширины или точности
   int alignment;  //flag -
+  int precision; // если есть '.'(точность), то флаг =1
 
 } structs;
 
@@ -25,7 +26,9 @@ int convertNumberToChars(int number,char *str,structs *flags);
 double roundToDec(double num,int dec);
 void convertStringToString(char *s,char *str,structs *flags);
 void convertCharToString(char c,char *str,structs *flags);
-void convertfloatToString(double number,char *str,int precision,structs *flags);
+
+void convertfloatToString(double number,char *str,structs *flags);
+
 int check_characteristics(const char c, va_list args, char *str,structs *flags);
 int check_flags(const char c, char *str, structs *flags,int i,const char *format);
 int file_wight( char *str, structs *flags, int i, const char *format);
