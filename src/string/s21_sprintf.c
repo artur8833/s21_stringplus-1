@@ -322,6 +322,7 @@ void convertfloatToString(double number, char *str, structs *flags)
         double fractionalPart = number - (int)number;
         // Умножаем дробную часть на 10^precision, чтобы перевести ее в целое число
         long fractionalInteger = round(fractionalPart * pow(10, precision));
+        printf("fractionalInteger==%ld\n", fractionalInteger);
         // Добавляем разделитель десятичной части и переводим его в строку
         
         s21_putchar_to_str('.', str);
@@ -334,6 +335,13 @@ void convertfloatToString(double number, char *str, structs *flags)
         
         //printf("pres==%d\n", flags->precision);
         
+        if (fractionalInteger==0)
+        {
+            for(int j=0; j<flags->num_wight; j++)
+            {
+                s21_putchar_to_str('0', str);
+            }
+        }
 
         for (int i = index2 - 1; i >= 0; i--)
         {
@@ -453,13 +461,13 @@ int main()
     int age = 5;
     unsigned int u = 54546456;
     int a = -123;
-    float b = -12.11;
+    float b = 99.99999;
     unsigned int money = -1;
     char chh='r';
 
 
-    sprintf(stt, "'Test float=%.0f, test int=%.0d, test str=%.20s, test char=%-3c, test_proc=%%'\n", b,a,ss, chh);
-    s21_sprintf(str,"'Test float=%.0f, test int=%.0d, test str=%.20s, test char=%-3c, test_proc=%%'\n", b,a,ss, chh);
+    sprintf(stt, "'Test float=%.3f, test int=%.0d, test str=%.20s, test char=%-3c, test_proc=%%'\n", b,a,ss, chh);
+    s21_sprintf(str,"'Test float=%.3f, test int=%.0d, test str=%.20s, test char=%-3c, test_proc=%%'\n", b,a,ss, chh);
     printf("origin0 == %s\n", stt);
     printf("my func == %s\n", str);
     return 0;
