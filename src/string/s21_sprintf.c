@@ -20,8 +20,7 @@ int s21_sprintf(char *str, const char *format, ...)
         {
 
             i = check_flags(format[i+1], str, &flags, i, format);
-            printf("aFTER=%c\n", format[i]);
-            printf("\n");
+            //printf("format[i+1]==%c\n", format[i+1]);
             check_characteristics(format[++i], args, str, &flags);
         }
         
@@ -92,7 +91,8 @@ int check_flags(const char c, char *str, structs *flags, int i, const char *form
     if isdigit (c) // проверяет строку на число
     {   
         i=file_wight(str,flags,i,format);
-        flags->num_wight=1;          
+        flags->wight=1;          
+        
     }
 
     switch (c)
@@ -105,7 +105,7 @@ int check_flags(const char c, char *str, structs *flags, int i, const char *form
         flags->alignment=1;
         i++;
         i=file_wight(str,flags,i,format);
-        flags->num_wight=1;     
+        flags->wight=1;     
         break;
     case '.':
         i++;
@@ -227,8 +227,11 @@ int convertNumberToChars(int number, char *str, structs *flags)
 
 int file_wight( char *str, structs *flags, int i, const char *format)
 {
-    flags->num_wight=atoi(&format[i+1]);
     int num2;
+    flags->num_wight=atoi(&format[i+1]);
+    if(flags->num_wight==0){
+        i++;
+    }
     num2=flags->num_wight;
     for(int j=0;num2>0;j++)
     {
@@ -236,6 +239,7 @@ int file_wight( char *str, structs *flags, int i, const char *format)
         i++;
     }
     //printf("num_wight==%d\n", flags->num_wight);
+    //printf("format[i]==%c\n", format[i]);
     return i;
 }
 
@@ -247,7 +251,6 @@ void convertfloatToString(double number, char *str, structs *flags)
     int index2=0;
     int num_sign=number;
     int precision;
-    printf("Done\n");
     if(!flags->precision)
     {
         precision=6;
@@ -259,7 +262,7 @@ void convertfloatToString(double number, char *str, structs *flags)
     }
     
     int count=countDigits(number,precision);
-    printf("count==%d\n", count);
+    //printf("count==%d\n", count);
     
     if ((flags->sign) && (number > 0))
     {
@@ -329,7 +332,7 @@ void convertfloatToString(double number, char *str, structs *flags)
             fractionalInteger /= 10;
         }
         
-        printf("pres==%d\n", flags->precision);
+        //printf("pres==%d\n", flags->precision);
         
 
         for (int i = index2 - 1; i >= 0; i--)
@@ -337,14 +340,6 @@ void convertfloatToString(double number, char *str, structs *flags)
             s21_putchar_to_str(chars[i], str);
         }
 
-   
-
-
-
-        // for (int i = index2 - 1; i >= 0; i--)
-        // {
-        //     s21_putchar_to_str(chars[i], str);
-        // }
     }
 
 }
@@ -396,11 +391,24 @@ void convertStringToString(char *s, char *str,structs *flags)
         }
     }    
 
-    for (int i = 0; i < len; i++)
+
+    if ((flags->precision))
     {
-        s21_putchar_to_str(s[i], str);
+        for (int i = 0; i < flags->num_wight; i++)
+        {
+            s21_putchar_to_str(s[i], str);
+        }        
     }
+
+    else
+    {
+        for (int i = 0; i < len; i++)
+        {
+            s21_putchar_to_str(s[i], str);
+        }
     
+    }
+
     if ((flags->wight) && (flags->alignment))
     {
         for(int j=len; j<flags->num_wight; j++)
@@ -413,6 +421,10 @@ void convertStringToString(char *s, char *str,structs *flags)
 
 void convertCharToString(char c,char *str,structs *flags)
 {
+    // printf("flags->num_wight222===%d\n", flags->num_wight);
+    // printf("flags->aligment===%d\n", flags->alignment);
+    // printf("flags->wight===%d\n", flags->wight);
+
     if ((flags->wight) && (!flags->alignment))
     {
         for(int j=1; j<flags->num_wight; j++)
@@ -425,6 +437,7 @@ void convertCharToString(char c,char *str,structs *flags)
 
     if ((flags->wight) && (flags->alignment))
     {
+        printf("Donen\n");
         for(int j=1; j<flags->num_wight; j++)
         {
             s21_putchar_to_str(' ', str);
@@ -442,11 +455,11 @@ int main()
     int a = -123;
     float b = -12.11;
     unsigned int money = -1;
-    char chh='d';
+    char chh='r';
 
 
-    sprintf(stt, "'Test float=%.0f, test int=%.50d, test str=%-12s, test char=%-3c, test_proc=%%'\n", b,a,ss, chh);
-    s21_sprintf(str,"'Test float=%.0f, test int=%.50d, test str=%-12s, test char=%-3c, test_proc=%%'\n", b,a,ss, chh);
+    sprintf(stt, "'Test float=%.0f, test int=%.0d, test str=%.20s, test char=%-3c, test_proc=%%'\n", b,a,ss, chh);
+    s21_sprintf(str,"'Test float=%.0f, test int=%.0d, test str=%.20s, test char=%-3c, test_proc=%%'\n", b,a,ss, chh);
     printf("origin0 == %s\n", stt);
     printf("my func == %s\n", str);
     return 0;
