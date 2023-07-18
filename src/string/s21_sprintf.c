@@ -18,9 +18,7 @@ int s21_sprintf(char *str, const char *format, ...)
 
         else if (format[i] == '%' && format[i + 1])
         {
-
             i = check_flags(format[i+1], str, &flags, i, format);
-            //printf("format[i+1]==%c\n", format[i+1]);
             check_characteristics(format[++i], args, str, &flags);
         }
         
@@ -49,26 +47,31 @@ int check_characteristics(const char c, va_list args, char *str, structs *flags)
     char ch;
     switch (c)
     {
+    case 'D':
     case 'd':
         d = va_arg(args, int);
         convertNumberToChars(d, str, flags);
         memset(flags,0,sizeof(structs));
         break;
+    case 'C':
     case 'c':
         ch = (char)va_arg(args, int);
         convertCharToString(ch,str,flags);
         memset(flags,0,sizeof(structs));
         break;
+    case 'F':
     case 'f':
         f = va_arg(args, double);
         convertfloatToString(f, str, flags);
         memset(flags,0,sizeof(structs));
         break;
+    case 'S':
     case 's':
         char* s = va_arg(args, char *);
         convertStringToString(s, str,flags);
         memset(flags,0,sizeof(structs));
         break;
+    case 'U':
     case 'u':
         u = va_arg(args, unsigned int);
         convertNumberToChars(u, str, flags);
@@ -91,8 +94,7 @@ int check_flags(const char c, char *str, structs *flags, int i, const char *form
     if isdigit (c) // проверяет строку на число
     {   
         i=file_wight(str,flags,i,format);
-        flags->wight=1;          
-        
+        flags->wight=1;             
     }
 
     switch (c)
@@ -187,23 +189,17 @@ int convertNumberToChars(int number, char *str, structs *flags)
         }
 
 
-
-
         if ((num_sign<0) && (!flags->sign) && (flags->wight) &&(!flags->alignment))
         {
             s21_putchar_to_str('-', str);
         }
-
-
-
         
         for (int i = index - 1; i >= 0; i--)
         {
             s21_putchar_to_str(chars[i], str);
         }
 
-      
-
+    
         if ((flags->wight) && (flags->alignment))
         {
             if(num_sign<0)
@@ -227,19 +223,37 @@ int convertNumberToChars(int number, char *str, structs *flags)
 
 int file_wight( char *str, structs *flags, int i, const char *format)
 {
+    int num1;
     int num2;
     flags->num_wight=atoi(&format[i+1]);
-    if(flags->num_wight==0){
-        i++;
-    }
-    num2=flags->num_wight;
-    for(int j=0;num2>0;j++)
+    
+    if(flags->num_wight==0)
     {
-        num2=num2/10;
         i++;
     }
-    //printf("num_wight==%d\n", flags->num_wight);
-    //printf("format[i]==%c\n", format[i]);
+    
+    num1=flags->num_wight;
+    for(int j=0;num1>0;j++)
+    {
+        num1=num1/10;
+        i++;
+    }
+    
+    if(format[i+1]=='.')
+    {
+        i++;
+        flags->num_wight2=atoi(&format[i+1]);
+        num2=flags->num_wight2;
+        
+        for(int j=0;num2>0;j++)
+        {
+            num2=num2/10;
+            i++;
+        }
+    }
+    
+    // printf("num_wight==%d\n", flags->num_wight);
+    //printf("format[i]22==%c\n", format[i]);
     return i;
 }
 
@@ -322,7 +336,7 @@ void convertfloatToString(double number, char *str, structs *flags)
         double fractionalPart = number - (int)number;
         // Умножаем дробную часть на 10^precision, чтобы перевести ее в целое число
         long fractionalInteger = round(fractionalPart * pow(10, precision));
-        printf("fractionalInteger==%ld\n", fractionalInteger);
+        //printf("fractionalInteger==%ld\n", fractionalInteger);
         // Добавляем разделитель десятичной части и переводим его в строку
         
         s21_putchar_to_str('.', str);
@@ -429,9 +443,6 @@ void convertStringToString(char *s, char *str,structs *flags)
 
 void convertCharToString(char c,char *str,structs *flags)
 {
-    // printf("flags->num_wight222===%d\n", flags->num_wight);
-    // printf("flags->aligment===%d\n", flags->alignment);
-    // printf("flags->wight===%d\n", flags->wight);
 
     if ((flags->wight) && (!flags->alignment))
     {
@@ -460,14 +471,14 @@ int main()
     char ss[50] = "End strok";
     int age = 5;
     unsigned int u = 54546456;
-    int a = -123;
-    float b = 99.99999;
+    int a = 123;
+    float b = 12.123;
     unsigned int money = -1;
     char chh='r';
 
 
-    sprintf(stt, "'Test float=%.3f, test int=%.0d, test str=%.20s, test char=%-3c, test_proc=%%'\n", b,a,ss, chh);
-    s21_sprintf(str,"'Test float=%.3f, test int=%.0d, test str=%.20s, test char=%-3c, test_proc=%%'\n", b,a,ss, chh);
+    sprintf(stt, "'Test float=%7.2F, test int=%6.4d, test str=%.20s, test char=%-3c, test_proc=%%'\n", b,a,ss, chh);
+    s21_sprintf(str,"'Test float=%6.4d'\n", a);
     printf("origin0 == %s\n", stt);
     printf("my func == %s\n", str);
     return 0;

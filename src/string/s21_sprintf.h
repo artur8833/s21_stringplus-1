@@ -17,6 +17,7 @@ typedef struct flags
   int num_wight; // значение ширины или точности
   int alignment;  //flag -
   int precision; // если есть '.'(точность), то флаг =1
+  int num_wight2;
 
 } structs;
 
