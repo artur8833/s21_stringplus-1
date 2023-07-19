@@ -107,7 +107,7 @@ int check_flags(const char c, char *str, structs *flags, int i, const char *form
         flags->alignment=1;
         i++;
         i=file_wight(str,flags,i,format);
-        flags->wight=1;     
+        flags->wight=1;
         break;
     case '.':
         i++;
@@ -127,7 +127,8 @@ int convertNumberToChars(int number, char *str, structs *flags)
     char chars[10];
     int index = 0;
     int num_sign=number;
-
+    // printf("nimberrr==%d\n", number);
+    // printf("\n");
     if (number == 0)
     {
         s21_putchar_to_str('0', str);
@@ -141,13 +142,19 @@ int convertNumberToChars(int number, char *str, structs *flags)
         }
 
         else if (((flags->sign)||(flags->alignment)) && (number < 0))
+
         {
             number *= -1;
             s21_putchar_to_str('-', str);
         }
 
         else if ((number < 0) && (!flags->sign) && (!flags->wight))
+
         {
+            number *= -1;
+            s21_putchar_to_str('-', str);
+        }
+        else if((number<0) && (!flags->sign) && (flags->flag_num2) && (flags->wight)){
             number *= -1;
             s21_putchar_to_str('-', str);
         }
@@ -158,7 +165,6 @@ int convertNumberToChars(int number, char *str, structs *flags)
         }
          
 
-
         while (number != 0)
         {
             int digit = (int)number % 10;
@@ -166,17 +172,57 @@ int convertNumberToChars(int number, char *str, structs *flags)
             number /= 10;
         }
 
-        if(flags->precision)
+        //printf("presicion==%d\n", flags->precision);
+
+        if ((flags->wight) && (!flags->alignment) && (flags->flag_num2) )
         {
-            int precision=flags->num_wight-index;
-            for (int i=0;i<precision;i++)
+            if (num_sign<0)
+            {
+                flags->num_wight-=1;
+            } 
+            
+            if((flags->num_wight-flags->num_wight2)>index)
+            {
+                for(int j=0; j<(flags->num_wight-flags->num_wight2); j++)
+                {
+                    s21_putchar_to_str(' ', str);
+                }
+            }
+
+        }
+
+    
+        if ((flags->precision))
+        {
+            // printf("number==%d\n", num_sign);
+            // printf("num_wight==%d\n", flags->num_wight);
+            // printf("num_wight2==%d\n", flags->num_wight2);
+            // printf("flags->wight==%d\n", flags->wight);
+            // printf("flags->flags_num2==%d\n", flags->flag_num2);
+            // printf("\n");
+
+            int precision;
+            if ((flags->flag_num2)&&(!flags->num_wight)&&(!flags->num_wight2))
+            {
+                precision=flags->num_wight2;
+            }
+            else
+            {
+                precision=flags->num_wight-index;
+            }
+            // printf("precision==%d\n", precision);
+            // printf("iundex==%d\n", index);
+
+            for (int i=0;i<(precision);i++)
             {
                 s21_putchar_to_str('0', str);
             }
         }
+        
 
 
-        if ((flags->wight) && (!flags->alignment) )
+
+        if ((flags->wight) && (!flags->alignment) && (!flags->flag_num2))
         {
             if (num_sign<0)
             {
@@ -189,7 +235,9 @@ int convertNumberToChars(int number, char *str, structs *flags)
         }
 
 
-        if ((num_sign<0) && (!flags->sign) && (flags->wight) &&(!flags->alignment))
+
+
+        if ((num_sign<0) && (!flags->sign) && (flags->wight) &&(!flags->alignment) && (!flags->flag_num2))
         {
             s21_putchar_to_str('-', str);
         }
@@ -213,8 +261,6 @@ int convertNumberToChars(int number, char *str, structs *flags)
             }
         }
 
-
-
     }
     
     return index;
@@ -225,31 +271,53 @@ int file_wight( char *str, structs *flags, int i, const char *format)
 {
     int num1;
     int num2;
+    // printf("format[i-1]===%c\n", format[i-1]);
+    // printf("format[i]===%c\n", format[i]);
+    // printf("format[i+1]===%c\n", format[i+1]);
+    // printf("\n");
+
+    if((format[i-1]=='%')&&(format[i]=='.')&&(format[i+1]!=(isdigit(format[i+1]))))
+    {
+        flags->empty=1;
+    }
+
     flags->num_wight=atoi(&format[i+1]);
     
-    if(flags->num_wight==0)
+    if((flags->num_wight==0) && (!flags->empty))
     {
         i++;
     }
     
     num1=flags->num_wight;
+
     for(int j=0;num1>0;j++)
     {
         num1=num1/10;
         i++;
     }
     
-    if(format[i+1]=='.')
+
+    if((format[i+1]=='.') && (!flags->empty))
     {
+
+        flags->precision=1;
         i++;
-        flags->num_wight2=atoi(&format[i+1]);
-        num2=flags->num_wight2;
         
+        flags->num_wight2=atoi(&format[i+1]);
+
+        if((flags->num_wight2==0))
+        {
+            flags->flag_num2=1;
+        }
+
+        num2=flags->num_wight2;
         for(int j=0;num2>0;j++)
         {
             num2=num2/10;
             i++;
+            flags->flag_num2=1;
         }
+
     }
     
     // printf("num_wight==%d\n", flags->num_wight);
@@ -469,17 +537,113 @@ int main()
     char str[1250];
     char stt[500];
     char ss[50] = "End strok";
-    int age = 5;
-    unsigned int u = 54546456;
-    int a = 123;
-    float b = 12.123;
-    unsigned int money = -1;
-    char chh='r';
-
-
-    sprintf(stt, "'Test float=%7.2F, test int=%6.4d, test str=%.20s, test char=%-3c, test_proc=%%'\n", b,a,ss, chh);
-    s21_sprintf(str,"'Test float=%6.4d'\n", a);
+    int a=-12;
+    printf("Test1\n");
+    sprintf(stt, "Test %d Test", a);
+    s21_sprintf(str,"Test %d Test", a);
     printf("origin0 == %s\n", stt);
     printf("my func == %s\n", str);
+    printf("\n");
+   
+   
+    printf("Test2\n");
+    int val = 012;
+    int val2 = -017;
+    int val3 = 07464;
+    sprintf(stt, "%d Test %d Test %d", val, val2, val3);
+    s21_sprintf(str,"%d Test %d Test %d", val, val2, val3);
+    printf("origin0 == %s\n", stt);
+    printf("my func == %s\n", str);
+    printf("\n");
+
+
+    printf("Test3\n");
+    int val4 = 3015;
+    int val5 = 712;
+    int val6 = 99;
+    sprintf(stt, "%d Test %d Test %d", val4, val5, val6);
+    s21_sprintf(str,"%d Test %d Test %d",  val4, val5, val6);
+    printf("origin0 == %s\n", stt);
+    printf("my func == %s\n", str);
+    printf("\n");
+
+    printf("Test4\n");
+    int val7 = -3015;
+    int val8 = -11234;
+    int val9 = -99;
+    sprintf(stt, "%3d Test %5d Test %10d", val7, val8, val9);
+    s21_sprintf(str,"%3d Test %5d Test %10d", val7, val8, val9);
+    printf("origin0 == %s\n", stt);
+    printf("my func == %s\n", str);
+    printf("\n");
+   
+    printf("Test5\n");
+    int val10 = -3015;
+    int val11 = -712;
+    int val12 = -99;
+    int val13 = -38;
+    int val14 = -100;
+    sprintf(stt, "%6.5d Test %.23d Test %3.d TEST %.d %.6d", val10, val11, val12, val13, val14);
+    s21_sprintf(str,"%6.5d Test %.23d Test %3.d TEST %.d %.6d", val10, val11, val12, val13, val14);
+    printf("origin0 == %s\n", stt);
+    printf("my func == %s\n", str);
+    printf("\n");
+    
+    printf("Test6\n");
+    int val15 = -3015;
+    int val16 = -712;
+    int val17 = -99;
+    int val18 = -2939;
+    sprintf(stt, "%-10.5d Test %-.8d Test %-7d TEST %-.d", val15, val16, val17, val18);
+    s21_sprintf(str,"%-10.5d Test %-.8d Test %-7d TEST %-.d", val15, val16, val17, val18);
+    printf("origin0 == %s\n", stt);
+    printf("my func == %s\n", str);
+    printf("\n");
+
+    printf("Test7\n");
+    int val19 = -3015;
+    int val20 = -712;
+    int val21 = -99;
+    int val22 = -2939;
+    int val23 = -0123;
+    sprintf(stt, "%0d Test %0.d Test %0.0d TEST %0d GOD %.d", val19, val20, val21, val22, val23);
+    s21_sprintf(str,"%0d Test %0.d Test %0.0d TEST %0d GOD %.d",  val19, val20, val21, val22, val23);
+    printf("origin0 == %s\n", stt);
+    printf("my func == %s\n", str);
+    printf("\n");
+    
+    printf("Test8\n");
+    int val24 = -3015;
+    int val25 = -712;
+    int val26 = -99;
+    int val27 = -2939;
+    sprintf(stt, "%+d Test %+3.d Test %+5.7d TEST %+10d", val24, val25, val26, val27);
+    s21_sprintf(str,"%+d Test %+3.d Test %+5.7d TEST %+10d", val24, val25, val26, val27);
+    printf("origin0 == %s\n", stt);
+    printf("my func == %s\n", str);
+    printf("\n");
+    
+    printf("Test9\n");
+    int val28 = -32;
+    int val29 = -8899;
+    int val30 = -91918;
+    int val31 = -32311;
+    int val32 = -23;
+    sprintf(stt, "% d Test % 3.d Test % 5.7d TEST % 10d GOD %.d", val28, val29, val30, val31, val32);
+    s21_sprintf(str,"% d Test % 3.d Test % 5.7d TEST % 10d GOD %.d", val28, val29, val30, val31, val32);
+    printf("origin0 == %s\n", stt);
+    printf("my func == %s\n", str);
+    
+    printf("Test10\n");
+    int val33 = -3231;
+    int val34 = -3231;
+    int val35 = 3231;
+    int val36 = 3231;
+    sprintf(stt, "%- d Test %- 15d sdasda %- 15d sdsad %- d", val33, val34, val35, val36);
+    s21_sprintf(str,"%- d Test %- 15d sdasda %- 15d sdsad %- d", val33, val34, val35, val36);
+    printf("origin0 == %s\n", stt);
+    printf("my func == %s\n", str);
+
+
     return 0;
 }
