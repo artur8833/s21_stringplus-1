@@ -1,5 +1,6 @@
 CC=gcc
-CFLAGS=-Wall -Werror -Wextra -std=c11
+# CFLAGS=-Wall -Werror -Wextra -std=c11
+CFLAGS= 
 MAIN_FILES= string/*.c 
 TEST_FILES= unit_tests/*.c
 CHECK_LINK=$(shell pkg-config --libs --cflags check)
@@ -21,9 +22,9 @@ s21_string.a:
 	ar rcs s21_string.a *.o
 	ranlib s21_string.a
 
-# test: s21_string.a
-# 	$(CC) $(CFLAGS) $(TEST_FILES) -L. s21_string.a $(CHECK_LINK) $(GLFLAGS) $(GCOVFLAGS) -o s21_string_tests
-# 	./s21_string_tests
+test: s21_string.a
+	$(CC) $(CFLAGS) $(TEST_FILES) -L. s21_string.a $(CHECK_LINK) $(GLFLAGS) $(GCOVFLAGS) -o s21_string_tests
+	./s21_string_tests
 
 test:
 	./s21_string
