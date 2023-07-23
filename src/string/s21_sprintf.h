@@ -42,7 +42,13 @@ int check_characteristics(const char c, va_list args, char *str,structs *flags);
 
 int check_flags(const char c, char *str, structs *flags,int i,const char *format);
 
-int file_wight( char *str, structs *flags, int i, const char *format);
+int parser_nums( char *str, structs *flags, int i, const char *format);
+
+int parser_nums_minus_plus( char *str, structs *flags, int i, const char *format);
+
+int parser_nums_point( char *str, structs *flags, int i, const char *format);
+
+int parser_nums_space( char *str, structs *flags, int i, const char *format);
 
 int countDigits(float num, int precision);
 

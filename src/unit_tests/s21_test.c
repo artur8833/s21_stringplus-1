@@ -11,6 +11,7 @@ int main() {
     sprintfTest(),
     strchrTest(),
     strerrorTest(),
+    test_sscanf(),
     strlenTest(),
     strncmpTest(),
     strpbrkTest(),

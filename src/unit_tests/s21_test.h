@@ -20,5 +20,6 @@ Suite *strpbrkTest(void);
 Suite *strrchrTest(void);
 Suite *strstrTest(void);
 Suite *strtokTest(void);
+Suite *test_sscanf(void);
 
 #endif

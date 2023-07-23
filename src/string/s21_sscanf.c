@@ -27,26 +27,26 @@ void length_float_flags(struct Options *opt, va_list Arg, char **src);
 void length_uint(struct Options *opt, va_list Arg, char **src);
 
 
-int main() {
+// int main() {
 
-  char s1[20] = "\"(^-^)\"";
-  char s21_s1[20] = "\"(^-^)\"";
-  long double f1, s21_f1;
-  int x = 0, y = 0;
-  char c1;
-  char s21_c1;
-  wchar_t c2, s21_c2;
-  unsigned int x1, y1;
-  unsigned short int x2 = 0, y2 = 0;
+//   char s1[20] = "\"(^-^)\"";
+//   char s21_s1[20] = "\"(^-^)\"";
+//   long double f1, s21_f1;
+//   int x = 0, y = 0;
+//   char c1;
+//   char s21_c1;
+//   wchar_t c2, s21_c2;
+//   unsigned int x1, y1;
+//   unsigned short int x2 = 0, y2 = 0;
 
 
-  char *str = "256.34e-5faasd523f 00000176 087Asdf ";
-  sscanf(str, "%Lf %5s %d %c %lc %o %ho", &f1, s1, &x, &c1, &c2, &x1, &x2);
-  s21_sscanf(str, "%Lf %5s %d %c %lc %o %ho", &s21_f1, s21_s1, &y, &s21_c1, &s21_c2, &y1, &y2);
-  printf("    sscanf:%Lf\n    sscanf:%s\n    sscanf:%d\n    sscanf:%c\n    sscanf:%lc\n    sscanf:%o\n    sscanf:%ho\n", f1, s1, x, c1, c2, x1, x2);
-  printf("s21_sscanf:%Lf\ns21_sscanf:%s\ns21_sscanf:%d\ns21_sscanf:%c\ns21_sscanf:%lc\ns21_sscanf:%o\ns21_sscanf:%ho\n", s21_f1, s21_s1, y, s21_c1, s21_c2, y1, y2);
-  return 0;
-}
+//   char *str = "256.34e-5faasd523f 00000176 087Asdf ";
+//   sscanf(str, "%Lf %5s %d %c %lc %o %ho", &f1, s1, &x, &c1, &c2, &x1, &x2);
+//   s21_sscanf(str, "%Lf %5s %d %c %lc %o %ho", &s21_f1, s21_s1, &y, &s21_c1, &s21_c2, &y1, &y2);
+//   printf("    sscanf:%Lf\n    sscanf:%s\n    sscanf:%d\n    sscanf:%c\n    sscanf:%lc\n    sscanf:%o\n    sscanf:%ho\n", f1, s1, x, c1, c2, x1, x2);
+//   printf("s21_sscanf:%Lf\ns21_sscanf:%s\ns21_sscanf:%d\ns21_sscanf:%c\ns21_sscanf:%lc\ns21_sscanf:%o\ns21_sscanf:%ho\n", s21_f1, s21_s1, y, s21_c1, s21_c2, y1, y2);
+//   return 0;
+// }
 
 int width_opt(struct Options *opt, char *f_p, char *src){
   s21_size_t len_src = s21_strlen(src);
