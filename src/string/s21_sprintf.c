@@ -127,9 +127,6 @@ int convertNumberToChars(int number, char *str, structs *flags)
     int index = 0;
     int num_sign=number;
     int precision;
-    // printf("flags->num_wight==%d\n", flags->num_wight);
-    // printf("nimberrr==%d\n", number);
-    // printf("\n");
     if (number == 0)
     {
         s21_putchar_to_str('0', str);
@@ -173,7 +170,6 @@ int convertNumberToChars(int number, char *str, structs *flags)
             number /= 10;
         }
 
-        //printf("presicion==%d\n", flags->precision);
 
         if ((flags->wight) && (!flags->alignment) && (flags->flag_num2) )
         {
@@ -192,18 +188,8 @@ int convertNumberToChars(int number, char *str, structs *flags)
 
         }
 
-        // printf("num_wight==%d\n", flags->num_wight);
-        // printf("num_wight2==%d\n", flags->num_wight2);
-        // printf("\n");
-    
         if ((flags->precision))
         {
-            // printf("number==%d\n", num_sign);
-            // printf("num_wight==%d\n", flags->num_wight);
-            // printf("num_wight2==%d\n", flags->num_wight2);
-            // printf("flags->wight==%d\n", flags->wight);
-            // printf("flags->flags_num2==%d\n", flags->flag_num2);
-            // printf("\n");
             
             if ((flags->flag_num2)&&(!flags->num_wight)&&(!flags->num_wight2))
             {
@@ -292,12 +278,6 @@ int file_wight( char *str, structs *flags, int i, const char *format)
     int num1;
     int num2;
 
-    printf("format[i-1]===%c\n", format[i-1]);
-    printf("format[i]===%c\n", format[i]);
-    printf("format[i+1]===%c\n", format[i+1]);
-    printf("format[i+2]===%c\n", format[i+2]);
-    printf("\n");
-
     if((format[i-1]=='%')&&(format[i]=='.')&&( (format[i+1]!=(isdigit(format[i+1]))) && (format[i+2]!=(isdigit(format[i+2])))))
     {
         flags->empty=1;
@@ -308,7 +288,6 @@ int file_wight( char *str, structs *flags, int i, const char *format)
         flags->flag_num2=1;
     }
     
-    printf("empty==%d\n",flags->empty);
     if ((flags->num_wight==0) && (!flags->empty) && (!flags->flag_num2))
     {
         i++;
@@ -333,7 +312,6 @@ int file_wight( char *str, structs *flags, int i, const char *format)
         // printf("format[i+1]22==%c\n", format[i+1]);
         flags->num_wight2=atoi(&format[i+1]);
         flags->flag_num2=1;
-        printf("12==%d\n", flags->num_wight2);
         
         if(flags->num_wight2==0){
             i++;
@@ -360,7 +338,6 @@ int file_wight( char *str, structs *flags, int i, const char *format)
     }
 
     // printf("flags->num_wight2==%d\n", flags->num_wight2);
-    printf("format[i]22==%c\n", format[i]);
     return i;
 }
 
@@ -563,7 +540,6 @@ void convertCharToString(char c,char *str,structs *flags)
 
     if ((flags->wight) && (flags->alignment))
     {
-        printf("Donen\n");
         for(int j=1; j<flags->num_wight; j++)
         {
             s21_putchar_to_str(' ', str);

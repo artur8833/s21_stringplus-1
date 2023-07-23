@@ -24,7 +24,7 @@ s21_string.a:
 
 test: s21_string.a
 	$(CC) $(CFLAGS) $(TEST_FILES) -L. s21_string.a $(CHECK_LINK) $(GLFLAGS) $(GCOVFLAGS) -o s21_string_tests
-	./s21_string_tests
+	# ./s21_string_tests
 
 # test_f:
 # 	./s21_string

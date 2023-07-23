@@ -8,7 +8,7 @@ int main() {
     memcmpTest(),
     memsetTest(),
     memcpyTest(),
-    // sprintfTest(),
+    sprintfTest(),
     strchrTest(),
     strerrorTest(),
     strlenTest(),
@@ -21,7 +21,7 @@ int main() {
   };
 
   for (int i = 0; test[i] != NULL; i++) {
-    printf("\n\n");
+    printf("\n");
     SRunner *sr = srunner_create(test[i]);
 
     srunner_run_all(sr, CK_VERBOSE);
