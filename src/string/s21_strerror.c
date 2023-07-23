@@ -18,7 +18,7 @@ char* s21_strerror(int errnum) {
     char *err_list[] = s21_errors;
     s21_strcpy(buff, err_list[errnum]);
   } else {
-    s21_sprintf(buff, "%s%d", err_list[s21_N_error], errnum);
+    s21_sprintf(buff, "%s%d", s21_unknown_error, s21_N_error);
   }
 
   return buff;

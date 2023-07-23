@@ -8,6 +8,7 @@
 #include "../string/s21_string.h"
 
 Suite *memchrTest(void);
+Suite *memcpyTest(void);
 Suite *memcmpTest(void);
 Suite *memsetTest(void);
 Suite *sprintfTest(void);

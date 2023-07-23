@@ -55,9 +55,9 @@ START_TEST(strncpy_6) {
 }
 END_TEST
 
-Suite *memchrTest(void) {
-  Suite *s = suite_create("\033[45mMemchr test\033[0m");
-  TCase *tc = tcase_create("Memchr test");
+Suite *strncpyTest(void) {
+  Suite *s = suite_create("\033[45mStrncpy test\033[0m");
+  TCase *tc = tcase_create("Strncpy test");
 
   tcase_add_test(tc, strncpy_1);
   tcase_add_test(tc, strncpy_2);

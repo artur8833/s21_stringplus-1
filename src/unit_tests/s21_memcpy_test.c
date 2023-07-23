@@ -90,7 +90,7 @@ START_TEST(memcpy_10) {
 }
 END_TEST
 
-Suite *test_memcpy(void) {
+Suite *memcpyTest(void) {
   Suite *s = suite_create("\033[45mMemcpy test\033[0m");
   TCase *tc = tcase_create("Memcpy test");
 

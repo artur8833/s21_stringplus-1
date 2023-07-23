@@ -42,9 +42,9 @@ START_TEST(strpbrk_6) {
 }
 END_TEST
 
-Suite *memchrTest(void) {
-  Suite *s = suite_create("\033[45mMemchr test\033[0m");
-  TCase *tc = tcase_create("Memchr test");
+Suite *strpbrkTest(void) {
+  Suite *s = suite_create("\033[45mStrpbrk test\033[0m");
+  TCase *tc = tcase_create("Strpbrk test");
 
   tcase_add_test(tc, strpbrk_1);
   tcase_add_test(tc, strpbrk_2);

@@ -6,8 +6,8 @@ char *s21_strtok(char *str, const char *delim) {
   static char *ptr = NULL;
   if (str != NULL) {
     for(int i = 0; i < (int)strlen(str); i++){
-      if((ptr = s21_strchr(delim[i], str)) != NULL){
-        printf("%s", ptr);
+      if((ptr = s21_strchr(str ,delim[i])) != NULL){
+        // printf("%s", ptr);
       } 
     }
   }

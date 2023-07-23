@@ -1,6 +1,5 @@
 #include "s21_test.h"
-
-///////////////// сделать тесты на все флаги 
+#include "s21_sprintf.h"
 
 START_TEST(sprintf_1_c) {
   char str1[100];
@@ -233,9 +232,36 @@ START_TEST(sprintf_19_c) {
 }
 END_TEST
 
-Suite *sprintfTest(void) {
-  Suite *s = suite_create("\033[45mSprintf test\033[0m");
-  TCase *tc = tcase_create("Sprintf test");
+/*START_TEST(sprintf_20_c) {
+  char str1[100];
+  char str2[100];
+  char *str3 = "TEST %lc right now\n";
+  int a = 266;
+  ck_assert_int_eq(sprintf(str1, str3, a), s21_sprintf(str2, str3, a));
+  ck_assert_pstr_eq(str1, str2);
+  // sprintf(str1, str3, a);
+  //                  s21_sprintf(str2, str3, a);
+  // printf("SPRINT: %s", str1);
+  // printf("S21_PRINT: %s", str2);
+}
+END_TEST
+
+START_TEST(sprintf_21_c) {
+  char str1[100];
+  char str2[100];
+  char *str3 = "%lc This is the Test right now\n";
+  int a = 1156;
+  ck_assert_int_eq(sprintf(str1, str3, a),
+                   s21_sprintf(str2, str3, a));
+  ck_assert_pstr_eq(str1, str2);
+  printf("SPRINT: %s", str1);
+  printf("S21_PRINT: %s", str2);
+}
+END_TEST */
+
+Suite *test_sprintf_c(void) {
+  Suite *s = suite_create("\033[45m-=S21_SPRINTF_C=-\033[0m");
+  TCase *tc = tcase_create("sprintf_tc");
 
   tcase_add_test(tc, sprintf_1_c);
   tcase_add_test(tc, sprintf_2_c);
@@ -256,6 +282,8 @@ Suite *sprintfTest(void) {
   tcase_add_test(tc, sprintf_17_c);
   tcase_add_test(tc, sprintf_18_c);
   tcase_add_test(tc, sprintf_19_c);
+  // tcase_add_test(tc, sprintf_20_c);
+  // tcase_add_test(tc, sprintf_21_c);
 
   suite_add_tcase(s, tc);
   return s;

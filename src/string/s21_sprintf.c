@@ -112,12 +112,11 @@ int check_flags(const char c, char *str, structs *flags, int i, const char *form
         break;
     }
 
-    if isdigit (c) // проверяет строку на число
-    {   
-        i=file_wight(str,flags,i,format);
-        flags->wight=1;             
-    }
-
+    // if isdigit (c) // проверяет строку на число
+    // {   
+    //     i=file_wight(str,flags,i,format);
+    //     flags->wight=1;             
+    // }
 
     return i;
 }
@@ -570,111 +569,4 @@ void convertCharToString(char c,char *str,structs *flags)
             s21_putchar_to_str(' ', str);
         }
     }        
-}
-
-int main()
-{
-    char str[1250];
-    char stt[500];
-    char ss[50] = "End strok";
-    int a=-12;
-    // printf("Test1\n");
-    // sprintf(stt, "Test %d Test", a);
-    // s21_sprintf(str,"Test %d Test", a);
-    // printf("origin0 == %s\n", stt);
-    // printf("my func == %s\n", str);
-    // printf("\n");
-   
-   
-    // printf("Test2\n");
-    // int val = 012;
-    // int val2 = -017;
-    // int val3 = 07464;
-    // sprintf(stt, "%d Test %d Test %d", val, val2, val3);
-    // s21_sprintf(str,"%d Test %d Test %d", val, val2, val3);
-    // printf("origin0 == %s\n", stt);
-    // printf("my func == %s\n", str);
-    // printf("\n");
-
-
-    // printf("Test3\n");
-    // int val4 = 3015;
-    // int val5 = 712;
-    // int val6 = 99;
-    // sprintf(stt, "%d Test %d Test %d", val4, val5, val6);
-    // s21_sprintf(str,"%d Test %d Test %d",  val4, val5, val6);
-    // printf("origin0 == %s\n", stt);
-    // printf("my func == %s\n", str);
-    // printf("\n");
-
-    // printf("Test4\n");
-    // int val7 = -3015;
-    // int val8 = -11234;
-    // int val9 = -99;
-    // sprintf(stt, "%3d Test %5d Test %10d", val7, val8, val9);
-    // s21_sprintf(str,"%3d Test %5d Test %10d", val7, val8, val9);
-    // printf("origin0 == %s\n", stt);
-    // printf("my func == %s\n", str);
-    // printf("\n");
-   
-    // printf("Test5\n");
-    // int val10 = -3015;
-    // int val11 = -712;
-    // int val12 = -99;
-    // int val13 = -38;
-    // int val14 = -100;
-    // sprintf(stt, "%6.5d Test %.23d Test %3.d TEST %.d %.6d", val10, val11, val12, val13, val14);
-    // s21_sprintf(str,"%6.5d Test %.23d Test %3.d TEST %.d %.6d", val10, val11, val12, val13, val14);
-    // printf("origin0 == %s\n", stt);
-    // printf("my func == %s\n", str);
-    // printf("\n");
-    
- 
-
-    printf("Test7\n");
-    int val19 = -3015;
-    int val20 = -712;
-    int val21 = -99;
-    int val22 = -2939;
-    int val23 = -0123;
-    sprintf(stt, "%0d Test %0.d Test %0.0d TEST %0d GOD %.d", val19, val20, val21, val22, val23);
-    s21_sprintf(str,"Test %0.0d TEST %0d GOD %.d", val21, val22, val23);
-    printf("origin0 == %s\n", stt);
-    printf("my func == %s\n", str);
-    printf("\n");
-    
-    // printf("Test8\n");
-    // int val24 = -3015;
-    // int val25 = -712;
-    // int val26 = -99;
-    // int val27 = -2939;
-    // sprintf(stt, "%+d Test %+3.d Test %+5.7d TEST %+10d", val24, val25, val26, val27);
-    // s21_sprintf(str,"%+d Test %+3.d Test %+5.7d TEST %+10d", val24, val25, val26, val27);
-    // printf("origin0 == %s\n", stt);
-    // printf("my func == %s\n", str);
-    // printf("\n");
-    
-    // printf("Test9\n");
-    // int val28 = -32;
-    // int val29 = -8899;
-    // int val30 = -91918;
-    // int val31 = -32311;
-    // int val32 = -23;
-    // sprintf(stt, "% d Test % 3.d Test % 5.7d TEST % 10d GOD %.d", val28, val29, val30, val31, val32);
-    // s21_sprintf(str,"% d Test % 3.d Test % 5.7d TEST % 10d GOD %.d", val28, val29, val30, val31, val32);
-    // printf("origin0 == %s\n", stt);
-    // printf("my func == %s\n", str);
-    
-    // printf("Test10\n");
-    // int val33 = -3231;
-    // int val34 = -3231;
-    // int val35 = 3231;
-    // int val36 = 3231;
-    // sprintf(stt, "%- d Test %- 15d sdasda %- 15d sdsad %- d", val33, val34, val35, val36);
-    // s21_sprintf(str,"%- d Test %- 15d sdasda %- 15d sdsad %- d", val33, val34, val35, val36);
-    // printf("origin0 == %s\n", stt);
-    // printf("my func == %s\n", str);
-
-
-    return 0;
 }

@@ -222,9 +222,9 @@ START_TEST(strtok_20) {
 }
 END_TEST
 
-Suite *memchrTest(void) {
-  Suite *s = suite_create("\033[45mMemchr test\033[0m");
-  TCase *tc = tcase_create("Memchr test");
+Suite *strtokTest(void) {
+  Suite *s = suite_create("\033[45mStrtok test\033[0m");
+  TCase *tc = tcase_create("Strtok test");
 
   tcase_add_test(tc, strtok_1);
   tcase_add_test(tc, strtok_2);

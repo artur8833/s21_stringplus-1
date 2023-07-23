@@ -24,6 +24,7 @@ typedef struct flags
 
 } structs;
 
+int s21_sprintf(char *str, const char *format, ...);
 
 int s21_putchar_to_str(const char c, char *str);
 
@@ -45,7 +46,4 @@ int file_wight( char *str, structs *flags, int i, const char *format);
 
 int countDigits(float num, int precision);
 
-
 #endif
-
-

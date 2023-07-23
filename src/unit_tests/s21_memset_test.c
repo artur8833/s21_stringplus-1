@@ -54,7 +54,7 @@ START_TEST(memset_6) {
 }
 END_TEST
 
-Suite *test_memset(void) {
+Suite *memsetTest(void) {
   Suite *s = suite_create("\033[45mMemset test\033[0m");
   TCase *tc = tcase_create("Memset test");
 

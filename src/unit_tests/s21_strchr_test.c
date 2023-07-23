@@ -55,9 +55,9 @@ START_TEST(strchr_8) {
 }
 END_TEST
 
-Suite *test_strchr(void) {
-  Suite *s = suite_create("\033[45mStrchr\033[0m");
-  TCase *tc = tcase_create("strchr");
+Suite *strchrTest(void) {
+  Suite *s = suite_create("\033[45mStrchr tests\033[0m");
+  TCase *tc = tcase_create("Strchr tests");
 
   suite_add_tcase(s, tc);
   tcase_add_test(tc, strchr_1);

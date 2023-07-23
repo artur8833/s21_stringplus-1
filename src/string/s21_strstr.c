@@ -15,7 +15,7 @@ char *s21_strstr(const char *haystack, const char *needle) {
       j++;
       break;
     }
-      printf("%c<-\t->%c%d\n", haystack[i], needle[j], j);
+      // printf("%c<-\t->%c%d\n", haystack[i], needle[j], j);
     for(int z = 0; z < (int)s21_strlen(needle); z++){
       if(haystack[i + z] != needle[z]){
         temp = NULL;
