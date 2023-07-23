@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "stdarg.h": "c",
+        "s21_sprintf.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
+}

@@ -1,33 +1,35 @@
-#include "s21_string.h"
+#include "../s21_string.h"
 
-// Находит первое вхождение всей строки needle (не включая завершающий нулевой
+// Находит первое вхождение всей строки needle (не включая завеершающий нулвой
 // символ), которая появляется в строке haystack.
 char *s21_strstr(const char *haystack, const char *needle) {
-  void *temp = NULL;
+  void *temp = S21_NULL;
+  s21_size_t haystack_len = s21_strlen(haystack);
+  s21_size_t needle_len = s21_strlen(needle);
+  if (haystack_len < needle_len) {
+    temp = S21_NULL;
+  } else {
+    s21_size_t i = 0;
 
-  int j = 0;
-  for(int i = 0; i < (int)s21_strlen(haystack); i++) {
-    if (s21_strlen(haystack) < s21_strlen(needle)) {
-      temp = NULL;
-    }
-    j = 0;
-    while((temp = s21_strchr(haystack, needle[j])) == NULL) {
-      j++;
-      break;
-    }
-      // printf("%c<-\t->%c%d\n", haystack[i], needle[j], j);
-    for(int z = 0; z < (int)s21_strlen(needle); z++){
-      if(haystack[i + z] != needle[z]){
-        temp = NULL;
+    while (i < haystack_len - needle_len + 1) {
+      s21_size_t j = 1;
+      char *ha = (void *)haystack + i;
+      char *ne = (void *)needle;
+      if (*ha == *ne) {
+        while (j < needle_len) {
+          if (*ha++ != *ne++) {
+            i++;
+            break;
+          }
+          j++;
+        }
+      } else
         i++;
-        break;
-      } else if(z < (int)s21_strlen(needle)){
+      if (j == needle_len) {
         temp = (void *)haystack + i;
+        break;
       }
     }
-    if(temp != NULL) break;
   }
   return temp;
 }
-
-// (temp = s21_strchr(haystack, *needle)) != NULL; i++

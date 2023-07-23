@@ -1,7 +1,3 @@
-#ifndef __S21_SIZE_TYPE__
-#define __S21_SIZE_TYPE__ long unsigned int
-#endif
-typedef __S21_SIZE_TYPE__ s21_size_t;
 #ifndef S21_STRING_H
 #define S21_STRING_H
 
@@ -9,7 +5,9 @@ typedef __S21_SIZE_TYPE__ s21_size_t;
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <string.h>   // отключить!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#define S21_NULL (void *)0
+typedef long unsigned int s21_size_t;
 
 #define LONG_MAX 2147483647;
 #define LONG_MIN -2147483647;
