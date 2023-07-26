@@ -7,7 +7,7 @@
 void *s21_memchr(const void *str, int c, s21_size_t n) {
 
   char *ch = (char *)str;
-  s21_size_t i = n + 1; // (+ '\0')
+  s21_size_t i = n;
   while (i > 0) {
     if (*ch != (char)c) {
       ch = (char *)str++;

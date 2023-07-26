@@ -9,7 +9,6 @@ char *s21_strtok(char *str, const char *delim) {
   if(str_tok){
     str = str_tok;
     while (*str_tok && s21_strchr(delim, *str_tok)) {
-      *str_tok = '\0';
       str_tok++;
       str++;
     }
