@@ -1,59 +1,115 @@
 #include "s21_test.h"
 
-START_TEST(memchrTest1) {
-  char* testStrValue1 = "";
-  int testIntValue1 = 3;
-  size_t testCountValue1 = 10;
-  char* testStrValue2 = "";
-  int testIntValue2 = 3;
-  size_t testCountValue2 = 10;
-  char* testStrValue3 = "";
-  int testIntValue3 = 3;
-  size_t testCountValue3 = 10;
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
+START_TEST(strstr_1) {
+  char s1[] = "Hello, world!";
+  char s2[] = "Hello, world!";
+  ck_assert_pstr_eq(strstr(s1, s2), s21_strstr(s1, s2));
 }
-END_TEST;
+END_TEST
 
-START_TEST(memchrTest2) {
-  char* testStrValue1 = "asd";
-  int testIntValue1 = 3;
-  size_t testCountValue1 = 10;
-  char* testStrValue2 = "asd";
-  int testIntValue2 = 3;
-  size_t testCountValue2 = 10;
-  char* testStrValue3 = "asd";
-  int testIntValue3 = 3;
-  size_t testCountValue3 = 10;
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
+START_TEST(strstr_2) {
+  char s1[] = "Hello, world!";
+  char s2[] = "Hello, P!";
+  ck_assert_pstr_eq(strstr(s1, s2), s21_strstr(s1, s2));
 }
-END_TEST;
+END_TEST
 
-START_TEST(memchrTest2) {
-  char* testStrValue1 = "memkek";
-  int testIntValue1 = NULL;
-  size_t testCountValue1 = NULL;
-  char* testStrValue2 = "memkek";
-  int testIntValue2 = NULL;
-  size_t testCountValue2 = NULL;
-  char* testStrValue3 = "memkek";
-  int testIntValue3 = NULL;
-  size_t testCountValue3 = NULL;
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
-  ck_assert_char_eq(s21_memchr(testStrValue1, testIntValue1, testCountValue1), memchr(testStrValue1, testIntValue1, testCountValue1));
+START_TEST(strstr_3) {
+  char s1[] = "Hello, world!";
+  char s2[] = "!";
+  ck_assert_pstr_eq(strstr(s1, s2), s21_strstr(s1, s2));
 }
-END_TEST;
+END_TEST
 
-Suite *memchrTest(void) {
-  Suite *s = suite_create("\033[45mMemchr test\033[0m");
-  TCase *tc = tcase_create("Memchr test");
+START_TEST(strstr_4) {
+  char s1[] =
+      "Hello, world!Hello, world!Hello, world!Hello, world!Hello, world!";
+  char s2[] = "world";
+  ck_assert_pstr_eq(strstr(s1, s2), s21_strstr(s1, s2));
+}
+END_TEST
 
-  tcase_add_test(tc, memchrTest1);
-  tcase_add_test(tc, memchrTest2);
+START_TEST(strstr_5) {
+  char s1[] = "";
+  char s2[] = "";
+  ck_assert_pstr_eq(strstr(s1, s2), s21_strstr(s1, s2));
+}
+END_TEST
+
+START_TEST(strstr_6) {
+  char s1[] = "Hello, world!";
+  char s2[] = "";
+  ck_assert_pstr_eq(strstr(s1, s2), s21_strstr(s1, s2));
+}
+END_TEST
+
+START_TEST(strstr_7) {
+  char s1[] = "";
+  char s2[] = "Hello, P!";
+  ck_assert_pstr_eq(strstr(s1, s2), s21_strstr(s1, s2));
+}
+END_TEST
+
+START_TEST(strstr_8) {
+  char s1[] = "69917020";
+  char s2[] = "0";
+  ck_assert_pstr_eq(strstr(s1, s2), s21_strstr(s1, s2));
+}
+END_TEST
+
+START_TEST(strstr_9) {
+  char s1[] = "69917020";
+  char s2[] = "\0";
+  ck_assert_pstr_eq(strstr(s1, s2), s21_strstr(s1, s2));
+}
+END_TEST
+
+START_TEST(strstr_10) {
+  char s1[] = "69917020";
+  char s2[] = "32859160 8v3489-74 tvc4y8719c n4[nqymu uv 4vm9cw";
+  ck_assert_pstr_eq(strstr(s1, s2), s21_strstr(s1, s2));
+}
+END_TEST
+
+START_TEST(strstr_11) {
+  char s1[] = "1   345 345 345 345 345";
+  char s2[] = "345";
+  ck_assert_pstr_eq(strstr(s1, s2), s21_strstr(s1, s2));
+}
+END_TEST
+
+START_TEST(strstr_12) {
+  char s1[] = "sususususpicioussusususpicious";
+  char s2[] = "susp";
+  ck_assert_pstr_eq(strstr(s1, s2), s21_strstr(s1, s2));
+}
+END_TEST
+
+START_TEST(strstr_13) {
+  char s1[] = "sus";
+  char s2[] = "suspi";
+  ck_assert_pstr_eq(strstr(s1, s2), s21_strstr(s1, s2));
+}
+END_TEST
+
+Suite *strstrTest(void) {
+  Suite *s = suite_create("\033[45mStrstr test\033[0m");
+  TCase *tc = tcase_create("Strstr test");
+
+  tcase_add_test(tc, strstr_1);
+  tcase_add_test(tc, strstr_2);
+  tcase_add_test(tc, strstr_3);
+  tcase_add_test(tc, strstr_4);
+  tcase_add_test(tc, strstr_5);
+  tcase_add_test(tc, strstr_6);
+  // tcase_add_test(tc, strstr_7);
+  // tcase_add_test(tc, strstr_8);
+  // tcase_add_test(tc, strstr_9);
+  // tcase_add_test(tc, strstr_10);
+  // tcase_add_test(tc, strstr_11);
+  // tcase_add_test(tc, strstr_12);
+  // tcase_add_test(tc, strstr_13);
+
   suite_add_tcase(s, tc);
   return s;
 }
