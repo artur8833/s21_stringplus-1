@@ -379,6 +379,10 @@ int convertNumberToChars(char *str, structs *flags, va_list args)
         s21_putchar_to_str(chars[i], str);
     }
 
+    if(num_sign==0){
+        s21_putchar_to_str('0', str);
+    }
+
     if (flags->alignment)
     {
 
@@ -1053,20 +1057,20 @@ int convertCharToString(char c,char *str,structs *flags)
 
 
 
-// int main()
-// {
-//     char str[1250];
-//     char stt[500];
-//     char ss[50] = "End strok";
-//     float a = 0;
+int main()
+{
+    char str[1250];
+    char stt[500];
+    char ss[50] = "End strok";
+    int a = 0;
 
-//     printf("Test1\n");
-//     sprintf(stt, "%f", 0.00001);
-//     s21_sprintf(str,"%f", 0.00001);
+    printf("Test1\n");
+    sprintf(stt, "%d%d%d%d", a,a,a,a);
+    s21_sprintf(str,"%d%d%d%d", a,a,a,a);
 
-//     printf("origin0 == %s\n", stt);
-//     printf("my func == %s\n", str);
-//     printf("\n");
+    printf("origin0 == %s\n", stt);
+    printf("my func == %s\n", str);
+    printf("\n");
     // printf("origin0 == %ld\n", strlen(stt));
     // printf("my func == %ld\n", strlen(str));
     // printf("\n");
@@ -1086,5 +1090,5 @@ int convertCharToString(char c,char *str,structs *flags)
     // printf("origin0 == %d\n", "% f", 0);
     // printf("my func == %d\n", "% f", 0);
     // printf("\n");
-//     return 0;
-// }
+    return 0;
+}
