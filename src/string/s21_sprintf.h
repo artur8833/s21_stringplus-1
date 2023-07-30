@@ -39,7 +39,7 @@ double roundToDec(double num,int dec);
 
 void convertStringToString(char *str,structs *flags,va_list args);
 
-void convertCharToString(char c,char *str,structs *flags);
+int convertCharToString(char c,char *str,structs *flags);
 
 int check_characteristics(const char c, va_list args, char *str,structs *flags);
 

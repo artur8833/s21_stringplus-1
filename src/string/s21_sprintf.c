@@ -19,13 +19,19 @@ int s21_sprintf(char *str, const char *format, ...)
         else if (format[i] == '%' && format[i + 1])
         {
             i = check_flags(format[i+1], str, &flags, i, format);
+
             i = check_size(format[i+1], str, &flags, i, format);
+            // printf("wight==%d\n", flags.wight);
             check_characteristics(format[++i], args, str, &flags);
         }
         
     }
     va_end(args);
-    return result;
+
+    // printf("str in func == %s\n", str);
+    // printf("size in func ==%ld\n", strlen(str));
+    // printf("\n");
+    return strlen(str);
 }
 
 int s21_putchar_to_str(const char c, char *str)
@@ -37,6 +43,8 @@ int s21_putchar_to_str(const char c, char *str)
     *str = c;
     str++;
     *str = '\0';
+    // printf("size==%ld\n", strlen(str));
+
     return 1;
 }
 
@@ -53,6 +61,7 @@ int check_characteristics(const char c, va_list args, char *str, structs *flags)
     case 'C':
     case 'c':
         ch = (char)va_arg(args, int);
+        // printf("123'n");
         convertCharToString(ch,str,flags);
         memset(flags,0,sizeof(structs));
         break;
@@ -63,7 +72,6 @@ int check_characteristics(const char c, va_list args, char *str, structs *flags)
         break;
     case 'S':
     case 's':
-        
         convertStringToString(str, flags, args);
         memset(flags,0,sizeof(structs));
         break;
@@ -129,6 +137,12 @@ int check_flags(const char c, char *str, structs *flags, int i, const char *form
             i=parser_nums(str,flags,i,format);
             flags->wight=1;
 
+        }
+        else if(format[i+1]=='-'){
+            flags->alignment=1;
+            i++;
+            i=parser_nums(str,flags,i,format);
+            // printf("wight==%d\n", flags->num_wight);
         }
         break;
     default:
@@ -215,9 +229,12 @@ int convertNumberToChars(char *str, structs *flags, va_list args)
     // printf("nimberrr==%d\n", number);
     // printf("\n");
 
-    if ((flags->flag_space)&&(num_sign>0))
+    if ((flags->flag_space)&&(number>=0))
     {
         s21_putchar_to_str(' ', str);
+        if ((number==0)&&(!flags->precision)){
+            s21_putchar_to_str('0', str);
+        }
     }
 
     if (number<0){
@@ -225,161 +242,156 @@ int convertNumberToChars(char *str, structs *flags, va_list args)
         number *=-1;
     }
 
-    if (number == 0)
+
+    
+    if ((flags->sign) && (num_sign > 0) && (!flags->wight))
     {
-        s21_putchar_to_str('0', str);
+        s21_putchar_to_str('+', str);
     }
 
-    else
+    else if ((num_sign < 0) && (!flags->sign) && (flags->alignment) && (!flags->flag_num2))
     {
-        if ((flags->sign) && (num_sign > 0) && (!flags->wight))
+        s21_putchar_to_str('-', str);
+    }
+
+    else if ((num_sign<0) && (!flags->wight) && (!flags->sign)  && (!flags->alignment))
+    {
+        s21_putchar_to_str('-', str);
+    }
+
+    else if((num_sign<0) && (!flags->sign) && (flags->flag_num2) && (flags->wight)){
+
+        s21_putchar_to_str('-', str);
+    }
+
+        
+    while (number != 0)
+    {
+        long int digit = (long int)number % 10;
+        chars[index++] = digit + '0';
+        number /= 10;
+    }
+
+
+    if(((flags->num_wight - flags->num_wight2)>index)&&(flags->flag_num2) && (!flags->alignment))
+    {
+        for(int j=0; j<(flags->num_wight-flags->num_wight2); j++)
+        {
+            s21_putchar_to_str(' ', str);
+        }
+    }
+
+    // printf("num_wight==%d\n", flags->num_wight);
+    // printf("num_wight2==%d\n", flags->num_wight2);
+    // printf("\n");
+
+    if ((flags->wight)&&(!flags->precision)&&(!flags->flag_num2)&&(!flags->sign)&&(!flags->alignment)){
+        
+        if((flags->wight))
+        {
+            for(int j=index; j<flags->num_wight; j++)
+            {   
+                s21_putchar_to_str(' ', str);
+            }
+        }            
+    }
+
+
+    if(flags->sign)
+    {
+        
+        if (num_sign>0)
+        {
+            flags->num_wight-=1;
+        }
+        
+        if((flags->wight)&&(!flags->precision))
+        {
+            //flags->num_wight+=1;
+            for(int j=index; j<flags->num_wight; j++)
+            {   
+                s21_putchar_to_str(' ', str);
+            }
+        }
+
+        if (num_sign>0)
         {
             s21_putchar_to_str('+', str);
         }
-
-        else if ((num_sign < 0) && (!flags->sign) && (flags->alignment) && (!flags->flag_num2))
-        {
+        else{
             s21_putchar_to_str('-', str);
         }
-
-        else if ((num_sign<0) && (!flags->wight) && (!flags->sign)  && (!flags->alignment))
-        {
-            s21_putchar_to_str('-', str);
-        }
-
-        else if((num_sign<0) && (!flags->sign) && (flags->flag_num2) && (flags->wight)){
-
-            s21_putchar_to_str('-', str);
-        }
-
-         
-        while (number != 0)
-        {
-            long int digit = (long int)number % 10;
-            chars[index++] = digit + '0';
-            number /= 10;
-        }
+    }
 
 
-        if(((flags->num_wight - flags->num_wight2)>index)&&(flags->flag_num2) && (!flags->alignment))
-        {
-            for(int j=0; j<(flags->num_wight-flags->num_wight2); j++)
-            {
-                s21_putchar_to_str(' ', str);
-            }
-        }
-
+    if ((flags->precision))
+    {
+        // printf("number==%d\n", num_sign);
         // printf("num_wight==%d\n", flags->num_wight);
         // printf("num_wight2==%d\n", flags->num_wight2);
-        // printf("\n");
-
-        if ((flags->wight)&&(!flags->precision)&&(!flags->flag_num2)&&(!flags->sign)&&(!flags->alignment)){
-            
-            if((flags->wight))
-            {
-                for(int j=index; j<flags->num_wight; j++)
-                {   
-                    s21_putchar_to_str(' ', str);
-                }
-            }            
-        }
-    
-
-        if(flags->sign)
-        {
-            
-            if (num_sign>0)
-            {
-                flags->num_wight-=1;
-            }
-           
-            if((flags->wight)&&(!flags->precision))
-            {
-                //flags->num_wight+=1;
-                for(int j=index; j<flags->num_wight; j++)
-                {   
-                    s21_putchar_to_str(' ', str);
-                }
-            }
-
-            if (num_sign>0)
-            {
-                s21_putchar_to_str('+', str);
-            }
-            else{
-                s21_putchar_to_str('-', str);
-            }
-        }
-
-
-        if ((flags->precision))
-        {
-            // printf("number==%d\n", num_sign);
-            // printf("num_wight==%d\n", flags->num_wight);
-            // printf("num_wight2==%d\n", flags->num_wight2);
-            // printf("flags->wight==%d\n", flags->wight);
-            // printf("flags->flags_num2==%d\n", flags->flag_num2);
-            // printf("\n");
-            
-            if ((flags->flag_num2)&&(!flags->num_wight)&&(flags->num_wight2)&&((flags->num_wight-flags->num_wight2)>0))
-            {
-                precision=flags->num_wight2;
-            }
-            else if (flags->flag_num2)
-            {
-                // printf("2222\n");
-                precision=(flags->num_wight2-index);
-            }
-            else
-            {
-                //printf("donerrrrr2222222r\n");
-                precision=flags->num_wight-index;
-            }
-            // printf("number==%d\n", num_sign);
-            // printf("precision==%d\n", precision);
-            // printf("\n");
-            // printf("iundex==%d\n", index);
-
-            for (int i=0;i<(precision);i++)
-            {
-                s21_putchar_to_str('0', str);
-            }
-
-        }
-
-
-        
-
-        // printf("flags->flag_num2==%d\n", flags->flag_num2);
         // printf("flags->wight==%d\n", flags->wight);
-        // printf("flags->alignment==%d\n", flags->alignment);
+        // printf("flags->flags_num2==%d\n", flags->flag_num2);
         // printf("\n");
-
-
-        if ((num_sign<0) && (!flags->sign) && (flags->wight) &&(!flags->alignment) && (!flags->flag_num2))
-        {
-            s21_putchar_to_str('-', str);
-        }
         
-
-        for (int i = index - 1; i >= 0; i--)
+        if ((flags->flag_num2)&&(!flags->num_wight)&&(flags->num_wight2)&&((flags->num_wight-flags->num_wight2)>0))
         {
-            s21_putchar_to_str(chars[i], str);
+            precision=flags->num_wight2;
         }
-
-        if (flags->alignment)
+        else if (flags->flag_num2)
         {
+            // printf("2222\n");
+            precision=(flags->num_wight2-index);
+        }
+        else
+        {
+            //printf("donerrrrr2222222r\n");
+            precision=flags->num_wight-index;
+        }
+        // printf("number==%d\n", num_sign);
+        // printf("precision==%d\n", precision);
+        // printf("\n");
+        // printf("iundex==%d\n", index);
 
-            if ((flags->flag_space) && (num_sign>0)){
-                flags->num_wight-=1;
-            }
-            for(int j=index; j<flags->num_wight; j++)
-            {
-                s21_putchar_to_str(' ', str);
-            }
+        for (int i=0;i<(precision);i++)
+        {
+            s21_putchar_to_str('0', str);
         }
 
     }
+
+
+    
+
+    // printf("flags->flag_num2==%d\n", flags->flag_num2);
+    // printf("flags->wight==%d\n", flags->wight);
+    // printf("flags->alignment==%d\n", flags->alignment);
+    // printf("\n");
+
+
+    if ((num_sign<0) && (!flags->sign) && (flags->wight) &&(!flags->alignment) && (!flags->flag_num2))
+    {
+        s21_putchar_to_str('-', str);
+    }
+    
+
+    for (int i = index - 1; i >= 0; i--)
+    {
+        s21_putchar_to_str(chars[i], str);
+    }
+
+    if (flags->alignment)
+    {
+
+        if ((flags->flag_space) && (num_sign>0)){
+            flags->num_wight-=1;
+        }
+        for(int j=index; j<flags->num_wight; j++)
+        {
+            s21_putchar_to_str(' ', str);
+        }
+    }
+
+    
     
     return index;
 }
@@ -516,7 +528,12 @@ void convertfloatToString(char *str, structs *flags, va_list args)
     long double num_sign=number;
     int precision;
 
-    
+
+    // if ((flags->flag_space)&&(number>=0))
+    // {
+    //     s21_putchar_to_str(' ', str);
+
+    // }
 
     // printf("number22===%.10Lf\n", number);
     // printf("\n");
@@ -545,7 +562,7 @@ void convertfloatToString(char *str, structs *flags, va_list args)
     // printf("flags->num_wight==%d\n", flags->num_wight);
     // printf("\n");
 
-    if ((flags->flag_space)&&(num_sign>0))
+    if ((flags->flag_space)&&(number>=0))
     {
         s21_putchar_to_str(' ', str);
     }
@@ -558,7 +575,7 @@ void convertfloatToString(char *str, structs *flags, va_list args)
 
     if (number == 0)
     {
-        s21_putchar_to_str('0', str);
+        // s21_putchar_to_str('0', str);
     }
 
     else
@@ -681,9 +698,6 @@ void convertfloatToString(char *str, structs *flags, va_list args)
         }
     }
 
-
-
-
     
     if ((num_sign<0) && (!flags->sign) && (flags->wight) &&(!flags->alignment) && (!flags->flag_num2))
     {
@@ -693,27 +707,46 @@ void convertfloatToString(char *str, structs *flags, va_list args)
     for (int i = index - 1; i >= 0; i--)
     {
         s21_putchar_to_str(chars[i], str);
-    }    
+    }
+    if(int_number==0){
+        s21_putchar_to_str('0', str);
+    }
     
     // printf("precision==%d\n", precision);
     if (precision >0) 
     {            // Если точность больше нуля, добавляем десятичную часть
         // Вычисляем дробную часть числа
         // printf("number==%Lf\n", number);
-        double fractionalPart = number - (long int) number;   // Умножаем дробную часть на 10^precision, чтобы перевести ее в целое число
+        long double fractionalPart = number - (long long int) number;   // Умножаем дробную часть на 10^precision, чтобы перевести ее в целое число
         //printf("fractionalInteger==%f\n", fractionalPart);
+        // printf("IN pres fractionalPart==%Lf\n", fractionalPart);
+        long long int fractionalInteger = round(fractionalPart * pow(10, precision));
 
-        long fractionalInteger = round(fractionalPart * pow(10, precision));
-
-        // printf("IN pres fractionalInteger==%ld\n", fractionalInteger);
+        // printf("IN pres fractionalInteger==%lld\n",fractionalInteger);
        
         
         s21_putchar_to_str('.', str); // Добавляем разделитель десятичной части и переводим его в строку
-        
-        
+        int count_fractionalInteger=countDigits(fractionalInteger,precision);
+        if(fractionalInteger==0){
+            for (int i =0; i< precision; i++)
+                {
+                    s21_putchar_to_str('0', str);
+                
+                }
+        }
+
+        else if(count_fractionalInteger<precision){
+            for (int i =count_fractionalInteger; i< precision; i++)
+                {
+                    s21_putchar_to_str('0', str);
+                
+                }            
+        }
+        // printf("count==%d\n", countDigits(fractionalInteger,precision));
+
         while (fractionalInteger != 0)
         {
-            int digit = fractionalInteger % 10;
+            long long int digit = fractionalInteger % 10;
             chars[index2++] = digit + '0';
             fractionalInteger /= 10;
         }
@@ -735,6 +768,8 @@ void convertfloatToString(char *str, structs *flags, va_list args)
         {
             s21_putchar_to_str(chars[i], str);
         }
+        
+
 
     
     }
@@ -922,34 +957,97 @@ void convertStringToString(char *str,structs *flags, va_list args)
             s21_putchar_to_str(' ', str);
         }      
         }
-
-
     }
-
 
 }
 
-void convertCharToString(char c,char *str,structs *flags)
-{
+int convertCharToString(char c,char *str,structs *flags)
+{ 
+    int precision;
+    // printf("flags->num_wight==%d\n", flags->num_wight);
+    // printf("flags->num_wight2==%d\n", flags->num_wight2);
+    // printf("\n");
+    // printf("flags->aligment===%d\n", flags->alignment);
 
-    if ((flags->wight) && (!flags->alignment))
-    {
-        for(int j=1; j<flags->num_wight; j++)
+    
+    if ((flags->precision))
+    {   
+        // printf("flags->num_wight==%d\n", flags->num_wight);
+        // printf("flags->num_wight2==%d\n", flags->num_wight2);
+        // printf("\n");
+        
+        // if ((flags->flag_num2)&&((flags->num_wight-flags->num_wight2)>0))
+        // {
+        //     precision=flags->num_wight2;
+        // }
+        // else if (((flags->flag_num2) && (flags->num_wight-flags->num_wsight2<0)))
+        // {
+            
+        //     precision=(flags->num_wight2-len);
+            
+        // }
+
+
+    
+        precision= flags->num_wight ;
+        
+        // else
+        // {2
+        //     //printf("donerrrrr2222222r\n");
+        //     precision=flags->num_wight;
+        // }
+    
+        // printf("precision==%d\n", precision);
+        if((!flags->alignment)&&((flags->num_wight-flags->num_wight2)>0))
+        {
+            for (int i=0;i<precision;i++)
+            {
+                s21_putchar_to_str(' ', str);
+            }
+        }
+
+    }
+
+    // printf("precision==%d\n", precision);
+
+    if((flags->wight)&&(!flags->flag_num2)&&(!flags->alignment)){
+        for (int i=1;i<flags->num_wight;i++)
         {
             s21_putchar_to_str(' ', str);
         }
-    }    
-
-
+    }
+    
+        
     s21_putchar_to_str(c, str);
 
-    if ((flags->wight) && (flags->alignment))
+    // printf("flags->wight==%d\n", flags->num_wight);
+    // printf("flag 2num==%d\n", flags->num_wight2);
+    // printf("aligment==%d\n", flags->alignment);
+    if ((flags->alignment))
     {
-        for(int j=1; j<flags->num_wight; j++)
+        // prin""tf("flags->wight==%d", flags->wight);
+        
+        if(!flags->flag_num2)
         {
-            s21_putchar_to_str(' ', str);
+            // printf("flags->wight==%d", flags->wight);
+            for(int j=1; j<flags->num_wight; j++)
+            {
+                s21_putchar_to_str(' ', str);
+                // printf("size==%ld\n", strlen(str));
+            }        
+
         }
-    }        
+        else if(flags->flag_num2)
+        {
+            for(int j=1; j<precision; j++)
+            {
+                s21_putchar_to_str(' ', str);
+            }      
+        }
+        // printf("size==%ld\n", strlen(str));
+    }
+      
+    return 0;
 }
 
 
@@ -960,214 +1058,33 @@ void convertCharToString(char c,char *str,structs *flags)
 //     char str[1250];
 //     char stt[500];
 //     char ss[50] = "End strok";
-//     int a=-12;
+//     float a = 0;
 
 //     printf("Test1\n");
-//     sprintf(stt, "Test %d Test", a);
-//     s21_sprintf(str,"Test %d Test", a);
-//     printf("origin0 == %s\n", stt);
-//     printf("my func == %s\n", str);
-//     printf("\n");
-   
-   
-//     printf("Test2\n");
-//     int val = 012;
-//     int val2 = -017;
-//     int val3 = 07464;
-//     sprintf(stt, "%d Test %d Test %d", val, val, val);
-//     s21_sprintf(str,"%d Test %d Test %d", val, val, val);
-//     printf("origin0 == %s\n", stt);
-//     printf("my func == %s\n", str);
-//     printf("\n");
+//     sprintf(stt, "%f", 0.00001);
+//     s21_sprintf(str,"%f", 0.00001);
 
-
-//     printf("Test3\n");
-//     int val4 = 3015;
-//     int val5 = 712;
-//     int val6 = 99;
-//     sprintf(stt, "%d Test %d Test %d", val4, val4, val4);
-//     s21_sprintf(str,"%d Test %d Test %d", val4, val4, val4);
 //     printf("origin0 == %s\n", stt);
 //     printf("my func == %s\n", str);
 //     printf("\n");
-
-//     printf("Test4\n");
-//     int val7 = -3015;
-//     int val8 = -11234;
-//     int val9 = -99;
-//     sprintf(stt, "%3d Test %5d Test %10d", val7, val7, val7);
-//     s21_sprintf(str, "%3d Test %5d Test %10d", val7, val7, val7);
-//     printf("origin0 == %s\n", stt);
-//     printf("my func == %s\n", str);
-//     printf("\n");
-   
-//     printf("Test5\n");
-//     int val10 = -3015;
-//     int val11 = -712;
-//     int val12 = -99;
-//     int val13 = -38;
-//     int val14 = -100;
-//     sprintf(stt, "%6.5d Test %.23d Test %3.d TEST %.d %.6d", val10, val10, val10, val10, val10);
-//     s21_sprintf(str,"%6.5d Test %.23d Test %3.d TEST %.d %.6d", val10, val10, val10, val10, val10);
-//     printf("origin0 == %s\n", stt);
-//     printf("my func == %s\n", str);
-//     printf("\n");
+    // printf("origin0 == %ld\n", strlen(stt));
+    // printf("my func == %ld\n", strlen(str));
+    // printf("\n");
+    // printf("origin0 == %d\n", "%f", 0.0001);
+    // printf("my func == %d\n", "%f", 0.0001);
+    // printf("\n");
     
-
-//     printf("Test7\n");
-//     int val19 = -3015;
-//     int val20 = -712;
-//     int val21 = -99;
-//     int val22 = -2939;
-//     int val23 = -0123;
-//     sprintf(stt, "%0d Test %0.d Test %0.0d TEST %0d GOD %.d", val19, val19, val19, val19, val19);
-//     s21_sprintf(str,"%0d Test %0.d Test %0.0d TEST %0d GOD %.d", val19, val19, val19, val19, val19);
-//     printf("origin0 == %s\n", stt);
-//     printf("my func == %s\n", str);
-//     printf("\n");
-    
-//     printf("Test8\n");
-//     int val24 = -3015;
-//     int val25 = -712;
-//     int val26 = -99;
-//     int val27 = -2939;
-//     sprintf(stt, "%+d Test %+3.d Test %+5.7d TEST %+10d", val24, val24, val24, val24);
-//     s21_sprintf(str,"%+d Test %+3.d Test %+5.7d TEST %+10d", val24, val24, val24, val24);
-//     printf("origin0 == %s\n", stt);
-//     printf("my func == %s\n", str);
-//     printf("\n");
-    
-//     printf("Test9\n");
-//     int val28 = -32;
-//     int val29 = -8899;
-//     int val30 = -91918;
-//     int val31 = -32311;
-//     int val32 = -23;
-//     sprintf(stt, "% d Test % 3.d Test % 5.7d TEST % 10d GOD %.d", val28, val28, val28, val28, val28);
-//     s21_sprintf(str,"% d Test % 3.d Test % 5.7d TEST % 10d GOD %.d", val28, val28, val28, val28, val28);
-//     printf("origin0 == %s\n", stt);
-//     printf("my func == %s\n", str);
-    
-//     // printf("Test10\n");
-//     // int val33 = -3231;
-//     // int val34 = -3231;
-//     // int val35 = 3231;
-//     // int val36 = 3231;
-//     // sprintf(stt, "%- d Test %- 15d sdasda %- 15d sdsad %- d", val33, val34, val35, val36);
-//     // s21_sprintf(str,"%- d Test %- 15d sdasda %- 15d sdsad %- d", val33, val34, val35, val36);
-//     // printf("origin0 == %s\n", stt);
-//     // printf("my func == %s\n", str);
-//     // return 0;
-
-
-    
+    // printf("Test1\n");
+    // sprintf(stt, "% f", a);
+    // s21_sprintf(str,"% f", a);
+    // printf("origin0 == %s\n", stt);
+    // printf("my func == %s\n", str);
+    // printf("\n");
+    // printf("origin0 == %ld\n", strlen(stt));
+    // printf("my func == %ld\n", strlen(str));
+    // printf("\n");
+    // printf("origin0 == %d\n", "% f", 0);
+    // printf("my func == %d\n", "% f", 0);
+    // printf("\n");
+//     return 0;
 // }
-
-
-// // // float
-// // int main()
-// // {
-// //     char str[1250];
-// //     char stt[500];
-// //     char ss[50] = "End strok";
-// //     double num = 76.756589367;
-
-// //     printf("Test1\n");
-// //     sprintf(stt, "%f TEST %.f TEST %4f TEST %4.f TEST %5.10f!", num, num, num, num, num);
-// //     s21_sprintf(str,"%f TEST %.f TEST %4f TEST %4.f TEST %5.10f!", num, num, num, num, num);
-// //     printf("origin0 == %s\n", stt);
-// //     printf("my func == %s\n", str);
-// //     printf("\n");
-   
-   
-// //     printf("Test2\n");
-// //     double num2 = -76.756589367;
-// //     sprintf(stt, "%f TEST %.f TEST %3f TEST %4.f TEST %5.10f!",  num2, num2, num2, num2, num2);
-// //     s21_sprintf(str,"%f TEST %.f TEST %3f TEST %4.f TEST %5.10f!",  num2, num2, num2, num2, num2);
-// //     printf("origin0 == %s\n", stt);
-// //     printf("my func == %s\n", str);
-// //     printf("\n");
-
-
-// //     printf("Test3\n");
-// //     long double num_long = -76.756589;
-// //     sprintf(stt, "%Lf %.Lf!", num_long, num_long);
-// //     s21_sprintf(str,"%Lf %.Lf!", num_long, num_long);
-// //     printf("origin0 == %s\n", stt);
-// //     printf("my func == %s\n", str);
-// //     printf("\n");
-
-// //     printf("Test4\n");
-// //     double num3 = -76.756589;
-// //     sprintf(stt, "%20.10f %20.15f %-20.5f!", num, num, num);
-// //     s21_sprintf(str,"%20.10f %20.15f %-20.5f!", num, num, num);
-// //     printf("origin0 == %s\n", stt);
-// //     printf("my func == %s\n", str);
-// //     printf("\n");
-   
-
-// //     printf("Test5\n");
-// //     double num4 = 76.756589;
-// //     sprintf(stt, "test: %5f test: %6.1f test: %8.2f!", num4, num4, num4);
-// //     s21_sprintf(str,"test: %5f test: %6.1f test: %8.2f!", num4, num4, num4);
-// //     printf("origin0 == %s\n", stt);
-// //     printf("my func == %s\n", str);
-// //     printf("\n");
-    
-
-
-
-// //     printf("Test8\n");
-// //     double num5 = -7648938790.756589;
-// //     sprintf(stt, "test: %15.1f test: %16.2f test: %18.3f!", num5, num5, num5);
-// //     s21_sprintf(str,"test: %15.1f test: %16.2f test: %18.3f!", num5, num5, num5);
-// //     printf("origin0 == %s\n", stt);
-// //     printf("my func == %s\n", str);
-// //     printf("\n");
-    
-
-// //     printf("Test9\n");
-// //     sprintf(stt, "test: %10.4f test: %25.5f!", num5, num5);
-// //     s21_sprintf(str,"test: %10.4f test: %25.5f!", num5, num5);
-// //     printf("origin0 == %s\n", stt);
-// //     printf("my func == %s\n", str);
-// //     printf("\n");
-
-
-// //     printf("Test10\n");
-
-// //     // double num5 = -7648938790.756589;
-// //     sprintf(stt, "test: %+18.0f test: %+10.f test: %+25.f!", num5, num5,num5);
-// //     s21_sprintf(str,"test: %+18.0f test: %+10.f test: %+25.f!", num5, num5,num5);
-// //     printf("origin0 == %s\n", stt);
-// //     printf("my func == %s\n", str);
-// //     printf("\n");
-
-
-// //     printf("Test11\n");
-// //     double num6 = -365289.3462865487;
-// //     sprintf(stt, "test: %-15.4f! test: %-26.1f! test: %-18.0f!", num6, num6,num6);
-// //     s21_sprintf(str,"test: %-15.4f! test: %-26.1f! test: %-18.0f!", num6, num6,num6);
-// //     printf("origin0 == %s\n", stt);
-// //     printf("my func == %s\n", str);
-// //     printf("\n");
-
-
-// //     printf("Test12\n");
-// //     double num7 = -365289.34628654873789362746834;
-// //     sprintf(stt, "test: %15.13f! test: %26.15f!", num7, num7);
-// //     s21_sprintf(str,"test: %15.13f! test: %26.15f!",num7, num7);
-// //     printf("origin0 == %s\n", stt);
-// //     printf("my func == %s\n", str);
-// //     printf("\n");
-
-
-// //     printf("Test13\n");
-// //     sprintf(stt, "test: %18.7f! test: %10.15f! test: %25.15f!", num7, num7,num7);
-// //     s21_sprintf(str,"test: %18.7f! test: %10.15f! test: %25.15f!",num7, num7,num7);
-// //     printf("origin0 == %s\n", stt);
-// //     printf("my func == %s\n", str);
-// //     printf("\n");
-
-// //     return 0;
-// // }

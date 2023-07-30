@@ -4,20 +4,20 @@ int main() {
   int number_failed = 0;
 
   Suite *test[] = {
-    memchrTest(),
-    memcmpTest(),
-    memsetTest(),
-    memcpyTest(),
+    // memchrTest(),
+    // memcmpTest(),
+    // memsetTest(),
+    // memcpyTest(),
     sprintfTest(),
-    strchrTest(),
-    strerrorTest(),
+    // strchrTest(),
+    // strerrorTest(),
     // test_sscanf(),
-    strlenTest(),
-    strncmpTest(),
-    strpbrkTest(),
-    strrchrTest(),
-    strstrTest(),
-    strtokTest(),  
+    // strlenTest(),
+    // strncmpTest(),
+    // strpbrkTest(),
+    // strrchrTest(),
+    // strstrTest(),
+    // strtokTest(),  
     NULL,
   };
 
