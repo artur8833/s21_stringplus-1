@@ -19,7 +19,7 @@ int s21_sprintf(char *str, const char *format, ...)
         else if (format[i] == '%' && format[i + 1])
         {
             i = check_flags(format[i+1], str, &flags, i, format);
-
+            // printf("format[i]==%c\n", format[i+1]);
             i = check_size(format[i+1], str, &flags, i, format);
             // printf("wight==%d\n", flags.wight);
             check_characteristics(format[++i], args, str, &flags);
@@ -168,6 +168,7 @@ int check_flags(const char c, char *str, structs *flags, int i, const char *form
     case ' ':
         i++;
         flags->flag_space=1;
+
         if(isdigit(format[i+1]))
         {
             i=parser_nums(str,flags,i,format);
@@ -206,6 +207,7 @@ int check_size(const char c, char *str, structs *flags,int i,const char *format)
     case 'L':
     case 'l':
         flags->flag_l=1;
+        // printf("fag-l==%d\n", flags->flag_l);
         i++;
         break;
     case 'h':
@@ -240,16 +242,6 @@ int convertNumberToChars(char *str, structs *flags,long long number)
     int num_sign=number;
     int precision;
     
-    if(flags->flag_l){
-        number = (long int) number;
-    }
-    else if(flags->flag_h){
-        number = (short int) number;
-        num_sign=(short int) number;
-    }
-    else{
-        number=(int) number;
-    }
     // printf("number==%ld\n", number);
     // printf("num_sign==%ld\n", num_sign);
     // printf("flags->sign==%d\n", flags->sign);
@@ -412,9 +404,12 @@ int convertNumberToChars(char *str, structs *flags,long long number)
         s21_putchar_to_str(chars[i], str);
     }
 
-    if(num_sign==0){
-        s21_putchar_to_str('0', str);
-    }
+    // printf("num_sign==%d\n",num_sign);
+    
+    // if(num_sign==0)
+    // {
+    //     s21_putchar_to_str('0', str);
+    // }
 
     if (flags->alignment)
     {
@@ -439,19 +434,8 @@ int convertUnsignedToChars(char *str, structs *flags,unsigned long long number)
     // long int number=va_arg(args,long int);
     char chars[700];
     int index = 0;
-    int num_sign=number;
     int precision;
     
-    if(flags->flag_l){
-        number = (long int) number;
-    }
-    else if(flags->flag_h){
-        number = (short int) number;
-        num_sign=(short int) number;
-    }
-    else{
-        number=(int) number;
-    }
     // printf("number==%ld\n", number);
     // printf("num_sign==%ld\n", num_sign);
     // printf("flags->sign==%d\n", flags->sign);
@@ -466,35 +450,36 @@ int convertUnsignedToChars(char *str, structs *flags,unsigned long long number)
     // printf("nimberrr==%d\n", number);
     // printf("\n");
 
-    if ((flags->flag_space)&&(number>=0))
-    {
-        s21_putchar_to_str(' ', str);
+    // if ((flags->flag_space)&&(number>=0))
+    // {
+    //     s21_putchar_to_str(' ', str);
         if ((number==0)&&(!flags->precision)){
             s21_putchar_to_str('0', str);
         }
-    }
+    // }
 
     if (number<0){
         flags->num_wight-=1;
+        flags->negative_number=1;
         number *=-1;
     }
     
-    if ((flags->sign) && (num_sign > 0) && (!flags->wight))
+    if ((flags->sign) && (!flags->negative_number) && (!flags->wight))
     {
         s21_putchar_to_str('+', str);
     }
 
-    else if ((num_sign < 0) && (!flags->sign) && (flags->alignment) && (!flags->flag_num2))
+    else if ((flags->negative_number) && (!flags->sign) && (flags->alignment) && (!flags->flag_num2))
     {
         s21_putchar_to_str('-', str);
     }
 
-    else if ((num_sign<0) && (!flags->wight) && (!flags->sign)  && (!flags->alignment))
+    else if ((flags->negative_number) && (!flags->wight) && (!flags->sign)  && (!flags->alignment))
     {
         s21_putchar_to_str('-', str);
     }
 
-    else if((num_sign<0) && (!flags->sign) && (flags->flag_num2) && (flags->wight)){
+    else if((flags->negative_number) && (!flags->sign) && (flags->flag_num2) && (flags->wight)){
 
         s21_putchar_to_str('-', str);
     }
@@ -535,7 +520,7 @@ int convertUnsignedToChars(char *str, structs *flags,unsigned long long number)
     if(flags->sign)
     {
         
-        if (num_sign>0)
+        if (!flags->negative_number)
         {
             flags->num_wight-=1;
         }
@@ -549,7 +534,7 @@ int convertUnsignedToChars(char *str, structs *flags,unsigned long long number)
             }
         }
 
-        if (num_sign>0)
+        if (!flags->negative_number)
         {
             s21_putchar_to_str('+', str);
         }
@@ -603,7 +588,7 @@ int convertUnsignedToChars(char *str, structs *flags,unsigned long long number)
     // printf("\n");
 
 
-    if ((num_sign<0) && (!flags->sign) && (flags->wight) &&(!flags->alignment) && (!flags->flag_num2))
+    if ((flags->negative_number) && (!flags->sign) && (flags->wight) &&(!flags->alignment) && (!flags->flag_num2))
     {
         s21_putchar_to_str('-', str);
     }
@@ -614,14 +599,11 @@ int convertUnsignedToChars(char *str, structs *flags,unsigned long long number)
         s21_putchar_to_str(chars[i], str);
     }
 
-    if(num_sign==0){
-        s21_putchar_to_str('0', str);
-    }
 
     if (flags->alignment)
     {
 
-        if ((flags->flag_space) && (num_sign>0)){
+        if ((flags->flag_space) && (!flags->negative_number)){
             flags->num_wight-=1;
         }
         for(int j=index; j<flags->num_wight; j++)
@@ -812,10 +794,10 @@ void convertfloatToString(char *str, structs *flags, va_list args)
     }
 
 
-    if (number == 0)
-    {
-        // s21_putchar_to_str('0', str);
-    }
+    // if (number == 0)
+    // {
+    //     // s21_putchar_to_str('0', str);
+    // }
 
     else
     {
@@ -853,6 +835,9 @@ void convertfloatToString(char *str, structs *flags, va_list args)
     // printf("int_number==%ld\n", int_number);
 
     // printf("precision==%d\n", precision);
+    if(int_number==0){
+        s21_putchar_to_str('0', str);
+    }
 
     while (int_number != 0)
     {
@@ -885,7 +870,7 @@ void convertfloatToString(char *str, structs *flags, va_list args)
     {
 
         for(int j=count; j<flags->num_wight; j++)
-        {
+        {   
             s21_putchar_to_str(' ', str);
         }
         // printf("d3\n");
@@ -900,10 +885,13 @@ void convertfloatToString(char *str, structs *flags, va_list args)
 
     if ((flags->wight)&&(!flags->precision)&&(!flags->flag_num2)&&(!flags->sign)&&(!flags->alignment))
     {
-        
+        // printf("flags->num_wight==%d\n", flags->num_wight);
+        // printf("precision==%d\n", precision);
+        // printf("index==%d\n", index);
+
         if((flags->wight))
         {
-            for(int j=index+precision; j<flags->num_wight; j++)
+            for(int j=index+precision+1; j<flags->num_wight; j++)
             {   
                 s21_putchar_to_str(' ', str);
             }
@@ -942,14 +930,16 @@ void convertfloatToString(char *str, structs *flags, va_list args)
     {
         s21_putchar_to_str('-', str);
     }
+    
+
 
     for (int i = index - 1; i >= 0; i--)
     {
         s21_putchar_to_str(chars[i], str);
     }
-    if(int_number==0){
-        s21_putchar_to_str('0', str);
-    }
+
+
+
     
     // printf("precision==%d\n", precision);
     if (precision >0) 
@@ -1291,126 +1281,158 @@ int convertCharToString(char c,char *str,structs *flags)
 
 
 
+// int main()
+// {
+//     char str[1250];
+//     char stt[500];
+//     char ss[50] = "End strok";
+//     long double a = 15.35;
 
-int main()
-{
-    char str[1250];
-    char stt[500];
-    char ss[50] = "End strok";
-    int a=-12;
+//     printf("Test1\n");
+//     sprintf(stt, "%9Lf", a);
+//     s21_sprintf(str,"%9Lf", a);
+//     printf("origin0 == %s\n", stt);
+//     printf("my func == %s\n", str);
+//     printf("\n");
+//     // printf("origin0 == %ld\n", strlen(stt));
+//     // printf("my func == %ld\n", strlen(str));
+//     // printf("\n");
+//     // printf("origin0 == %d\n", "%f", 0.0001);
+//     // printf("my func == %d\n", "%f", 0.0001);
+//     // printf("\n");
+    
+//     // printf("Test1\n");
+//     // sprintf(stt, "% f", a);
+//     // s21_sprintf(str,"% f", a);
+//     // printf("origin0 == %s\n", stt);
+//     // printf("my func == %s\n", str);
+//     // printf("\n");
+//     // printf("origin0 == %ld\n", strlen(stt));
+//     // printf("my func == %ld\n", strlen(str));
+//     // printf("\n");
+//     // printf("origin0 == %d\n", "% f", 0);
+//     // printf("my func == %d\n", "% f", 0);
+//     // printf("\n");
+//     return 0;
+// }
 
-    printf("Test1\n");
-    sprintf(stt, "Test %d Test", a);
-    s21_sprintf(str,"Test %d Test", a);
-    printf("origin0 == %s\n", stt);
-    printf("my func == %s\n", str);
-    printf("\n");
+
+// int main()
+// {
+//     char str[1250];
+//     char stt[500];
+//     char ss[50] = "End strok";
+//     int a=-12;
+
+//     printf("Test1\n");
+//     sprintf(stt, "%.0d", a);
+//     s21_sprintf(str,"%.0d", a);
+//     printf("origin0 == %s\n", stt);
+//     printf("my func == %s\n", str);
+//     printf("\n");
    
    
-    printf("Test2\n");
-    int val = 012;
-    int val2 = -017;
-    int val3 = 07464;
-    sprintf(stt, "%d Test %d Test %d", val, val, val);
-    s21_sprintf(str,"%d Test %d Test %d", val, val, val);
-    printf("origin0 == %s\n", stt);
-    printf("my func == %s\n", str);
-    printf("\n");
+//     // printf("Test2\n");
+//     // int val = 012;
+//     // int val2 = -017;
+//     // int val3 = 07464;
+//     // sprintf(stt, "%.0d", val, val, val);
+//     // s21_sprintf(str,"%d Test %d Test %d", val, val, val);
+//     // printf("origin0 == %s\n", stt);
+//     // printf("my func == %s\n", str);
+//     // printf("\n");
 
 
-    printf("Test3\n");
-    int val4 = 3015;
-    int val5 = 712;
-    int val6 = 99;
-    sprintf(stt, "%d Test %d Test %d", val4, val4, val4);
-    s21_sprintf(str,"%d Test %d Test %d", val4, val4, val4);
-    printf("origin0 == %s\n", stt);
-    printf("my func == %s\n", str);
-    printf("\n");
+//     // printf("Test3\n");
+//     // int val4 = 3015;
+//     // int val5 = 712;
+//     // int val6 = 99;
+//     // sprintf(stt, "%d Test %d Test %d", val4, val4, val4);
+//     // s21_sprintf(str,"%d Test %d Test %d", val4, val4, val4);
+//     // printf("origin0 == %s\n", stt);
+//     // printf("my func == %s\n", str);
+//     // printf("\n");
 
-    printf("Test4\n");
-    int val7 = -3015;
-    int val8 = -11234;
-    int val9 = -99;
-    sprintf(stt, "%3d Test %5d Test %10d", val7, val7, val7);
-    s21_sprintf(str, "%3d Test %5d Test %10d", val7, val7, val7);
-    printf("origin0 == %s\n", stt);
-    printf("my func == %s\n", str);
-    printf("\n");
+//     // printf("Test4\n");
+//     // int val7 = -3015;
+//     // int val8 = -11234;
+//     // int val9 = -99;
+//     // sprintf(stt, "%3d Test %5d Test %10d", val7, val7, val7);
+//     // s21_sprintf(str, "%3d Test %5d Test %10d", val7, val7, val7);
+//     // printf("origin0 == %s\n", stt);
+//     // printf("my func == %s\n", str);
+//     // printf("\n");
    
-    printf("Test5\n");
-    int val10 = -3015;
-    int val11 = -712;
-    int val12 = -99;
-    int val13 = -38;
-    int val14 = -100;
-    sprintf(stt, "%6.5d Test %.23d Test %3.d TEST %.d %.6d", val10, val10, val10, val10, val10);
-    s21_sprintf(str,"%6.5d Test %.23d Test %3.d TEST %.d %.6d", val10, val10, val10, val10, val10);
-    printf("origin0 == %s\n", stt);
-    printf("my func == %s\n", str);
-    printf("\n");
+//     // printf("Test5\n");
+//     // int val10 = -3015;
+//     // int val11 = -712;
+//     // int val12 = -99;
+//     // int val13 = -38;
+//     // int val14 = -100;
+//     // sprintf(stt, "%6.5d Test %.23d Test %3.d TEST %.d %.6d", val10, val10, val10, val10, val10);
+//     // s21_sprintf(str,"%6.5d Test %.23d Test %3.d TEST %.d %.6d", val10, val10, val10, val10, val10);
+//     // printf("origin0 == %s\n", stt);
+//     // printf("my func == %s\n", str);
+//     // printf("\n");
     
 
-    printf("Test7\n");
-    int val19 = -3015;
-    int val20 = -712;
-    int val21 = -99;
-    int val22 = -2939;
-    int val23 = -0123;
-    sprintf(stt, "%0d Test %0.d Test %0.0d TEST %0d GOD %.d", val19, val19, val19, val19, val19);
-    s21_sprintf(str,"%0d Test %0.d Test %0.0d TEST %0d GOD %.d", val19, val19, val19, val19, val19);
-    printf("origin0 == %s\n", stt);
-    printf("my func == %s\n", str);
-    printf("\n");
+//     // printf("Test7\n");
+//     // int val19 = -3015;
+//     // int val20 = -712;
+//     // int val21 = -99;
+//     // int val22 = -2939;
+//     // int val23 = -0123;
+//     // sprintf(stt, "%0d Test %0.d Test %0.0d TEST %0d GOD %.d", val19, val19, val19, val19, val19);
+//     // s21_sprintf(str,"%0d Test %0.d Test %0.0d TEST %0d GOD %.d", val19, val19, val19, val19, val19);
+//     // printf("origin0 == %s\n", stt);
+//     // printf("my func == %s\n", str);
+//     // printf("\n");
     
-    printf("Test8\n");
-    int val24 = -3015;
-    int val25 = -712;
-    int val26 = -99;
-    int val27 = -2939;
-    sprintf(stt, "%+d Test %+3.d Test %+5.7d TEST %+10d", val24, val24, val24, val24);
-    s21_sprintf(str,"%+d Test %+3.d Test %+5.7d TEST %+10d", val24, val24, val24, val24);
-    printf("origin0 == %s\n", stt);
-    printf("my func == %s\n", str);
-    printf("\n");
+//     // printf("Test8\n");
+//     // int val24 = -3015;
+//     // int val25 = -712;
+//     // int val26 = -99;
+//     // int val27 = -2939;
+//     // sprintf(stt, "%+d Test %+3.d Test %+5.7d TEST %+10d", val24, val24, val24, val24);
+//     // s21_sprintf(str,"%+d Test %+3.d Test %+5.7d TEST %+10d", val24, val24, val24, val24);
+//     // printf("origin0 == %s\n", stt);
+//     // printf("my func == %s\n", str);
+//     // printf("\n");
     
-    printf("Test9\n");
-    int val28 = -32;
-    int val29 = -8899;
-    int val30 = -91918;
-    int val31 = -32311;
-    int val32 = -23;
-    sprintf(stt, "% d Test % 3.d Test % 5.7d TEST % 10d GOD %.d", val28, val28, val28, val28, val28);
-    s21_sprintf(str,"% d Test % 3.d Test % 5.7d TEST % 10d GOD %.d", val28, val28, val28, val28, val28);
-    printf("origin0 == %s\n", stt);
-    printf("my func == %s\n", str);
+//     // printf("Test9\n");
+//     // int val28 = -32;
+//     // int val29 = -8899;
+//     // int val30 = -91918;
+//     // int val31 = -32311;
+//     // int val32 = -23;
+//     // sprintf(stt, "% d Test % 3.d Test % 5.7d TEST % 10d GOD %.d", val28, val28, val28, val28, val28);
+//     // s21_sprintf(str,"% d Test % 3.d Test % 5.7d TEST % 10d GOD %.d", val28, val28, val28, val28, val28);
+//     // printf("origin0 == %s\n", stt);
+//     // printf("my func == %s\n", str);
     
-    printf("Test10\n");
-    long int val33 = 3088675747373646;
-    sprintf(stt, "%ld Test %ld Test %ld", val33, val33, val33, val33, val33);
-    s21_sprintf(str,"%ld Test %ld Test %ld", val33, val33, val33, val33, val33);
-    printf("origin0 == %s\n", stt);
-    printf("my func == %s\n", str);
+//     // printf("Test10\n");
+//     // long int val33 = 3088675747373646;
+//     // sprintf(stt, "%ld Test %ld Test %ld", val33, val33, val33, val33, val33);
+//     // s21_sprintf(str,"%ld Test %ld Test %ld", val33, val33, val33, val33, val33);
+//     // printf("origin0 == %s\n", stt);
+//     // printf("my func == %s\n", str);
     
 
-    printf("Test11\n");
-    short int val34 = 14140;
-    sprintf(stt, "%hd Test %hd Test %hd", val34, val34, val34, val34, val34);
-    s21_sprintf(str,"%hd Test %hd Test %hd", val34, val34, val34, val34, val34);
-    printf("origin0 == %s\n", stt);
-    printf("my func == %s\n", str);
-    // printf("Test10\n");
-    // int val33 = -3231;
-    // int val34 = -3231;
-    // int val35 = 3231;
-    // int val36 = 3231;
-    // sprintf(stt, "%- d Test %- 15d sdasda %- 15d sdsad %- d", val33, val34, val35, val36);
-    // s21_sprintf(str,"%- d Test %- 15d sdasda %- 15d sdsad %- d", val33, val34, val35, val36);
-    // printf("origin0 == %s\n", stt);
-    // printf("my func == %s\n", str);
-    // return 0;
-
-
-    
-}
+//     // printf("Test11\n");
+//     // short int val34 = 14140;
+//     // sprintf(stt, "%hd Test %hd Test %hd", val34, val34, val34, val34, val34);
+//     // s21_sprintf(str,"%hd Test %hd Test %hd", val34, val34, val34, val34, val34);
+//     // printf("origin0 == %s\n", stt);
+//     // printf("my func == %s\n", str);
+//     // // printf("Test10\n");
+//     // // int val33 = -3231;
+//     // // int val34 = -3231;
+//     // // int val35 = 3231;
+//     // // int val36 = 3231;
+//     // // sprintf(stt, "%- d Test %- 15d sdasda %- 15d sdsad %- d", val33, val34, val35, val36);
+//     // // s21_sprintf(str,"%- d Test %- 15d sdasda %- 15d sdsad %- d", val33, val34, val35, val36);
+//     // // printf("origin0 == %s\n", stt);
+//     // // printf("my func == %s\n", str);
+//     return 0;
+// }
 

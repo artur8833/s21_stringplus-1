@@ -25,6 +25,7 @@ typedef struct flags
   int flag_space; //еслие сть пробел
   int flag_l;
   int flag_h;
+  int negative_number;
 
 } structs;
 
