@@ -19,9 +19,10 @@ int main() {
     // strstrTest(),
     // strtokTest(),  
     NULL,
-  };
+  }
 
-  for (int i = 0; test[i] != NULL; i++) {
+  for (int i = 0; test[i] != NULL; i++)
+  {
     printf("\n");
     SRunner *sr = srunner_create(test[i]);
 

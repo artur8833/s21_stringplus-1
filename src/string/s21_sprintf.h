@@ -31,7 +31,9 @@ typedef struct flags
 
 int s21_putchar_to_str(const char c, char *str);
 
-int convertNumberToChars(char *str,structs *flags, va_list args);
+int convertNumberToChars(char *str, structs *flags,long long number);
+
+int convertUnsignedToChars(char *str, structs *flags,unsigned long long number);
 
 void convertfloatToString(char *str,structs *flags,va_list args);
 
@@ -54,6 +56,10 @@ int parser_nums_point( char *str, structs *flags, int i, const char *format);
 int countDigits(long double num, int precision);
 
 int converFarmat( long double number, structs *flags );
+
+void write_d(char *str, structs *flags, va_list args);
+
+void write_u(char *str, structs *flags, va_list args);
 
 
 #endif
