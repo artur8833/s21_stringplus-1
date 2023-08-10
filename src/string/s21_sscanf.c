@@ -36,11 +36,11 @@ void length_uint(struct Options *opt, va_list Arg, char **src);
 //   char c1;
 //   char s21_c1;
 //   wchar_t c2, s21_c2;
-//   unsigned int x1, y1;
+//   unsigned int x1 = 0, y1 = 0;
 //   unsigned short int x2 = 0, y2 = 0;
 
 
-//   char *str = "256.34e-5faasd523f 00000176 087Asdf ";
+//   char *str = "\n256.34e-5faasd523f 00000176 1 8 7Asdf ";
 //   sscanf(str, "%Lf %5s %d %c %lc %o %ho", &f1, s1, &x, &c1, &c2, &x1, &x2);
 //   s21_sscanf(str, "%Lf %5s %d %c %lc %o %ho", &s21_f1, s21_s1, &y, &s21_c1, &s21_c2, &y1, &y2);
 //   printf("    sscanf:%Lf\n    sscanf:%s\n    sscanf:%d\n    sscanf:%c\n    sscanf:%lc\n    sscanf:%o\n    sscanf:%ho\n", f1, s1, x, c1, c2, x1, x2);
@@ -50,7 +50,7 @@ void length_uint(struct Options *opt, va_list Arg, char **src);
 
 int width_opt(struct Options *opt, char *f_p, char *src){
   s21_size_t len_src = s21_strlen(src);
-  s21_size_t len_f_p = s21_strcspn(f_p, "1234567890");
+  s21_size_t len_f_p = s21_strspn(f_p, "1234567890");
   s21_size_t x = atoi(f_p);
   if(x > len_src){
     opt->width += len_src;
@@ -88,7 +88,7 @@ int s21_sscanf(const char *str, const char *format, ...) {
   return 0;
 }
 
-void length_char(struct Options *opt, va_list Arg, char **src){
+void length_char(struct Options *opt, va_list Arg, char **src){ // тесты не прошли!
   if(opt->length == 0){
     char *ch = va_arg(Arg, char *);
     *ch = func_ch(src);
@@ -178,26 +178,33 @@ void init_var(struct Options *opt, va_list Arg, char **src) {
       str = s21_memcpy(s, str, opt->width + 1);
       break;
     case 'u': // беззнаковое десятичное целое число h
+      
       break;
     case 'x': // беззнаковое шестнадцатиричное целое число (любые буквы) h
+
       break;
     case 'X': // беззнаковое шестнадцатиричное целое число (любые буквы) h
+
       break;
     case 'p': // адрес указателя
+    
       break;
     case 'n': // количество символов, считанных до появления %n
+    
       break;
     case '%': // символ %
+      
+      break;
     }
 }
 
 unsigned int func_uint(char **src){
   char mass[256];
-  s21_size_t len_mas = s21_strcspn(*src, "1234567890");
+  s21_size_t len_mas = s21_strspn(*src, "1234567890");
   s21_memcpy(mass, *src, len_mas);
   mass[len_mas] = '\0';
-  unsigned long int x = strtoul(mass, src, 0);
-    printf("%s", *src);
+  unsigned long int x = strtoul(mass, src, 8);
+  printf("%s", *src);
   *src = *src + len_mas;
 
   return (unsigned int)x;
@@ -205,10 +212,10 @@ unsigned int func_uint(char **src){
 
 unsigned short int func_uhint(char **src){
   char mass[256];
-  s21_size_t len_mas = s21_strcspn(*src, "1234567890");
+  s21_size_t len_mas = s21_strspn(*src, "1234567890");
   s21_memcpy(mass, *src, len_mas);
   mass[len_mas] = '\0';
-  unsigned long int x = strtoul(*src, src, 0);
+  unsigned long int x = strtoul(*src, src, 8);
   printf("%s", *src);
   *src = *src + len_mas;
 
@@ -241,7 +248,7 @@ char func_ch(char **src){
 
 short int func_sh_int(char **src){
   char mass[256];
-  s21_size_t len_mas = s21_strcspn(*src, "1234567890");
+  s21_size_t len_mas = s21_strspn(*src, "1234567890");
   s21_memcpy(mass, *src, len_mas);
   mass[len_mas] = '\0';
   *src = *src + len_mas;
@@ -251,7 +258,7 @@ short int func_sh_int(char **src){
 
 int func_int(char **src){
 	char mass[256];
-  s21_size_t len_mas = s21_strcspn(*src, "1234567890");
+  s21_size_t len_mas = s21_strspn(*src, "1234567890");
   s21_memcpy(mass, *src, len_mas);
   mass[len_mas] = '\0';
   *src = *src + len_mas;
