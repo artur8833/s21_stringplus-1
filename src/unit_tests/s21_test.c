@@ -1,30 +1,27 @@
 #include "s21_test.h"
 
-int main() 
-{
+int main() {
   int number_failed = 0;
-  Suite *test[] = 
-  {
-    // memchrTest(),
-    // memcmpTest(),
-    // memsetTest(),
-    // memcpyTest(),
+
+  Suite *test[] = {
+    memchrTest(),
+    memcmpTest(),
+    memsetTest(),
+    memcpyTest(),
     sprintfTest(),
-    // strchrTest(),
-    // strerrorTest(),
+    strchrTest(),
+    strerrorTest(),
     // test_sscanf(),
-    // strlenTest(),
-    // strncmpTest(),
-    // strpbrkTest(),
-    // strrchrTest(),
-    // strstrTest(),
-    // strtokTest(),  
+    strlenTest(),
+    strncmpTest(),
+    strpbrkTest(),
+    strrchrTest(),
+    strstrTest(),
+    strtokTest(),  
     NULL,
   };
 
-  for (int i=0; test[i] != NULL; i++)
-
-  {
+  for (int i = 0; test[i] != NULL; i++) {
     printf("\n");
     SRunner *sr = srunner_create(test[i]);
 
@@ -33,6 +30,5 @@ int main()
     number_failed += srunner_ntests_failed(sr);
     srunner_free(sr);
   }
-
   return (number_failed == 0) ? 0 : 1;
 }
