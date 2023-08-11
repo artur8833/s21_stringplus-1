@@ -102,13 +102,13 @@ Suite *strstrTest(void) {
   tcase_add_test(tc, strstr_4);
   tcase_add_test(tc, strstr_5);
   tcase_add_test(tc, strstr_6);
-  // tcase_add_test(tc, strstr_7);
-  // tcase_add_test(tc, strstr_8);
-  // tcase_add_test(tc, strstr_9);
-  // tcase_add_test(tc, strstr_10);
-  // tcase_add_test(tc, strstr_11);
-  // tcase_add_test(tc, strstr_12);
-  // tcase_add_test(tc, strstr_13);
+  tcase_add_test(tc, strstr_7);
+  tcase_add_test(tc, strstr_8);
+  tcase_add_test(tc, strstr_9);
+  tcase_add_test(tc, strstr_10);
+  tcase_add_test(tc, strstr_11);
+  tcase_add_test(tc, strstr_12);
+  tcase_add_test(tc, strstr_13);
 
   suite_add_tcase(s, tc);
   return s;

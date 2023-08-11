@@ -29,6 +29,7 @@ typedef struct flags
 
 } structs;
 
+int s21_sprintf(char *str, const char *format, ...);
 
 int s21_putchar_to_str(const char c, char *str);
 
@@ -46,13 +47,13 @@ int convertCharToString(char c,char *str,structs *flags);
 
 int check_characteristics(const char c, va_list args, char *str,structs *flags);
 
-int check_flags(const char c, char *str, structs *flags,int i,const char *format);
+int check_flags(const char c, structs *flags,int i,const char *format);
 
-int check_size(const char c, char *str, structs *flags,int i,const char *format);
+int check_size(const char c, structs *flags,int i);
 
-int parser_nums(char *str, structs *flags, int i, const char *format);
+int parser_nums(structs *flags, int i, const char *format);
 
-int parser_nums_point( char *str, structs *flags, int i, const char *format);
+int parser_nums_point(structs *flags, int i, const char *format);
 
 int countDigits(long double num, int precision);
 

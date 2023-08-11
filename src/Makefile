@@ -1,13 +1,12 @@
 CC=gcc
-# CFLAGS=-Wall -Werror -Wextra -std=c11
-CFLAGS= 
-MAIN_FILES=string/*.c 
-TEST_FILES=unit_tests/*.c
-CHECK_LINK=$(shell pkg-config --libs --cflags check)
-GCOVFLAGS=-fprofile-arcs -ftest-coverage
-LIBNAME=s21_string.a
-GLFLAGS=--coverage
-LIBS=-lcheck -lsubunit -lm -lgcov
+CFLAGS= -Wall -Werror -Wextra -std=c11
+MAIN_FILES= string/*.c 
+TEST_FILES= unit_tests/*.c
+CHECK_LINK= $(shell pkg-config --libs --cflags check)
+GCOVFLAGS= -fprofile-arcs -ftest-coverage
+LIBNAME= s21_string.a
+GLFLAGS= --coverage
+LIBS= -lcheck -lsubunit -lm -lgcov
 
 all: s21_string.a
 
@@ -29,10 +28,10 @@ test: s21_string.a
 # test_f:
 # 	./s21_string
 
-# gcov_report: object lib test
-# 	gcov *.gcno *.gcda
-# 	~/.local/bin/gcovr -r . --html --html-details -o s21_math.html
-# 	open s21_math.html
+gcov_report: object lib test
+	gcov *.gcno *.gcda
+	~/.local/bin/gcovr -r . --html --html-details -o s21_string.html
+	open s21_string.html
 
 clean:
 	rm -f *.o

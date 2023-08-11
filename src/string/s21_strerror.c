@@ -12,7 +12,7 @@
 #include <stdio.h>
 
 char* s21_strerror(int errnum) {
-  char *err_list[] = s21_errors;
+ // char *err_list[] = s21_errors;
   static char buff[100] = "";
   if (errnum >= 0 && errnum < s21_N_error) {
     char *err_list[] = s21_errors;

@@ -2,20 +2,20 @@
 #define S21_STRING_H
 
 #include "s21_strerror.h"
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>   // отключить!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+//#include <string.h>   // отключить!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #define S21_NULL (void *)0
 typedef long unsigned int s21_size_t;
 
-#define LONG_MAX 2147483647;
-#define LONG_MIN -2147483647;
-#define SHRT_MAX 32767;
-#define SHRT_MIN -32767;
-#define INT_MAX 2147483647;
-#define INT_MIN -2147483648;
-#define ULONG_MAX 4294967295;
+// #define LONG_MAX 2147483647;
+// #define LONG_MIN -2147483647;
+// #define SHRT_MAX 32767;
+// #define SHRT_MIN -32767;
+// #define INT_MAX 2147483647;
+// #define INT_MIN -2147483648;
+// #define ULONG_MAX 4294967295;
 
 void *s21_memchr(const void *, int, s21_size_t);
 int s21_memcmp(const void *str1, const void *str2, s21_size_t n);

@@ -18,9 +18,9 @@ int s21_sprintf(char *str, const char *format, ...)
 
         else if (format[i] == '%' && format[i + 1])
         {
-            i = check_flags(format[i+1], str, &flags, i, format);
+            i = check_flags(format[i+1], &flags, i, format);
             // printf("format[i]==%c\n", format[i+1]);
-            i = check_size(format[i+1], str, &flags, i, format);
+            i = check_size(format[i+1], &flags, i);
             // printf("wight==%d\n", flags.wight);
             check_characteristics(format[++i], args, str, &flags);
         }
@@ -128,7 +128,7 @@ void write_d(char *str, structs *flags, va_list args)
 
 }
 
-int check_flags(const char c, char *str, structs *flags, int i, const char *format)
+int check_flags(const char c, structs *flags, int i, const char *format)
 {
     switch (c)
     {
@@ -137,7 +137,7 @@ int check_flags(const char c, char *str, structs *flags, int i, const char *form
         ++i;
         if(isdigit(format[i+1]))
         {
-            i=parser_nums(str,flags,i,format);
+            i=parser_nums(flags,i,format);
         }
         break;
     case '-':
@@ -157,12 +157,12 @@ int check_flags(const char c, char *str, structs *flags, int i, const char *form
         else if(isdigit(format[i+1]))
         {   
             flags->wight=1;
-            i=parser_nums(str,flags,i,format);
+            i=parser_nums(flags,i,format);
         }
         break;
     case '.':
         i++;
-        i=parser_nums_point(str,flags,i,format);
+        i=parser_nums_point(flags,i,format);
         flags->precision=1;
         break;
     case ' ':
@@ -171,14 +171,14 @@ int check_flags(const char c, char *str, structs *flags, int i, const char *form
 
         if(isdigit(format[i+1]))
         {
-            i=parser_nums(str,flags,i,format);
+            i=parser_nums(flags,i,format);
             flags->wight=1;
 
         }
         else if(format[i+1]=='-'){
             flags->alignment=1;
             i++;
-            i=parser_nums(str,flags,i,format);
+            i=parser_nums(flags,i,format);
             // printf("wight==%d\n", flags->num_wight);
         }
         break;
@@ -186,7 +186,7 @@ int check_flags(const char c, char *str, structs *flags, int i, const char *form
         if (isdigit (c)) // проверяет строку на число
         {   
             flags->wight=1;
-            i=parser_nums(str,flags,i,format);
+            i=parser_nums(flags,i,format);
         }
         break;
     }
@@ -194,7 +194,7 @@ int check_flags(const char c, char *str, structs *flags, int i, const char *form
     return i;
 }
 
-int check_size(const char c, char *str, structs *flags,int i,const char *format){
+int check_size(const char c, structs *flags,int i){
 
     // printf("format[i-1]===%c\n", format[i-1]);
     // printf("format[i]===%c\n", format[i]);
@@ -458,11 +458,6 @@ int convertUnsignedToChars(char *str, structs *flags,unsigned long long number)
         }
     // }
 
-    if (number<0){
-        flags->num_wight-=1;
-        flags->negative_number=1;
-        number *=-1;
-    }
     
     if ((flags->sign) && (!flags->negative_number) && (!flags->wight))
     {
@@ -617,7 +612,7 @@ int convertUnsignedToChars(char *str, structs *flags,unsigned long long number)
     return index;
 }
 
-int parser_nums_point( char *str, structs *flags, int i, const char *format)
+int parser_nums_point(structs *flags, int i, const char *format)
 {
     // printf("flags->wight==%c\n", flags->wight);
     // printf("format[i-1]===%c\n", format[i-1]);
@@ -685,7 +680,7 @@ int parser_nums_point( char *str, structs *flags, int i, const char *format)
     return i;
 }
 
-int parser_nums( char *str, structs *flags, int i, const char *format)
+int parser_nums( structs *flags, int i, const char *format)
 {
     // printf("flags->wight==%d\n", flags->wight);
     // printf("format[i-1]===%c\n", format[i-1]);
@@ -722,7 +717,7 @@ int parser_nums( char *str, structs *flags, int i, const char *format)
     {
         i++;
         // printf("format[i]11===%c\n", format[i]);
-        i=parser_nums_point(str,flags,i,format);
+        i=parser_nums_point(flags,i,format);
     }
     // printf("num_wight==%d\n", flags->num_wight);
     // printf("format[i]11==%c\n", format[i]);
@@ -1061,7 +1056,7 @@ int countDigits(long double num, int precision)
         while(fractionalInteger != 0) 
         {
             count++;
-            int digit = fractionalInteger % 10;
+            fractionalInteger %= 10;
             fractionalInteger /= 10;
         }
     }
