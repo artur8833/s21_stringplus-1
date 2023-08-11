@@ -11,14 +11,13 @@ int main() {
     sprintfTest(),
     strchrTest(),
     strerrorTest(),
-    // test_sscanf(),
     strlenTest(),
     strncmpTest(),
     strpbrkTest(),
     strrchrTest(),
     strstrTest(),
     strtokTest(),  
-    NULL,
+    NULL
   };
 
   for (int i = 0; test[i] != NULL; i++) {
