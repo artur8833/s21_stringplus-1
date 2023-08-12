@@ -6,7 +6,7 @@
 
 #include "../string/s21_strerror.h"
 #include "../string/s21_sprintf.h"
-#include "../string/s21_string.h"
+#include "../s21_string.h"
 
 Suite *memchrTest(void);
 Suite *memcpyTest(void);
@@ -21,6 +21,5 @@ Suite *strpbrkTest(void);
 Suite *strrchrTest(void);
 Suite *strstrTest(void);
 Suite *strtokTest(void);
-Suite *test_sscanf(void);
 
 #endif

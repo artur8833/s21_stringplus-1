@@ -5,7 +5,7 @@
 //помощью директив.
 
 
-#include "./s21_string.h"
+#include "../s21_string.h"
 
 #if defined(__APPLE__)
 #define MAX 107
