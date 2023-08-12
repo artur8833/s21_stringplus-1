@@ -54,14 +54,14 @@ START_TEST(memcpy_6) {
 }
 END_TEST
 
-// START_TEST(memcpy_7) {
-//   char s1[] = "kek_mem";
-//   char s2[] = "kek_mem";
-//   char s3[] = "new_string";
-//   s21_size_t n = strlen(s3);
-//   ck_assert_str_eq(memcpy(s1, s3, n), s21_memcpy(s2, s3, n));
-// }
-// END_TEST
+START_TEST(memcpy_7) {
+  char s1[] = "kek_mem";
+  char s2[] = "kek_mem";
+  char s3[] = "new_string";
+  s21_size_t n = strlen(s3);
+  ck_assert_str_eq(memcpy(s1, s3, n), s21_memcpy(s2, s3, n));
+}
+END_TEST
 
 START_TEST(memcpy_8) {
   char s1[] = "699\017020";
@@ -100,7 +100,7 @@ Suite *memcpyTest(void) {
   tcase_add_test(tc, memcpy_4);
   tcase_add_test(tc, memcpy_5);
   tcase_add_test(tc, memcpy_6);
-  // tcase_add_test(tc, memcpy_7);
+  tcase_add_test(tc, memcpy_7);
   tcase_add_test(tc, memcpy_8);
   tcase_add_test(tc, memcpy_9);
   tcase_add_test(tc, memcpy_10);

@@ -6,23 +6,25 @@ int main() {
   Suite *test[] = {
     memchrTest(),
     memcmpTest(),
-    memsetTest(),
     memcpyTest(),
+    memsetTest(),
     sprintfTest(),
     strchrTest(),
+    strcspnTest(), // 1
     strerrorTest(),
-    // test_sscanf(),
     strlenTest(),
+    strncatTest(), // 2
     strncmpTest(),
+    strncpyTest(), // 3
     strpbrkTest(),
     strrchrTest(),
     strstrTest(),
     strtokTest(),  
-    NULL,
+    NULL
   };
 
   for (int i = 0; test[i] != NULL; i++) {
-    printf("\n");
+    printf("\n\n");
     SRunner *sr = srunner_create(test[i]);
 
     srunner_run_all(sr, CK_VERBOSE);

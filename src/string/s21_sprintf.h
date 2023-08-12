@@ -1,12 +1,13 @@
 #ifndef S_S21_SPRINTF_H_
 #define S_S21_SPRINTF_H_
 #include <stdarg.h>
-#include <string.h>
+#include <string.h> // ?????????????????????????????????????????
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <stdarg.h>
 #include <math.h>
 #include <ctype.h>
+#include<limits.h>
 
 typedef struct flags 
 {
@@ -21,6 +22,10 @@ typedef struct flags
   int num_wight2; // второе число после точки
   int flag_num2; // если есть второе число то =1
   int empty;
+  int flag_space; //еслие сть пробел
+  int flag_l;
+  int flag_h;
+  int negative_number;
 
 } structs;
 
@@ -28,28 +33,37 @@ int s21_sprintf(char *str, const char *format, ...);
 
 int s21_putchar_to_str(const char c, char *str);
 
-int convertNumberToChars(int number,char *str,structs *flags);
+int convertNumberToChars(char *str, structs *flags,long long number);
+
+int convertUnsignedToChars(char *str, structs *flags,unsigned long long number);
+
+void convertfloatToString(char *str,structs *flags,va_list args);
 
 double roundToDec(double num,int dec);
 
-void convertStringToString(char *s,char *str,structs *flags);
+void convertStringToString(char *str,structs *flags,va_list args);
 
-void convertCharToString(char c,char *str,structs *flags);
-
-void convertfloatToString(double number,char *str,structs *flags);
+int convertCharToString(char c,char *str,structs *flags);
 
 int check_characteristics(const char c, va_list args, char *str,structs *flags);
 
-int check_flags(const char c, char *str, structs *flags,int i,const char *format);
+int check_flags(const char c, structs *flags,int i,const char *format);
 
-int parser_nums( char *str, structs *flags, int i, const char *format);
+int check_size(const char c, structs *flags,int i);
 
-int parser_nums_minus_plus( char *str, structs *flags, int i, const char *format);
+int parser_nums(structs *flags, int i, const char *format);
 
-int parser_nums_point( char *str, structs *flags, int i, const char *format);
+int parser_nums_point(structs *flags, int i, const char *format);
 
-int parser_nums_space( char *str, structs *flags, int i, const char *format);
+int countDigits(long double num, int precision);
 
-int countDigits(float num, int precision);
+int converFarmat( long double number, structs *flags );
+
+void write_d(char *str, structs *flags, va_list args);
+
+void write_u(char *str, structs *flags, va_list args);
+
 
 #endif
+
+
