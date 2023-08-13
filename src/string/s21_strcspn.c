@@ -2,16 +2,17 @@
 // Вычисляет длину начального сегмента str1, который полностью состоит из
 // символов, не входящих в str2.
 s21_size_t s21_strcspn(const char *str1, const char *str2) {
-  s21_size_t str1_len = s21_strlen(str1) + 1;
-  s21_size_t str2_len = s21_strlen(str2) + 1;
-  int count = 0;
-  for (s21_size_t i = 0; i < str1_len && count == 0; i++) {
-    for (s21_size_t j = 0; j < str2_len; j++) {
-      if (str1[i] == str2[j]) {
-        count = i;
-        break;
-      }
+  s21_size_t i = 0;
+  while(str1[i] != '\0') {
+    s21_size_t j = 0;
+    while(str2[j] != '\0' && str1[i] != str2[j]) {
+      j++;
+    }
+    if (str2[j] == '\0') {
+      i++;
+    } else {
+      break;
     }
   }
-  return count;
+  return i;
 }
