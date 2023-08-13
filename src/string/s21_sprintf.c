@@ -173,7 +173,6 @@ int check_flags(const char c, structs *flags, int i, const char *format)
         {
             i=parser_nums(flags,i,format);
             flags->wight=1;
-
         }
         else if(format[i+1]=='-'){
             flags->alignment=1;
@@ -263,7 +262,15 @@ int convertNumberToChars(char *str, structs *flags,long long number)
             s21_putchar_to_str('0', str);
         }
     }
-
+        
+    if ((number==0)&&(flags->num_wight!=0)&&(flags->wight)&&(!flags->flag_space))
+    {
+        s21_putchar_to_str('0', str);
+    }
+    else if((number==0)&&(!flags->wight)&&(!flags->flag_space)){
+        s21_putchar_to_str('0', str);
+    }
+    
     if (number<0){
         flags->num_wight-=1;
         number *=-1;
@@ -289,7 +296,8 @@ int convertNumberToChars(char *str, structs *flags,long long number)
         s21_putchar_to_str('-', str);
     }
 
-        
+
+
     while (number != 0)
     {
         long int digit = (long int)number % 10;
@@ -422,8 +430,6 @@ int convertNumberToChars(char *str, structs *flags,long long number)
             s21_putchar_to_str(' ', str);
         }
     }
-
-    
     
     return index;
 }
@@ -624,7 +630,7 @@ int parser_nums_point(structs *flags, int i, const char *format)
 
     flags->flag_num2=1;
     flags->precision=1;
-
+    flags->wight=1;
 
     flags->num_wight2=atoi(&format[i+1]);
     num2=flags->num_wight2;
@@ -1284,17 +1290,32 @@ int convertCharToString(char c,char *str,structs *flags)
 //     long double a = 15.35;
 
 //     printf("Test1\n");
-//     sprintf(stt, "%9Lf", a);
-//     s21_sprintf(str,"%9Lf", a);
+//     sprintf(stt, "%d%d%d%d", -999, 0, 666, -100);
+//     s21_sprintf(str,"%d%d%d%d", -999, 0, 666, -100);
 //     printf("origin0 == %s\n", stt);
 //     printf("my func == %s\n", str);
 //     printf("\n");
-//     // printf("origin0 == %ld\n", strlen(stt));
-//     // printf("my func == %ld\n", strlen(str));
-//     // printf("\n");
-//     // printf("origin0 == %d\n", "%f", 0.0001);
-//     // printf("my func == %d\n", "%f", 0.0001);
-//     // printf("\n");
+
+//     printf("Test2\n");
+//     sprintf(stt, "%.0d", 0);
+//     s21_sprintf(str,"%.0d", 0);
+//     printf("origin0 == %s\n", stt);
+//     printf("my func == %s\n", str);
+//     printf("\n");
+
+//     printf("Test2\n");
+//     sprintf(stt, "% d", 0);
+//     s21_sprintf(str,"% d", 0);
+//     printf("origin0 == %s\n", stt);
+//     printf("my func == %s\n", str);
+//     printf("\n");
+
+    // printf("origin0 == %ld\n", strlen(stt));
+    // printf("my func == %ld\n", strlen(str));
+    // printf("\n");
+    // printf("origin0 == %d\n", "%f", 0.0001);
+    // printf("my func == %d\n", "%f", 0.0001);
+    // printf("\n");
     
 //     // printf("Test1\n");
 //     // sprintf(stt, "% f", a);

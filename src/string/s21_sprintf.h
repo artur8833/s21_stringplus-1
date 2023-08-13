@@ -26,6 +26,7 @@ typedef struct flags
   int flag_l;
   int flag_h;
   int negative_number;
+  int flag_null;
 
 } structs;
 
