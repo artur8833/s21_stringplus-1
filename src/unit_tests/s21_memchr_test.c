@@ -6,7 +6,7 @@ START_TEST(memchrTest1) {
 
   ck_assert_ptr_eq(s21_memchr(strValue, '\0', countValue), memchr(strValue, '\0', countValue));
 }
-END_TEST;
+END_TEST
 
 START_TEST(memchrTest2) { 
   char* strValue = "qazeDcrfv";

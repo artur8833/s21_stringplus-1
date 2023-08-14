@@ -5,18 +5,15 @@
 // останавливает выполнение операции.
 
 void *s21_memchr(const void *str, int c, s21_size_t n) {
-
-  char *ch = (char *)str;
-  s21_size_t i = n;
-  while (i > 0) {
-    if (*ch != (char)c) {
-      ch = (char *)str++;
-    } else
+  const unsigned char *ch = (const unsigned char *)str;
+  void *res = S21_NULL;
+  s21_size_t i = 0;
+  while (i < n) {
+    if (ch[i] == c) {
+      res = (void *)(ch + i);
       break;
-    i--;
+    }
+    i++;
   }
-  if (i == 0 && *ch != (char)c) {
-    ch = S21_NULL;
-  }
-  return ch;
+  return res;
 }

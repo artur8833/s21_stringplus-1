@@ -11,7 +11,7 @@ START_TEST(insertTest1) {
 
   free(inserted_str);
 }
-END_TEST;
+END_TEST
 
 START_TEST(insertTest2) {
   const char *src = "";
@@ -21,7 +21,7 @@ START_TEST(insertTest2) {
 
   free(result);
 }
-END_TEST;
+END_TEST
 
 START_TEST(insertTest3) {
   const char *src = NULL;
@@ -31,7 +31,7 @@ START_TEST(insertTest3) {
 
   free(result);
 }
-END_TEST;
+END_TEST
 
 Suite *insertTest(void) {
   Suite *s = suite_create("\033[45mInsert test\033[0m");

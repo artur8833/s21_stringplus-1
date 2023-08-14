@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS= -Wall -Werror -Wextra -std=c11
+CFLAGS= -Wall -Werror -Wextra -std=c11 -pedantic
 MAIN_FILES= string/*.c 
 TEST_FILES= unit_tests/*.c
 CHECK_LINK= $(shell pkg-config --libs --cflags check)
