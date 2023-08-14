@@ -2,8 +2,9 @@
 #define S21_STRING_H
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
-#define S21_NULL (void *)0
+#define S21_NULL ((void *)0)
 // cppcheck-suppress syntaxError
 typedef long unsigned int s21_size_t;
 
@@ -24,5 +25,11 @@ char *s21_strstr(const char *haystack, const char *needle);
 char *s21_strtok(char *str, const char *delim);
 int get_length(int num);
 char* int_to_string(int num);
+void *s21_insert(const char *src, const char *str, s21_size_t start_index);
+void *s21_to_lower(const char *str);
+void *s21_to_upper(const char *str);
+void *s21_trim(const char *src, const char *trim_chars);
+int s21_start_i(const char *trim_src, const char *trim_chars_minor,s21_size_t src_len, s21_size_t trim_chars_len);
+int s21_end_i(const char *trim_src, const char *trim_chars_minor, s21_size_t src_len, s21_size_t trim_chars_len);
 
 #endif

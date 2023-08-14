@@ -4,7 +4,6 @@
 #include <check.h>
 #include <string.h>
 
-#include "../string/s21_strerror.h"
 #include "../string/s21_sprintf.h"
 #include "../s21_string.h"
 
@@ -24,5 +23,8 @@ Suite *strpbrkTest(void);
 Suite *strrchrTest(void);
 Suite *strstrTest(void);
 Suite *strtokTest(void);
-
+Suite *insertTest(void);
+Suite *tolowerTest(void);
+Suite *toupperTest(void);
+Suite *trimTest(void);
 #endif

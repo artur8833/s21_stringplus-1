@@ -19,7 +19,12 @@ int main() {
     strpbrkTest(),
     strrchrTest(),
     strstrTest(),
-    strtokTest(),  
+    strtokTest(),
+    
+    insertTest(),  
+    tolowerTest(),
+    toupperTest(),
+    trimTest(),
     NULL
   };
 
