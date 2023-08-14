@@ -432,6 +432,42 @@ START_TEST(test_many_char_with_alignment) {
 }
 END_TEST
 
+START_TEST(proc) {
+  char str1[BUFF_SIZE];
+  char str2[BUFF_SIZE];
+
+  ck_assert_int_eq(
+      s21_sprintf(str1, "Hello %%"),
+      sprintf(str2, "Hello %%"));
+
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(unsigned_short) {
+  char str1[BUFF_SIZE];
+  char str2[BUFF_SIZE];
+
+  char *format = "%hu";
+  ck_assert_int_eq(s21_sprintf(str1, format, 1234),
+                   sprintf(str2, format, 1234));
+
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(unsigned_long) {
+  char str1[BUFF_SIZE];
+  char str2[BUFF_SIZE];
+
+  char *format = "Hello %Lu";
+  ck_assert_int_eq(s21_sprintf(str1, format, 3434343434343),
+                   sprintf(str2, format, 3434343434343));
+
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
 Suite *sprintfTest(void) {
   Suite *s = suite_create("\033[45mSprintf test\033[0m");
   TCase *tc = tcase_create("Sprintf test");
@@ -473,6 +509,9 @@ Suite *sprintfTest(void) {
   tcase_add_test(tc, test_one_char_with_alignment_left);
   tcase_add_test(tc, test_one_char_with_alignment_right);
   tcase_add_test(tc, test_many_char_with_alignment);
+  tcase_add_test(tc, proc);
+  tcase_add_test(tc, unsigned_short);
+  tcase_add_test(tc, unsigned_long);
 
   suite_add_tcase(s, tc);
   return s;
