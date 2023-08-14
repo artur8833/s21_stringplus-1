@@ -10,17 +10,16 @@ int main() {
     memsetTest(),
     sprintfTest(),
     strchrTest(),
-    strcspnTest(), // 1
+    strcspnTest(),
     strerrorTest(),
     strlenTest(),
-    strncatTest(), // 2
+    strncatTest(),
     strncmpTest(),
-    strncpyTest(), // 3
+    strncpyTest(),
     strpbrkTest(),
     strrchrTest(),
     strstrTest(),
     strtokTest(),
-    
     insertTest(),  
     tolowerTest(),
     toupperTest(),

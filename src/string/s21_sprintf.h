@@ -1,13 +1,13 @@
 #ifndef S_S21_SPRINTF_H_
 #define S_S21_SPRINTF_H_
 #include <stdarg.h>
-#include <string.h> // ?????????????????????????????????????????
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <math.h>
 #include <ctype.h>
 #include<limits.h>
+#include "../s21_string.h"
 
 typedef struct flags 
 {
@@ -40,8 +40,6 @@ int convertUnsignedToChars(char *str, structs *flags,unsigned long long number);
 
 void convertfloatToString(char *str,structs *flags,va_list args);
 
-double roundToDec(double num,int dec);
-
 void convertStringToString(char *str,structs *flags,va_list args);
 
 int convertCharToString(char c,char *str,structs *flags);
@@ -57,8 +55,6 @@ int parser_nums(structs *flags, int i, const char *format);
 int parser_nums_point(structs *flags, int i, const char *format);
 
 int countDigits(long double num, int precision);
-
-int converFarmat( long double number, structs *flags );
 
 void write_d(char *str, structs *flags, va_list args);
 
