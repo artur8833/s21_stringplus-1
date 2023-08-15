@@ -34,17 +34,17 @@ int s21_sprintf(char *str, const char *format, ...);
 
 int s21_putchar_to_str(const char c, char *str);
 
-int convertNumberToChars(char *str, structs *flags,long long number);
+void convertNumberToChars(char *str, structs *flags,long long number);
 
-int convertUnsignedToChars(char *str, structs *flags,unsigned long long number);
+void convertUnsignedToChars(char *str, structs *flags,unsigned long long number);
 
 void convertfloatToString(char *str,structs *flags,va_list args);
 
 void convertStringToString(char *str,structs *flags,va_list args);
 
-int convertCharToString(char c,char *str,structs *flags);
+void convertCharToString(char c,char *str,structs *flags);
 
-int check_characteristics(const char c, va_list args, char *str,structs *flags);
+void check_characteristics(const char c, va_list args, char *str,structs *flags);
 
 int check_flags(const char c, structs *flags,int i,const char *format);
 

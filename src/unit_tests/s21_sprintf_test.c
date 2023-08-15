@@ -516,6 +516,19 @@ START_TEST(float_minus) {
 }
 END_TEST
 
+START_TEST(unsign_mminus) {
+  char str1[BUFF_SIZE];
+  char str2[BUFF_SIZE];
+
+  char *format = "Hello world and world %-u";
+  ck_assert_int_eq(s21_sprintf(str1, format, 787878),
+                   sprintf(str2, format, 787878));
+
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+
 Suite *sprintfTest(void) {
   Suite *s = suite_create("\033[45mSprintf test\033[0m");
   TCase *tc = tcase_create("Sprintf test");
@@ -564,6 +577,7 @@ Suite *sprintfTest(void) {
   tcase_add_test(tc, int_short); 
   tcase_add_test(tc, int_space_minus); 
   tcase_add_test(tc, float_minus); 
+  tcase_add_test(tc, unsign_mminus); 
   suite_add_tcase(s, tc);
   return s;
 }

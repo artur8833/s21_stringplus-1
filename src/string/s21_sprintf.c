@@ -3,8 +3,6 @@
 int s21_sprintf(char *str, const char *format, ...)
 {
     structs flags = {0};
-    int result;
-    result = 0;
     int i = -1;
     str[0] = '\0';
     va_list args;
@@ -13,7 +11,7 @@ int s21_sprintf(char *str, const char *format, ...)
     {
         if (format[i] != '%')
         {
-            result += s21_putchar_to_str(format[i], str);
+            s21_putchar_to_str(format[i], str);
         }
 
         else if (format[i] == '%' && format[i + 1])
@@ -40,7 +38,7 @@ int s21_putchar_to_str(const char c, char *str)
     return 1;
 }
 
-int check_characteristics(const char c, va_list args, char *str, structs *flags)
+void check_characteristics(const char c, va_list args, char *str, structs *flags)
 {
     char ch;
     switch (c)
@@ -79,8 +77,6 @@ int check_characteristics(const char c, va_list args, char *str, structs *flags)
     default:
         break;
     }
-
-    return 0;
 }
 
 void write_u(char *str, structs *flags, va_list args) 
@@ -195,11 +191,10 @@ int check_size(const char c, structs *flags,int i){
     return i;
 }
 
-int convertNumberToChars(char *str, structs *flags,long long number)
+void convertNumberToChars(char *str, structs *flags,long long number)
 {
     char chars[700];
     int index = 0;
-    long long int num_sign=number;
     int precision;
 
     if ((flags->flag_space)&&(number>=0))
@@ -221,24 +216,25 @@ int convertNumberToChars(char *str, structs *flags,long long number)
     if (number<0){
         flags->num_wight-=1;
         number *=-1;
+        flags->negative_number=1;
     }
     
-    if ((flags->sign) && (num_sign > 0) && (!flags->wight))
+    if ((flags->sign) && (!flags->negative_number) && (!flags->wight))
     {
         s21_putchar_to_str('+', str);
     }
 
-    else if ((num_sign < 0) && (!flags->sign) && (flags->alignment) && (!flags->flag_num2))
+    else if ((flags->negative_number) && (!flags->sign) && (flags->alignment) && (!flags->flag_num2))
     {
         s21_putchar_to_str('-', str);
     }
 
-    else if ((num_sign<0) && (!flags->wight) && (!flags->sign)  && (!flags->alignment))
+    else if ((flags->negative_number) && (!flags->wight) && (!flags->sign)  && (!flags->alignment))
     {
         s21_putchar_to_str('-', str);
     }
 
-    else if((num_sign<0) && (!flags->sign) && (flags->flag_num2) && (flags->wight)){
+    else if((flags->negative_number) && (!flags->sign) && (flags->flag_num2) && (flags->wight)){
 
         s21_putchar_to_str('-', str);
     }
@@ -276,7 +272,7 @@ int convertNumberToChars(char *str, structs *flags,long long number)
     if(flags->sign)
     {
         
-        if (num_sign>0)
+        if (!flags->negative_number)
         {
             flags->num_wight-=1;
         }
@@ -289,7 +285,7 @@ int convertNumberToChars(char *str, structs *flags,long long number)
             }
         }
 
-        if (num_sign>0)
+        if (!flags->negative_number)
         {
             s21_putchar_to_str('+', str);
         }
@@ -323,7 +319,7 @@ int convertNumberToChars(char *str, structs *flags,long long number)
     }
 
 
-    if ((num_sign<0) && (!flags->sign) && (flags->wight) &&(!flags->alignment) && (!flags->flag_num2))
+    if ((flags->negative_number) && (!flags->sign) && (flags->wight) &&(!flags->alignment) && (!flags->flag_num2))
     {
         s21_putchar_to_str('-', str);
     }
@@ -337,19 +333,17 @@ int convertNumberToChars(char *str, structs *flags,long long number)
     if (flags->alignment)
     {
 
-        if ((flags->flag_space) && (num_sign>0)){
+        if ((flags->flag_space) && (!flags->negative_number)){
             flags->num_wight-=1;
         }
         for(int j=index; j<flags->num_wight; j++)
         {
             s21_putchar_to_str(' ', str);
         }
-    }
-    
-    return index;
+    }    
 }
 
-int convertUnsignedToChars(char *str, structs *flags,unsigned long long number)
+void convertUnsignedToChars(char *str, structs *flags,unsigned long long number)
 {
 
     char chars[700];
@@ -360,28 +354,10 @@ int convertUnsignedToChars(char *str, structs *flags,unsigned long long number)
         s21_putchar_to_str('0', str);
     }
 
-
-    
-    if ((flags->sign) && (!flags->negative_number) && (!flags->wight))
+    if ((flags->sign) && (!flags->wight))
     {
         s21_putchar_to_str('+', str);
     }
-
-    else if ((flags->negative_number) && (!flags->sign) && (flags->alignment) && (!flags->flag_num2))
-    {
-        s21_putchar_to_str('-', str);
-    }
-
-    else if ((flags->negative_number) && (!flags->wight) && (!flags->sign)  && (!flags->alignment))
-    {
-        s21_putchar_to_str('-', str);
-    }
-
-    else if((flags->negative_number) && (!flags->sign) && (flags->flag_num2) && (flags->wight)){
-
-        s21_putchar_to_str('-', str);
-    }
-
         
     while (number != 0)
     {
@@ -430,9 +406,6 @@ int convertUnsignedToChars(char *str, structs *flags,unsigned long long number)
         if (!flags->negative_number)
         {
             s21_putchar_to_str('+', str);
-        }
-        else{
-            s21_putchar_to_str('-', str);
         }
     }
 
@@ -483,10 +456,6 @@ int convertUnsignedToChars(char *str, structs *flags,unsigned long long number)
             s21_putchar_to_str(' ', str);
         }
     }
-
-    
-    
-    return index;
 }
 
 int parser_nums_point(structs *flags, int i, const char *format)
@@ -599,11 +568,6 @@ void convertfloatToString(char *str, structs *flags, va_list args)
     {
         s21_putchar_to_str(' ', str);
     }
-
-    // printf("num_sign==%lld\n", num_sign);
-    // printf("flags->wight==%d\n", flags->wight);
-    // printf("flags->sign==%d\n", flags->sign);
-    // printf("flags->alignment==%d\n", flags->alignment);
 
     if (number<0){
         number *=-1;
@@ -903,7 +867,7 @@ void convertStringToString(char *str,structs *flags, va_list args)
 
 }
 
-int convertCharToString(char c,char *str,structs *flags)
+void convertCharToString(char c,char *str,structs *flags)
 { 
     int precision;
     if ((flags->precision))
@@ -948,40 +912,4 @@ int convertCharToString(char c,char *str,structs *flags)
         }
     }
       
-    return 0;
 }
-
-// int main()
-// {
-//     char str[1250];
-//     char stt[500];
-//     char ss[50] = "End strok";
-//     float a = -33.4;
-
-//     printf("Test1\n");
-//     sprintf(stt, "Hello world and world %f", a);
-//     s21_sprintf(str,"Hello world and world %f", a);
-//     printf("origin0 == %s\n", stt);
-//     printf("my func == %s\n", str);
-//     printf("\n");
-//     // printf("origin0 == %ld\n", strlen(stt));
-//     // printf("my func == %ld\n", strlen(str));
-//     // printf("\n");
-//     // printf("origin0 == %d\n", "%f", 0.0001);
-//     // printf("my func == %d\n", "%f", 0.0001);
-//     // printf("\n");
-    
-//     // printf("Test1\n");
-//     // sprintf(stt, "% f", a);
-//     // s21_sprintf(str,"% f", a);
-//     // printf("origin0 == %s\n", stt);
-//     // printf("my func == %s\n", str);
-//     // printf("\n");
-//     // printf("origin0 == %ld\n", strlen(stt));
-//     // printf("my func == %ld\n", strlen(str));
-//     // printf("\n");
-//     // printf("origin0 == %d\n", "% f", 0);
-//     // printf("my func == %d\n", "% f", 0);
-//     // printf("\n");
-//     return 0;
-// }
