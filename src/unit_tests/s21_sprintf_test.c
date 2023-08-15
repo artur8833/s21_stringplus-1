@@ -121,7 +121,6 @@ START_TEST(unsigned_val_many_flags) {
 }
 END_TEST
 
-
 START_TEST(unsigned_zero) {
   char str1[BUFF_SIZE];
   char str2[BUFF_SIZE];
@@ -338,8 +337,8 @@ START_TEST(test_many_string) {
 
   ck_assert_int_eq(
 
-    s21_sprintf(str1, "%s%s%s%s%s", "Drop", " ", "Sega", " ", "PLS"),
-    sprintf(str2, "%s%s%s%s%s", "Drop", " ", "Sega", " ", "PLS"));
+      s21_sprintf(str1, "%s%s%s%s%s", "Drop", " ", "Sega", " ", "PLS"),
+      sprintf(str2, "%s%s%s%s%s", "Drop", " ", "Sega", " ", "PLS"));
   ck_assert_str_eq(str1, str2);
 }
 END_TEST
@@ -436,9 +435,7 @@ START_TEST(proc) {
   char str1[BUFF_SIZE];
   char str2[BUFF_SIZE];
 
-  ck_assert_int_eq(
-      s21_sprintf(str1, "Hello %%"),
-      sprintf(str2, "Hello %%"));
+  ck_assert_int_eq(s21_sprintf(str1, "Hello %%"), sprintf(str2, "Hello %%"));
 
   ck_assert_str_eq(str1, str2);
 }
@@ -485,8 +482,7 @@ START_TEST(int_short) {
   char str2[BUFF_SIZE];
 
   char *format = "Hello world %hd";
-  ck_assert_int_eq(s21_sprintf(str1, format, 132),
-                   sprintf(str2, format, 132));
+  ck_assert_int_eq(s21_sprintf(str1, format, 132), sprintf(str2, format, 132));
 
   ck_assert_str_eq(str1, str2);
 }
@@ -497,8 +493,7 @@ START_TEST(int_space_minus) {
   char str2[BUFF_SIZE];
 
   char *format = "Hello world %- d";
-  ck_assert_int_eq(s21_sprintf(str1, format, 22),
-                   sprintf(str2, format, 22));
+  ck_assert_int_eq(s21_sprintf(str1, format, 22), sprintf(str2, format, 22));
 
   ck_assert_str_eq(str1, str2);
 }
@@ -527,7 +522,6 @@ START_TEST(unsign_mminus) {
   ck_assert_str_eq(str1, str2);
 }
 END_TEST
-
 
 Suite *sprintfTest(void) {
   Suite *s = suite_create("\033[45mSprintf test\033[0m");
@@ -572,12 +566,12 @@ Suite *sprintfTest(void) {
   tcase_add_test(tc, test_many_char_with_alignment);
   tcase_add_test(tc, proc);
   tcase_add_test(tc, unsigned_short);
-  tcase_add_test(tc, unsigned_long); 
-  tcase_add_test(tc, int_long); 
-  tcase_add_test(tc, int_short); 
-  tcase_add_test(tc, int_space_minus); 
-  tcase_add_test(tc, float_minus); 
-  tcase_add_test(tc, unsign_mminus); 
+  tcase_add_test(tc, unsigned_long);
+  tcase_add_test(tc, int_long);
+  tcase_add_test(tc, int_short);
+  tcase_add_test(tc, int_space_minus);
+  tcase_add_test(tc, float_minus);
+  tcase_add_test(tc, unsign_mminus);
   suite_add_tcase(s, tc);
   return s;
 }

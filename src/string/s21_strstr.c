@@ -6,7 +6,7 @@ char *s21_strstr(const char *haystack, const char *needle) {
   char *temp = S21_NULL;
   s21_size_t haystack_len = s21_strlen(haystack);
   s21_size_t needle_len = s21_strlen(needle);
-  if(needle_len == 0){
+  if (needle_len == 0) {
     temp = (char *)haystack;
   } else {
     while (*haystack != '\0' && haystack_len >= needle_len) {

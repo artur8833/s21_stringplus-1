@@ -110,6 +110,6 @@ Suite *strstrTest(void) {
   tcase_add_test(tc, strstr_12);
   tcase_add_test(tc, strstr_13);
 
-suite_add_tcase(s, tc);
-return s;
+  suite_add_tcase(s, tc);
+  return s;
 }

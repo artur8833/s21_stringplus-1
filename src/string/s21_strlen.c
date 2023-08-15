@@ -2,7 +2,6 @@
 // Вычисляет длину строки str, не включая завершающий нулевой символ.
 s21_size_t s21_strlen(const char *s) {
   s21_size_t n = 0;
-  while (s[n] != '\0')
-    n++;
+  while (s[n] != '\0') n++;
   return n;
 }

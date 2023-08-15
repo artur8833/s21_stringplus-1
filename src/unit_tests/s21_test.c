@@ -3,29 +3,12 @@
 int main() {
   int number_failed = 0;
 
-  Suite *test[] = {
-    memchrTest(),
-    memcmpTest(),
-    memcpyTest(),
-    memsetTest(),
-    sprintfTest(),
-    strchrTest(),
-    strcspnTest(),
-    strerrorTest(),
-    strlenTest(),
-    strncatTest(),
-    strncmpTest(),
-    strncpyTest(),
-    strpbrkTest(),
-    strrchrTest(),
-    strstrTest(),
-    strtokTest(),
-    insertTest(),  
-    tolowerTest(),
-    toupperTest(),
-    trimTest(),
-    NULL
-  };
+  Suite *test[] = {memchrTest(),  memcmpTest(),  memcpyTest(),  memsetTest(),
+                   sprintfTest(), strchrTest(),  strcspnTest(), strerrorTest(),
+                   strlenTest(),  strncatTest(), strncmpTest(), strncpyTest(),
+                   strpbrkTest(), strrchrTest(), strstrTest(),  strtokTest(),
+                   insertTest(),  tolowerTest(), toupperTest(), trimTest(),
+                   NULL};
 
   for (int i = 0; test[i] != NULL; i++) {
     printf("\n\n");

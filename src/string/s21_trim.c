@@ -41,7 +41,8 @@ void *s21_trim(const char *src, const char *trim_chars) {
 }
 
 // Функция для определения индекса начала обрезки
-int s21_start_i(const char *trim_src, const char *trim_chars_minor,s21_size_t src_len, s21_size_t trim_chars_len) {
+int s21_start_i(const char *trim_src, const char *trim_chars_minor,
+                s21_size_t src_len, s21_size_t trim_chars_len) {
   int start_i = 0;  // Инициализация переменной start_i значением 0
   for (s21_size_t i = 0; i < src_len; i++) {  // Цикл от 0 до src_len
     int flag1 = 0;  // Инициализация переменной flag1 значением 0
@@ -64,7 +65,8 @@ int s21_start_i(const char *trim_src, const char *trim_chars_minor,s21_size_t sr
 }
 
 // Функция для определения индекса конца обрезки
-int s21_end_i(const char *trim_src, const char *trim_chars_minor, s21_size_t src_len, s21_size_t trim_chars_len) {
+int s21_end_i(const char *trim_src, const char *trim_chars_minor,
+              s21_size_t src_len, s21_size_t trim_chars_len) {
   int end_i = src_len;  // Инициализация переменной end_i значением src_len
   for (int i = src_len - 1; i > -1; i--) {  // Цикл от src_len - 1 до -1
     int flag2 = 0;  // Инициализация переменной flag2 значением 0

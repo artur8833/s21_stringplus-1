@@ -4,7 +4,6 @@
 //ошибок есть в оригинальной библиотеке. Проверка текущей ОС осуществляется с
 //помощью директив.
 
-
 #include "../s21_string.h"
 
 #if defined(__APPLE__)
@@ -277,7 +276,7 @@ char* int_to_string(int num) {
 
   while (num != 0) {
     int digit = num % 10;
-    str[index] = digit + '0';                               
+    str[index] = digit + '0';
     num /= 10;
     index--;
   }

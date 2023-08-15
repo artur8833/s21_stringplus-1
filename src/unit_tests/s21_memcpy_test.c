@@ -59,7 +59,8 @@ END_TEST
 //   char s2[] = "kek_mem";
 //   char s3[] = "new_string";
 //   s21_size_t n = strlen(s3);
-//   ck_assert_str_eq(memcpy(s1, s3, n), s21_memcpy(s2, s3, n)); всегда переполнение
+//   ck_assert_str_eq(memcpy(s1, s3, n), s21_memcpy(s2, s3, n)); всегда
+//   переполнение
 // }
 // END_TEST
 
