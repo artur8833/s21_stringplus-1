@@ -410,14 +410,14 @@ void convertfloatToString(char *str, structs *flags, va_list args) {
   int index = 0;
   int index2 = 0;
   int precision;
-  long double number;
+  long double number=0;
 
   if (flags->flag_l) {
     number = va_arg(args, long double);
   } else {
     number = va_arg(args, double);
   }
-
+  printf("number==%Lf\n", number);
 
   if (!flags->precision) {
     precision = 6;
@@ -693,21 +693,21 @@ void convertCharToString(char c, char *str, structs *flags) {
   }
 }
 
-// int main()
-// {
-//     char str[1250];
-//     char stt[500];
-//     char ss[50] = "End strok";
-//     long double a = 15.35;
+int main()
+{
+    char str[1250];
+    char stt[500];
+    char ss[50] = "End strok";
+    long double a = 15.35;
 
-//     printf("Test1\n");
-//     sprintf(stt, "Hello world and world %+d", 234);
-//     s21_sprintf(str,"Hello world and world %+d", 234);
-//     printf("origin0 == %s\n", stt);
-//     printf("my func == %s\n", str);
-//     printf("\n");
+    printf("Test1\n");
+    sprintf(stt, "Hello world and world %lf", 78.7899);
+    s21_sprintf(str,"Hello world and world %lf", 78.7899);
+    printf("origin0 == %s\n", stt);
+    printf("my func == %s\n", str);
+    printf("\n");
 
 
-//     return 0;
-// }
+    return 0;
+}
 
