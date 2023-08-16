@@ -737,8 +737,8 @@ void convertCharToString(char c, char *str, structs *flags) {
 //     long double a = 15.35;
 
 //     printf("Test1\n");
-//     sprintf(stt, "Hello world and world %+4.8f", 7.87878);
-//     s21_sprintf(str,"Hello world and world %+4.8f", 7.87878);
+//     sprintf(stt, "Hello world and world %4.15f", 7.8);
+//     s21_sprintf(str,"Hello world and world %4.15f", 7.8);
 //     printf("origin0 == %s\n", stt);
 //     printf("my func == %s\n", str);
 //     printf("\n");
