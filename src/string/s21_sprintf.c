@@ -449,8 +449,10 @@ void convertfloatToString(char *str, structs *flags, va_list args) {
   } else {
     precision = flags->num_wight2;
   }
-
-  int count = countDigits(number, precision);  // считаем количество цифр
+  
+  // printf("number==%Lf\n", number);
+  
+  long long int count = countDigits(number, precision);  // считаем количество цифр
 
   if ((flags->flag_space) && (number >= 0)) {
     s21_putchar_to_str(' ', str);
@@ -495,6 +497,8 @@ void convertfloatToString(char *str, structs *flags, va_list args) {
     chars[index++] = digit + '0';
     int_number /= 10;
   }
+
+  // printf("count==%lld\n", count);
 
   if ((flags->num_wight > count) && (flags->flag_num2) && (!flags->alignment)) {
     for (int j = count; j < flags->num_wight; j++) {
@@ -587,8 +591,9 @@ void convertfloatToString(char *str, structs *flags, va_list args) {
 }
 
 int countDigits(long double num, int precision) {
+  // printf("num22==%Lf", num);
   int count = 0;
-  long int integerPart = (long int)num;  // Получаем целую часть числа
+  long long int integerPart = (long long int)num;  // Получаем целую часть числа
   // Подсчитываем количество цифр в целой части+
   if (integerPart == 0) {
     count = 1;  // Если число равно нулю, то у него одна цифра
@@ -598,23 +603,37 @@ int countDigits(long double num, int precision) {
       integerPart /= 10;
     }
   }
-
   // Подсчитываем количество цифр в дробной части
   if (precision > 0) {
-    double fractionalPart = num - (long int)num;
-    long fractionalInteger = round(fractionalPart * pow(10, precision));
+    // printf("numww==%Lf\n", num);
+    // printf("long long int numww==%lld\n", (long long int)num);
 
+    long double fractionalPart = num - (long long int)num;
+    
+    // printf("fractionalPart22==%Lf\n", fractionalPart);
+
+    int fractionalInteger = round(fractionalPart * pow(10, precision));
+    // printf("fractionalIntegerww==%d\n", fractionalInteger);
     if (fractionalInteger) {
       count += 1;
     }
+    // printf("fractionalIntegerww==%d\n", fractionalInteger);
+    // printf("1111\n");
 
     while (fractionalInteger != 0) {
+      // printf("count11==%d\n", count);
+      // printf("fractionalIntegerrrrr==%d\n", fractionalInteger);
       count++;
-      fractionalInteger %= 10;
+      // printf("count11==%d\n", count);
+      // fractionalInteger =fractionalInteger % 10;
+      // printf("fractionalInteger1==%d\n", fractionalInteger);
       fractionalInteger /= 10;
+      // printf("fractionalInteger2==%d\n", fractionalInteger);
+      
     }
   }
-
+  // printf("\n");
+  // printf("count_end==%d\n", count);
   return count;
 }
 
@@ -709,3 +728,54 @@ void convertCharToString(char c, char *str, structs *flags) {
     }
   }
 }
+
+// int main()
+// {
+//     char str[1250];
+//     char stt[500];
+//     char ss[50] = "End strok";
+//     long double a = 15.35;
+
+//     printf("Test1\n");
+//     sprintf(stt, "Hello world and world %+4.8f", 7.87878);
+//     s21_sprintf(str,"Hello world and world %+4.8f", 7.87878);
+//     printf("origin0 == %s\n", stt);
+//     printf("my func == %s\n", str);
+//     printf("\n");
+
+//     // printf("Test2\n");
+//     // sprintf(stt, "%.0d", 0);
+//     // s21_sprintf(str,"%.0d", 0);
+//     // printf("origin0 == %s\n", stt);
+//     // printf("my func == %s\n", str);
+//     // printf("\n");
+
+//     // printf("Test2\n");
+//     // sprintf(stt, "% d", 0);
+//     // s21_sprintf(str,"% d", 0);
+//     // printf("origin0 == %s\n", stt);
+//     // printf("my func == %s\n", str);
+//     // printf("\n");
+
+//     // printf("origin0 == %ld\n", strlen(stt));
+//     // printf("my func == %ld\n", strlen(str));
+//     // printf("\n");
+//     // printf("origin0 == %d\n", "%f", 0.0001);
+//     // printf("my func == %d\n", "%f", 0.0001);
+//     // printf("\n");
+    
+//     // printf("Test1\n");
+//     // sprintf(stt, "% f", a);
+//     // s21_sprintf(str,"% f", a);
+//     // printf("origin0 == %s\n", stt);
+//     // printf("my func == %s\n", str);
+//     // printf("\n");
+//     // printf("origin0 == %ld\n", strlen(stt));
+//     // printf("my func == %ld\n", strlen(str));
+//     // printf("\n");
+//     // printf("origin0 == %d\n", "% f", 0);
+//     // printf("my func == %d\n", "% f", 0);
+//     // printf("\n");
+//     return 0;
+// }
+
