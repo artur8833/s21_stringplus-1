@@ -194,9 +194,7 @@ void convertNumberToChars(char *str, structs *flags, long long number) {
     flags->negative_number = 1;
   }
 
-  if ((flags->sign) && (!flags->negative_number) && (!flags->wight)) {
-    s21_putchar_to_str('+', str);
-  } else if ((flags->negative_number) && (!flags->sign) && (flags->alignment) &&
+  if ((flags->negative_number) && (!flags->sign) && (flags->alignment) &&
              (!flags->flag_num2)) {
     s21_putchar_to_str('-', str);
   } else if ((flags->negative_number) && (!flags->wight) && (!flags->sign) &&
@@ -703,8 +701,8 @@ int main()
     long double a = 15.35;
 
     printf("Test1\n");
-    sprintf(stt, "Hello world and world %.0d", 0);
-    s21_sprintf(str,"Hello world and world %.0d", 0);
+    sprintf(stt, "Hello world and world %+d", 234);
+    s21_sprintf(str,"Hello world and world %+d", 234);
     printf("origin0 == %s\n", stt);
     printf("my func == %s\n", str);
     printf("\n");
