@@ -612,7 +612,7 @@ int countDigits(long double num, int precision) {
     
     // printf("fractionalPart22==%Lf\n", fractionalPart);
 
-    int fractionalInteger = round(fractionalPart * pow(10, precision));
+    long long int fractionalInteger = round(fractionalPart * pow(10, precision));
     // printf("fractionalIntegerww==%d\n", fractionalInteger);
     if (fractionalInteger) {
       count += 1;
