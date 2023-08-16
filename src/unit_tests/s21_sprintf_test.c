@@ -551,9 +551,9 @@ START_TEST(float_sign) {
   char str1[BUFF_SIZE];
   char str2[BUFF_SIZE];
 
-  char *format = "Hello world and world %-4.15f";
-  ck_assert_int_eq(s21_sprintf(str1, format, 7.83232),
-                   sprintf(str2, format, 7.83232));
+  char *format = "Hello world and world %-4.15f %-4.15f";
+  ck_assert_int_eq(s21_sprintf(str1, format, 7.83232, -5.3232),
+                   sprintf(str2, format, 7.83232, -5.3232));
 
   ck_assert_str_eq(str1, str2);
 }
