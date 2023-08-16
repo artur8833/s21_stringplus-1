@@ -179,7 +179,7 @@ void convertNumberToChars(char *str, structs *flags, long long number) {
     }
   }
 
-  if ((number == 0) && (!flags->num_wight) && (flags->wight) &&
+  if ((number == 0) && (flags->num_wight) && (flags->wight) &&
       (!flags->flag_space)) {
     s21_putchar_to_str('0', str);
   }
@@ -327,6 +327,11 @@ void convertUnsignedToChars(char *str, structs *flags,
     for (int i = 0; i < (precision); i++) {
       s21_putchar_to_str('0', str);
     }
+  }
+
+  if ((flags->negative_number) && (!flags->sign) && (flags->wight) &&
+      (!flags->alignment) && (!flags->flag_num2)) {
+    s21_putchar_to_str('-', str);
   }
 
   for (int i = index - 1; i >= 0; i--) {
@@ -690,21 +695,21 @@ void convertCharToString(char c, char *str, structs *flags) {
   }
 }
 
-// int main()
-// {
-//     char str[1250];
-//     char stt[500];
-//     char ss[50] = "End strok";
-//     long double a = 15.35;
+int main()
+{
+    char str[1250];
+    char stt[500];
+    char ss[50] = "End strok";
+    long double a = 15.35;
 
-//     printf("Test1\n");
-//     sprintf(stt, "Hello world and world %+4.15u", 783232);
-//     s21_sprintf(str,"Hello world and world %+4.15u", 783232);
-//     printf("origin0 == %s\n", stt);
-//     printf("my func == %s\n", str);
-//     printf("\n");
+    printf("Test1\n");
+    sprintf(stt, "Hello world and world %.0d", 0);
+    s21_sprintf(str,"Hello world and world %.0d", 0);
+    printf("origin0 == %s\n", stt);
+    printf("my func == %s\n", str);
+    printf("\n");
 
 
-//     return 0;
-// }
+    return 0;
+}
 
