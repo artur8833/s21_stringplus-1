@@ -430,6 +430,7 @@ void convertfloatToString(char *str, structs *flags, va_list args) {
   char chars[20];
   int index = 0;
   int index2 = 0;
+  int precision;
   long double number;
 
   if (flags->flag_l) {
@@ -438,8 +439,6 @@ void convertfloatToString(char *str, structs *flags, va_list args) {
     number = va_arg(args, double);
   }
 
-  long long num_sign = number;
-  int precision;
 
   if (!flags->precision) {
     precision = 6;
@@ -460,23 +459,24 @@ void convertfloatToString(char *str, structs *flags, va_list args) {
   if (number < 0) {
     number *= -1;
     count += 1;
+    flags->negative_number=1;
   }
 
-  if ((flags->sign) && (num_sign > 0) && (!flags->wight)) {
+  if ((flags->sign) && (!flags->negative_number) && (!flags->wight)) {
     s21_putchar_to_str('+', str);
   }
 
-  else if ((num_sign < 0) && (!flags->sign) && (flags->alignment) &&
+  else if ((flags->negative_number) && (!flags->sign) && (flags->alignment) &&
            (!flags->flag_num2)) {
     s21_putchar_to_str('-', str);
-  } else if ((num_sign < 0) && (!flags->wight) && (!flags->sign) &&
+  } else if ((flags->negative_number) && (!flags->wight) && (!flags->sign) &&
              (!flags->alignment)) {
     s21_putchar_to_str('-', str);
-  } else if ((num_sign < 0) && (!flags->sign) && (flags->flag_num2) &&
+  } else if ((flags->negative_number) && (!flags->sign) && (flags->flag_num2) &&
              (flags->wight) && (count > flags->num_wight) &&
              (!flags->alignment)) {
     s21_putchar_to_str('-', str);
-  } else if ((num_sign < 0) && (!flags->sign) && (flags->flag_num2) &&
+  } else if ((flags->negative_number) && (!flags->sign) && (flags->flag_num2) &&
              (flags->wight) && (flags->alignment)) {
     s21_putchar_to_str('-', str);
   }
@@ -500,7 +500,7 @@ void convertfloatToString(char *str, structs *flags, va_list args) {
     for (int j = count; j < flags->num_wight; j++) {
       s21_putchar_to_str(' ', str);
     }
-    if ((num_sign < 0) && (flags->num_wight > count) && (!flags->sign)) {
+    if ((flags->negative_number) && (flags->num_wight > count) && (!flags->sign)) {
       s21_putchar_to_str('-', str);
     }
   }
@@ -515,7 +515,7 @@ void convertfloatToString(char *str, structs *flags, va_list args) {
   }
 
   if (flags->sign) {
-    if (num_sign > 0) {
+    if (!flags->negative_number) {
       flags->num_wight -= 1;
     }
 
@@ -525,14 +525,14 @@ void convertfloatToString(char *str, structs *flags, va_list args) {
       }
     }
 
-    if (num_sign > 0) {
+    if (!flags->negative_number) {
       s21_putchar_to_str('+', str);
     } else {
       s21_putchar_to_str('-', str);
     }
   }
 
-  if ((num_sign < 0) && (!flags->sign) && (flags->wight) &&
+  if ((flags->negative_number) && (!flags->sign) && (flags->wight) &&
       (!flags->alignment) && (!flags->flag_num2)) {
     s21_putchar_to_str('-', str);
   }
@@ -577,7 +577,7 @@ void convertfloatToString(char *str, structs *flags, va_list args) {
   }
 
   if (flags->alignment) {
-    if ((flags->flag_space) && (num_sign > 0)) {
+    if ((flags->flag_space) && (!flags->negative_number)) {
       flags->num_wight -= 1;
     }
     for (int j = count; j < flags->num_wight; j++) {
