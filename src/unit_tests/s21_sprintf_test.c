@@ -347,7 +347,7 @@ START_TEST(test_one_dec) {
   char str1[BUFF_SIZE];
   char str2[BUFF_SIZE];
 
-  ck_assert_int_eq(s21_sprintf(str1, "%d", 666), sprintf(str2, "%d", 666));
+  ck_assert_int_eq(s21_sprintf(str1, "%d %d %+d", 666,0,234), sprintf(str2, "%d %d %+d", 666,0,234));
 
   ck_assert_str_eq(str1, str2);
 }

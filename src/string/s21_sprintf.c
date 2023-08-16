@@ -179,7 +179,7 @@ void convertNumberToChars(char *str, structs *flags, long long number) {
     }
   }
 
-  if ((number == 0) && (flags->num_wight != 0) && (flags->wight) &&
+  if ((number == 0) && (!flags->num_wight) && (flags->wight) &&
       (!flags->flag_space)) {
     s21_putchar_to_str('0', str);
   }
@@ -572,7 +572,6 @@ void convertfloatToString(char *str, structs *flags, va_list args) {
 }
 
 int countDigits(long double num, int precision) {
-  // printf("num22==%Lf", num);
   int count = 0;
   long long int integerPart = (long long int)num;  // Получаем целую часть числа
   // Подсчитываем количество цифр в целой части+
@@ -586,35 +585,21 @@ int countDigits(long double num, int precision) {
   }
   // Подсчитываем количество цифр в дробной части
   if (precision > 0) {
-    // printf("numww==%Lf\n", num);
-    // printf("long long int numww==%lld\n", (long long int)num);
 
     long double fractionalPart = num - (long long int)num;
-    
-    // printf("fractionalPart22==%Lf\n", fractionalPart);
-
     long long int fractionalInteger = round(fractionalPart * pow(10, precision));
-    // printf("fractionalIntegerww==%d\n", fractionalInteger);
+
     if (fractionalInteger) {
       count += 1;
     }
-    // printf("fractionalIntegerww==%d\n", fractionalInteger);
-    // printf("1111\n");
 
     while (fractionalInteger != 0) {
-      // printf("count11==%d\n", count);
-      // printf("fractionalIntegerrrrr==%d\n", fractionalInteger);
       count++;
-      // printf("count11==%d\n", count);
-      // fractionalInteger =fractionalInteger % 10;
-      // printf("fractionalInteger1==%d\n", fractionalInteger);
       fractionalInteger /= 10;
-      // printf("fractionalInteger2==%d\n", fractionalInteger);
       
     }
   }
-  // printf("\n");
-  // printf("count_end==%d\n", count);
+
   return count;
 }
 
