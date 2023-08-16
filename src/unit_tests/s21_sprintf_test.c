@@ -539,9 +539,9 @@ START_TEST(float_wight2) {
   char str1[BUFF_SIZE];
   char str2[BUFF_SIZE];
 
-  char *format = "Hello world and world %4.15f";
-  ck_assert_int_eq(s21_sprintf(str1, format, 7.83232),
-                   sprintf(str2, format, 7.83232));
+  char *format = "Hello world and world %4.15f %lf";
+  ck_assert_int_eq(s21_sprintf(str1, format, 7.83232, 78787979.7899),
+                   sprintf(str2, format, 7.83232, 78787979.7899));
 
   ck_assert_str_eq(str1, str2);
 }
