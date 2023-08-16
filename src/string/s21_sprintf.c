@@ -329,11 +329,6 @@ void convertUnsignedToChars(char *str, structs *flags,
     }
   }
 
-  if ((flags->negative_number) && (!flags->sign) && (flags->wight) &&
-      (!flags->alignment) && (!flags->flag_num2)) {
-    s21_putchar_to_str('-', str);
-  }
-
   for (int i = index - 1; i >= 0; i--) {
     s21_putchar_to_str(chars[i], str);
   }
