@@ -48,7 +48,7 @@ void check_characteristics(const char c, va_list args, char *str,
       break;
     case 'F':
     case 'f':
-      convertfloatToString(str, flags, args);
+      write_f(str,flags,args);
       s21_memset(flags, 0, sizeof(structs));
       break;
     case 'S':
@@ -405,18 +405,12 @@ int parser_nums(structs *flags, int i, const char *format) {
   return i;
 }
 
-void convertfloatToString(char *str, structs *flags, va_list args) {
+void convertfloatToString(long double number,char *str, structs *flags, va_list args) {
   char chars[20];
   int index = 0;
   int index2 = 0;
   int precision;
-  long double number=0;
-
-  if (flags->flag_l) {
-    number = va_arg(args, long double);
-  } else {
-    number = va_arg(args, double);
-  }
+  
   printf("number==%Lf\n", number);
 
   if (!flags->precision) {
@@ -428,9 +422,7 @@ void convertfloatToString(char *str, structs *flags, va_list args) {
   } else {
     precision = flags->num_wight2;
   }
-  
-  // printf("number==%Lf\n", number);
-  
+    
   long long int count = countDigits(number, precision);  // считаем количество цифр
 
   if ((flags->flag_space) && (number >= 0)) {
@@ -568,6 +560,17 @@ void convertfloatToString(char *str, structs *flags, va_list args) {
     }
   }
 }
+
+void write_f(char *str, structs *flags, va_list args){
+  long double num = 0;
+  if (flags->flag_l) {
+    num = va_arg(args, long double);
+  } else {
+    num = va_arg(args, double);
+  }
+  convertfloatToString(num, str, flags,args);
+}
+
 
 int countDigits(long double num, int precision) {
   int count = 0;
