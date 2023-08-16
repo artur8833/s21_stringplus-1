@@ -291,9 +291,6 @@ void convertUnsignedToChars(char *str, structs *flags,
     s21_putchar_to_str('0', str);
   }
 
-  if ((flags->sign) && (!flags->wight)) {
-    s21_putchar_to_str('+', str);
-  }
 
   while (number != 0) {
     long int digit = (long int)number % 10;
@@ -314,22 +311,6 @@ void convertUnsignedToChars(char *str, structs *flags,
       for (int j = index; j < flags->num_wight; j++) {
         s21_putchar_to_str(' ', str);
       }
-    }
-  }
-
-  if (flags->sign) {
-    if (!flags->negative_number) {
-      flags->num_wight -= 1;
-    }
-
-    if ((flags->wight) && (!flags->precision)) {
-      for (int j = index; j < flags->num_wight; j++) {
-        s21_putchar_to_str(' ', str);
-      }
-    }
-
-    if (!flags->negative_number) {
-      s21_putchar_to_str('+', str);
     }
   }
 
@@ -737,45 +718,13 @@ void convertCharToString(char c, char *str, structs *flags) {
 //     long double a = 15.35;
 
 //     printf("Test1\n");
-//     sprintf(stt, "Hello world and world %4.15f", 7.8);
-//     s21_sprintf(str,"Hello world and world %4.15f", 7.8);
+//     sprintf(stt, "Hello world and world %+4.15u", 783232);
+//     s21_sprintf(str,"Hello world and world %+4.15u", 783232);
 //     printf("origin0 == %s\n", stt);
 //     printf("my func == %s\n", str);
 //     printf("\n");
 
-//     // printf("Test2\n");
-//     // sprintf(stt, "%.0d", 0);
-//     // s21_sprintf(str,"%.0d", 0);
-//     // printf("origin0 == %s\n", stt);
-//     // printf("my func == %s\n", str);
-//     // printf("\n");
 
-//     // printf("Test2\n");
-//     // sprintf(stt, "% d", 0);
-//     // s21_sprintf(str,"% d", 0);
-//     // printf("origin0 == %s\n", stt);
-//     // printf("my func == %s\n", str);
-//     // printf("\n");
-
-//     // printf("origin0 == %ld\n", strlen(stt));
-//     // printf("my func == %ld\n", strlen(str));
-//     // printf("\n");
-//     // printf("origin0 == %d\n", "%f", 0.0001);
-//     // printf("my func == %d\n", "%f", 0.0001);
-//     // printf("\n");
-    
-//     // printf("Test1\n");
-//     // sprintf(stt, "% f", a);
-//     // s21_sprintf(str,"% f", a);
-//     // printf("origin0 == %s\n", stt);
-//     // printf("my func == %s\n", str);
-//     // printf("\n");
-//     // printf("origin0 == %ld\n", strlen(stt));
-//     // printf("my func == %ld\n", strlen(str));
-//     // printf("\n");
-//     // printf("origin0 == %d\n", "% f", 0);
-//     // printf("my func == %d\n", "% f", 0);
-//     // printf("\n");
 //     return 0;
 // }
 

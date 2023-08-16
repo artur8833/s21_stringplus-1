@@ -559,6 +559,17 @@ START_TEST(float_sign) {
 }
 END_TEST
 
+START_TEST(unsign_wight) {
+  char str1[BUFF_SIZE];
+  char str2[BUFF_SIZE];
+
+  char *format = "Hello world and world %-4.15u";
+  ck_assert_int_eq(s21_sprintf(str1, format, 783232),
+                   sprintf(str2, format, 783232));
+
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
 
 Suite *sprintfTest(void) {
   Suite *s = suite_create("\033[45mSprintf test\033[0m");
@@ -612,6 +623,7 @@ Suite *sprintfTest(void) {
   tcase_add_test(tc, float_wight);
   tcase_add_test(tc, float_wight2);
   tcase_add_test(tc, float_sign);
+  tcase_add_test(tc, unsign_wight);
   suite_add_tcase(s, tc);
   return s;
 }
