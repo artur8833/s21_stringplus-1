@@ -48,7 +48,7 @@ void check_characteristics(const char c, va_list args, char *str,
       break;
     case 'F':
     case 'f':
-      write_f(str,flags,args);
+      convertfloatToString(str,flags,args);
       s21_memset(flags, 0, sizeof(structs));
       break;
     case 'S':
@@ -179,11 +179,10 @@ void convertNumberToChars(char *str, structs *flags, long long number) {
     }
   }
 
-  if ((number == 0) && (flags->num_wight) && (flags->wight) &&
-      (!flags->flag_space)) {
-    s21_putchar_to_str('0', str);
+  if ((number == 0)&& (flags->num_wight) && (flags->wight) && (!flags->flag_space)) {
+    chars[0]='0';
+    index=1;
   }
-
   else if ((number == 0) && (!flags->wight) && (!flags->flag_space)) {
     s21_putchar_to_str('0', str);
   }
@@ -268,12 +267,22 @@ void convertNumberToChars(char *str, structs *flags, long long number) {
   for (int i = index - 1; i >= 0; i--) {
     s21_putchar_to_str(chars[i], str);
   }
-
-  if (flags->alignment) {
-    if ((flags->flag_space) && (!flags->negative_number)) {
-      flags->num_wight -= 1;
+  
+  if ((flags->alignment)) {
+    int presAligment;
+    if ((flags->flag_num2)&&((flags->num_wight-flags->num_wight2)>0)){
+      presAligment=flags->num_wight-flags->num_wight2;
     }
-    for (int j = index; j < flags->num_wight; j++) {
+    else if(((flags->flag_num2)&&((flags->num_wight-flags->num_wight2)<0))){
+      presAligment=0;
+    }
+    else{
+      presAligment=flags->num_wight;
+    }
+    if ((flags->flag_space) && (!flags->negative_number)) {
+      presAligment -= 1;
+    }
+    for (int j = index; j < presAligment; j++) {
       s21_putchar_to_str(' ', str);
     }
   }
@@ -405,13 +414,19 @@ int parser_nums(structs *flags, int i, const char *format) {
   return i;
 }
 
-void convertfloatToString(long double number,char *str, structs *flags, va_list args) {
+void convertfloatToString(char *str, structs *flags, va_list args) {
   char chars[20];
   int index = 0;
   int index2 = 0;
   int precision;
+  long double number = 0;
   
-  printf("number==%Lf\n", number);
+  if (flags->flag_l) {
+    number = (long double)va_arg(args, double);
+  } else {
+    number = va_arg(args, double);
+  }
+
 
   if (!flags->precision) {
     precision = 6;
@@ -561,16 +576,6 @@ void convertfloatToString(long double number,char *str, structs *flags, va_list 
   }
 }
 
-void write_f(char *str, structs *flags, va_list args){
-  long double num = 0;
-  if (flags->flag_l) {
-    num = va_arg(args, long double);
-  } else {
-    num = va_arg(args, double);
-  }
-  convertfloatToString(num, str, flags,args);
-}
-
 
 int countDigits(long double num, int precision) {
   int count = 0;
@@ -696,21 +701,21 @@ void convertCharToString(char c, char *str, structs *flags) {
   }
 }
 
-int main()
-{
-    char str[1250];
-    char stt[500];
-    char ss[50] = "End strok";
-    long double a = 15.35;
+// int main()
+// {
+//     char str[1250];
+//     char stt[500];
+//     char ss[50] = "End strok";
+//     long double a = 15.35;
 
-    printf("Test1\n");
-    sprintf(stt, "Hello world and world %lf", 78.7899);
-    s21_sprintf(str,"Hello world and world %lf", 78.7899);
-    printf("origin0 == %s\n", stt);
-    printf("my func == %s\n", str);
-    printf("\n");
+//     printf("Test1\n");
+//     sprintf(stt, "'Hello world and world %-4.9d'", 77);
+//     s21_sprintf(str,"'Hello world and world %-4.9d'", 77);
+//     printf("origin0 == %s\n", stt);
+//     printf("my func == %s\n", str);
+//     printf("\n");
 
 
-    return 0;
-}
+//     return 0;
+// }
 

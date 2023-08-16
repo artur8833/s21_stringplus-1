@@ -37,7 +37,7 @@ void convertNumberToChars(char *str, structs *flags, long long number);
 void convertUnsignedToChars(char *str, structs *flags,
                             unsigned long long number);
 
-void convertfloatToString(long double number,char *str, structs *flags, va_list args);
+void convertfloatToString(char *str, structs *flags, va_list args);
 
 void convertStringToString(char *str, structs *flags, va_list args);
 
@@ -59,7 +59,5 @@ int countDigits(long double num, int precision);
 void write_d(char *str, structs *flags, va_list args);
 
 void write_u(char *str, structs *flags, va_list args);
-
-void write_f(char *str, structs *flags, va_list args);
 
 #endif
