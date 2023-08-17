@@ -31,10 +31,6 @@ gcov_report: object lib test
 	~/.local/bin/gcovr -r . --html --html-details -o s21_string.html
 	open s21_string.html
 
-valgrind:
-  chmod 777 $(TEST_FILES)
-  valgrind --tool=memcheck --leak-check=yes ./s21_string_tests
-
 clean:
 	rm -f *.o
 	rm -f *.a
