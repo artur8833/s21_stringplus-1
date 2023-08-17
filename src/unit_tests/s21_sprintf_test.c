@@ -347,7 +347,8 @@ START_TEST(test_one_dec) {
   char str1[BUFF_SIZE];
   char str2[BUFF_SIZE];
 
-  ck_assert_int_eq(s21_sprintf(str1, "%d %d %+d %d", 666,0,234,-98), sprintf(str2, "%d %d %+d %d", 666,0,234,-98));
+  ck_assert_int_eq(s21_sprintf(str1, "%d %d %+d %d", 666, 0, 234, -98),
+                   sprintf(str2, "%d %d %+d %d", 666, 0, 234, -98));
 
   ck_assert_str_eq(str1, str2);
 }
@@ -357,8 +358,9 @@ START_TEST(test_many_dec) {
   char str1[BUFF_SIZE];
   char str2[BUFF_SIZE];
 
-  ck_assert_int_eq(s21_sprintf(str1, "%d%d%d%d%3d%-2d%-4.5d", -999, 0, 666, -100,0,77,98),
-                   sprintf(str2, "%d%d%d%d%3d%-2d%-4.5d", -999, 0, 666, -100,0,77,98));
+  ck_assert_int_eq(
+      s21_sprintf(str1, "%d%d%d%d%3d%-2d%-4.5d", -999, 0, 666, -100, 0, 77, 98),
+      sprintf(str2, "%d%d%d%d%3d%-2d%-4.5d", -999, 0, 666, -100, 0, 77, 98));
 
   ck_assert_str_eq(str1, str2);
 }

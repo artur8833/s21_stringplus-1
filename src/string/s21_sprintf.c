@@ -48,7 +48,7 @@ void check_characteristics(const char c, va_list args, char *str,
       break;
     case 'F':
     case 'f':
-      convertfloatToString(str,flags,args);
+      convertfloatToString(str, flags, args);
       s21_memset(flags, 0, sizeof(structs));
       break;
     case 'S':
@@ -179,11 +179,11 @@ void convertNumberToChars(char *str, structs *flags, long long number) {
     }
   }
 
-  if ((number == 0)&& (flags->num_wight) && (flags->wight) && (!flags->flag_space)) {
-    chars[0]='0';
-    index=1;
-  }
-  else if ((number == 0) && (!flags->wight) && (!flags->flag_space)) {
+  if ((number == 0) && (flags->num_wight) && (flags->wight) &&
+      (!flags->flag_space)) {
+    chars[0] = '0';
+    index = 1;
+  } else if ((number == 0) && (!flags->wight) && (!flags->flag_space)) {
     s21_putchar_to_str('0', str);
   }
 
@@ -194,7 +194,7 @@ void convertNumberToChars(char *str, structs *flags, long long number) {
   }
 
   if ((flags->negative_number) && (!flags->sign) && (flags->alignment) &&
-             (!flags->flag_num2)) {
+      (!flags->flag_num2)) {
     s21_putchar_to_str('-', str);
   } else if ((flags->negative_number) && (!flags->wight) && (!flags->sign) &&
              (!flags->alignment)) {
@@ -267,17 +267,16 @@ void convertNumberToChars(char *str, structs *flags, long long number) {
   for (int i = index - 1; i >= 0; i--) {
     s21_putchar_to_str(chars[i], str);
   }
-  
+
   if ((flags->alignment)) {
     int presAligment;
-    if ((flags->flag_num2)&&((flags->num_wight-flags->num_wight2)>0)){
-      presAligment=flags->num_wight-flags->num_wight2;
-    }
-    else if(((flags->flag_num2)&&((flags->num_wight-flags->num_wight2)<0))){
-      presAligment=0;
-    }
-    else{
-      presAligment=flags->num_wight;
+    if ((flags->flag_num2) && ((flags->num_wight - flags->num_wight2) > 0)) {
+      presAligment = flags->num_wight - flags->num_wight2;
+    } else if (((flags->flag_num2) &&
+                ((flags->num_wight - flags->num_wight2) < 0))) {
+      presAligment = 0;
+    } else {
+      presAligment = flags->num_wight;
     }
     if ((flags->flag_space) && (!flags->negative_number)) {
       presAligment -= 1;
@@ -297,7 +296,6 @@ void convertUnsignedToChars(char *str, structs *flags,
   if ((number == 0) && (!flags->precision)) {
     s21_putchar_to_str('0', str);
   }
-
 
   while (number != 0) {
     long int digit = (long int)number % 10;
@@ -420,13 +418,12 @@ void convertfloatToString(char *str, structs *flags, va_list args) {
   int index2 = 0;
   int precision;
   long double number = 0;
-  
+
   if (flags->flag_l) {
     number = (long double)va_arg(args, double);
   } else {
     number = va_arg(args, double);
   }
-
 
   if (!flags->precision) {
     precision = 6;
@@ -437,8 +434,9 @@ void convertfloatToString(char *str, structs *flags, va_list args) {
   } else {
     precision = flags->num_wight2;
   }
-    
-  long long int count = countDigits(number, precision);  // считаем количество цифр
+
+  long long int count =
+      countDigits(number, precision);  // считаем количество цифр
 
   if ((flags->flag_space) && (number >= 0)) {
     s21_putchar_to_str(' ', str);
@@ -447,7 +445,7 @@ void convertfloatToString(char *str, structs *flags, va_list args) {
   if (number < 0) {
     number *= -1;
     count += 1;
-    flags->negative_number=1;
+    flags->negative_number = 1;
   }
 
   if ((flags->sign) && (!flags->negative_number) && (!flags->wight)) {
@@ -490,7 +488,8 @@ void convertfloatToString(char *str, structs *flags, va_list args) {
     for (int j = count; j < flags->num_wight; j++) {
       s21_putchar_to_str(' ', str);
     }
-    if ((flags->negative_number) && (flags->num_wight > count) && (!flags->sign)) {
+    if ((flags->negative_number) && (flags->num_wight > count) &&
+        (!flags->sign)) {
       s21_putchar_to_str('-', str);
     }
   }
@@ -576,7 +575,6 @@ void convertfloatToString(char *str, structs *flags, va_list args) {
   }
 }
 
-
 int countDigits(long double num, int precision) {
   int count = 0;
   long long int integerPart = (long long int)num;  // Получаем целую часть числа
@@ -591,9 +589,9 @@ int countDigits(long double num, int precision) {
   }
   // Подсчитываем количество цифр в дробной части
   if (precision > 0) {
-
     long double fractionalPart = num - (long long int)num;
-    long long int fractionalInteger = round(fractionalPart * pow(10, precision));
+    long long int fractionalInteger =
+        round(fractionalPart * pow(10, precision));
 
     if (fractionalInteger) {
       count += 1;
@@ -602,7 +600,6 @@ int countDigits(long double num, int precision) {
     while (fractionalInteger != 0) {
       count++;
       fractionalInteger /= 10;
-      
     }
   }
 
@@ -715,7 +712,5 @@ void convertCharToString(char c, char *str, structs *flags) {
 //     printf("my func == %s\n", str);
 //     printf("\n");
 
-
 //     return 0;
 // }
-
