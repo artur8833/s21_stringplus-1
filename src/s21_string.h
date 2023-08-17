@@ -3,11 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-
 #define S21_NULL ((void *)0)
-// cppcheck-suppress syntaxError
-typedef long unsigned int s21_size_t;
 
+typedef long unsigned int s21_size_t;
 void *s21_memchr(const void *, int, s21_size_t);
 int s21_memcmp(const void *str1, const void *str2, s21_size_t n);
 void *s21_memcpy(void *dest, const void *src, s21_size_t n);
